@@ -602,6 +602,43 @@ body:not(.mode-log) #chart{display:none}
   .intro-rows dt{margin-top:12px}
 }
 
+/* the one thing a reader must not skim past */
+.notice{
+  margin-top:22px;padding:15px 17px 16px;border-radius:2px;
+  background:rgba(166,58,40,.055);
+  border:1px solid rgba(166,58,40,.24);
+  border-left:3px solid #A63A28;
+}
+.notice h3{
+  font-family:var(--ff-serif);font-size:14.5px;font-weight:600;color:#8A2E1E;
+  margin-bottom:7px;letter-spacing:.005em;
+}
+.notice p{font-size:13px;line-height:1.72;color:#3A2E22}
+.notice p+p{margin-top:7px}
+.notice b{font-weight:600;color:#8A2E1E}
+
+/* dark panel variant, for the log's first-use state */
+.notice.dark{
+  background:rgba(200,89,63,.09);
+  border-color:rgba(200,89,63,.30);
+  border-left-color:var(--madder-lit);
+  max-width:none;
+}
+.notice.dark h3{color:#D97A5E}
+.notice.dark p{color:var(--cream)}
+.notice.dark b{color:#D97A5E}
+
+/* the same card, sized down for the backup prompt */
+.intro-in.nudge{width:min(440px,100%);padding:28px 30px 24px}
+.intro-in.nudge h2{font-size:24px}
+.intro-in.nudge .lede{font-size:14.5px;margin:10px 0 14px;padding-bottom:0;border-bottom:0}
+.intro-in.nudge .small{font-size:12.5px;line-height:1.7;color:var(--ink-3)}
+.intro-acts button.ghost{
+  background:none;color:var(--ink-2);border:1px solid var(--rule-l);
+  padding:8px 16px;font-weight:400;
+}
+.intro-acts button.ghost:hover{background:rgba(120,100,70,.09);color:var(--ink)}
+
 
 /* ── responsive ───────────────────────────────────────────── */
 .drawer-btn{display:none}
@@ -689,9 +726,13 @@ body:not(.mode-log) #chart{display:none}
       <dt>傷害誌</dt>
       <dd>在圖版上點一下就標一個部位，踝、膝、肩這些圖上沒有標註的地方一樣標得了。同一個部位可以掛多筆紀錄，復發次數與生命時間軸會自己長出來。</dd>
 
-      <dt>你的紀錄</dt>
-      <dd>只存在你自己的裝置，不會上傳，分享這個連結的人也看不到。換裝置或清除瀏覽資料就會不見，所以請用左下角定期匯出備份。</dd>
     </dl>
+
+    <aside class="notice">
+      <h3>你的紀錄只存在這台裝置</h3>
+      <p>不會上傳到任何伺服器。每個打開這個連結的人看到的都是自己的紀錄，彼此看不到，連分享連結給你的人也看不到。</p>
+      <p>也正因為如此，<b>換一台裝置、或清除瀏覽資料，紀錄就會消失</b>。請用左下角的「匯出 JSON」定期備份——有紀錄卻從未備份時，那裡的燈號會轉黃提醒你。</p>
+    </aside>
 
     <p class="fineprint">底圖取自 EBI anatomogram，公眾領域（CC0）。此頁供學習與個人紀錄使用，不構成醫療建議；診斷欄位是用來抄寫你已經取得的診斷，不是用來自我判斷的。</p>
 
@@ -702,6 +743,19 @@ body:not(.mode-log) #chart{display:none}
   </div>
 </div>
 
+<div class="scrim2" id="nudgeScrim" hidden></div>
+<div class="intro" id="nudge" role="dialog" aria-modal="true" aria-labelledby="nudgeTitle" hidden>
+  <div class="intro-in nudge">
+    <p class="eyebrow">第一筆紀錄已存下</p>
+    <h2 id="nudgeTitle">現在花十秒備份它</h2>
+    <p class="lede">這筆紀錄只存在這台裝置。清一次瀏覽資料、或換一支手機，它就沒了，沒有任何地方救得回來。</p>
+    <p class="small">匯出的是一個 JSON 檔，日後用左下角的「匯入」就能還原。之後新增紀錄時，記得再匯出一次。</p>
+    <div class="intro-acts">
+      <button id="nudgeGo">立即匯出備份</button>
+      <button class="ghost" id="nudgeLater">稍後再說</button>
+    </div>
+  </div>
+</div>
 
 <main class="desk">
 
@@ -803,7 +857,10 @@ body:not(.mode-log) #chart{display:none}
     <h2>在圖版上點一下，標出受傷的位置。</h2>
     <p>落點會存成 SVG 座標，不受本體論覆蓋範圍限制——踝、膝、肩這些圖上沒有標註的部位一樣標得了。若落在已標註的結構上，會自動帶入名稱與 UBERON 編號。</p>
     <p>同一個部位可以掛多筆紀錄，復發次數會自己浮出來。</p>
-    <p>紀錄只存在你自己的裝置上，不會上傳，也不會被分享這個連結的人看到。換一台裝置或清除瀏覽資料就會不見，所以請定期用左下角匯出備份。</p>
+    <aside class="notice dark">
+      <h3>你的紀錄只存在這台裝置</h3>
+      <p>不會上傳，分享這個連結的人也看不到。但換一台裝置或清除瀏覽資料，紀錄就會消失——請用左下角的「匯出 JSON」定期備份。</p>
+    </aside>
   </div>
   <div id="siteView" hidden>
     <div class="sitehead">
@@ -3411,6 +3468,7 @@ setView('body'); buildList(); setPane('sum', true);
 const Log = (() => {
 
 const KEY = 'anatomia.injuries.v1';
+const NUDGED = 'anatomia.backupPrompt.v1';
 const TYPES = ['韌帶扭傷','肌肉拉傷','肌腱病變','骨折','應力性骨折','脫臼／半脫位',
                '挫傷','撕裂傷','過度使用症候群','關節與軟骨損傷','神經壓迫','手術','其他'];
 const CAUSE = ['訓練','比賽','跌倒','碰撞','車禍','工作','日常活動','逐漸發生','不明'];
@@ -3470,6 +3528,31 @@ function note(msg){
   clearTimeout(noteTimer);
   $('#vWhere').textContent = msg;
   noteTimer = setTimeout(vault, 3200);
+}
+
+/* ── the backup prompt: shown once, at the only moment it lands ──
+   A warning before you own anything is abstract. The instant the first
+   record exists, losing it becomes real — so that is when we ask, and
+   we ask with the button that actually does it. ── */
+async function nudgedBefore(){
+  if (typeof window.storage?.get === 'function'){
+    try { const r = await window.storage.get(NUDGED, false); if (r?.value) return true; } catch(e){}
+  }
+  try { return localStorage.getItem(NUDGED) === '1'; } catch(e){ return true; }
+}
+async function markNudged(){
+  if (typeof window.storage?.set === 'function'){
+    try { await window.storage.set(NUDGED, '1', false); } catch(e){}
+  }
+  try { localStorage.setItem(NUDGED, '1'); } catch(e){}
+}
+function showNudge(){
+  $('#nudge').hidden = false; $('#nudgeScrim').hidden = false;
+  Snd.play('leaf'); $('#nudgeGo').focus();
+}
+function hideNudge(){
+  $('#nudge').hidden = true; $('#nudgeScrim').hidden = true;
+  markNudged();
 }
 
 /* ── dates: a year alone is a legitimate answer for childhood ── */
@@ -3722,8 +3805,10 @@ function wireForm(isNew){
       dx:v('fDx'), tx:v('fTx'), notes:v('fNotes') });
     const i = data.injuries.findIndex(x => x.id === form.id);
     if (i >= 0) data.injuries[i] = form; else data.injuries.push(form);
+    const isFirstEver = data.injuries.length === 1 && i < 0;
     editing = null; form = null; Snd.play('knock');
     await save(); render();
+    if (isFirstEver && !(await nudgedBefore())) showNudge();
   };
 }
 
@@ -3860,6 +3945,20 @@ async function init(){
     await save(); render();
   };
   $('#expBtn').onclick = exportJson;
+  $('#nudgeGo').onclick = () => { hideNudge(); exportJson(); };
+  $('#nudgeLater').onclick = () => { hideNudge(); Snd.play('latch'); note('隨時可以按左下角的「匯出 JSON」'); };
+  $('#nudgeScrim').onclick = () => hideNudge();
+  addEventListener('keydown', e => {
+    if ($('#nudge').hidden) return;
+    e.stopPropagation();
+    if (e.key === 'Escape'){ e.preventDefault(); hideNudge(); }
+    if (e.key === 'Tab'){
+      const f = [$('#nudgeGo'), $('#nudgeLater')];
+      const i = f.indexOf(document.activeElement);
+      e.preventDefault();
+      f[(i + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
+    }
+  }, true);
   $('#impBtn').onclick = () => $('#impFile').click();
   $('#impFile').onchange = e => { if (e.target.files[0]) importJson(e.target.files[0]); e.target.value = ''; };
   $('#vAtlas').onclick = () => setMode(false);
