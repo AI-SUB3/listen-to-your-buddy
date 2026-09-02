@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>使用說明 · 我的身體解剖圖譜</title>
+<meta name="description" content="「我的身體解剖圖譜 · History of My Buddy」的使用說明與常見問題。">
+<meta name="theme-color" content="#221A13">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23EFE6D3'/%3E%3Cpath d='M6 20h9' stroke='%235C4E3C' stroke-width='1.4' stroke-linecap='round'/%3E%3Ccircle cx='20' cy='14' r='5' fill='%23A63A28'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400&family=Noto+Serif+TC:wght@500;600&family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --umber:#221A13; --umber-2:#2B221A; --buff:#EFE6D3; --buff-2:#E5DAC2;
+  --ink:#1E1710; --ink-2:#5C4E3C; --ink-3:#8A7A63;
+  --cream:#EAE0CC; --cream-3:#8A7A62; --madder:#A63A28; --brass:#BF8F42;
+  --rule-d:#463625; --rule-l:#CBB994;
+  --ff-serif:'Newsreader','Noto Serif TC','Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  --ff-sans:'IBM Plex Sans','Noto Sans TC',-apple-system,'Segoe UI','PingFang TC',sans-serif;
+  --ff-mono:'IBM Plex Mono','SF Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--umber);color:var(--cream);font-family:var(--ff-sans);
+  font-size:15px;line-height:1.75;-webkit-font-smoothing:antialiased}
+::selection{background:var(--madder);color:var(--buff)}
+a{color:var(--brass);text-decoration:none;border-bottom:1px solid rgba(191,143,66,.4)}
+a:hover{border-color:var(--brass)}
+
+.bar{border-bottom:1px solid var(--rule-d);background:var(--umber-2)}
+.bar div{max-width:760px;margin:0 auto;padding:14px 26px;display:flex;
+  align-items:baseline;gap:14px;flex-wrap:wrap}
+.bar a.back{font-size:13.5px}
+.bar .ver{margin-left:auto;font-family:var(--ff-mono);font-size:11px;color:var(--cream-3)}
+
+main{max-width:760px;margin:0 auto;padding:44px 26px 90px}
+
+h1{font-family:var(--ff-serif);font-weight:500;font-size:34px;line-height:1.2;color:var(--buff)}
+.sub{font-family:var(--ff-serif);font-style:italic;font-size:16px;color:var(--cream-3);margin-top:4px}
+.lede{font-size:16.5px;line-height:1.8;color:var(--cream);margin:20px 0 0;max-width:58ch}
+
+h2{font-family:var(--ff-serif);font-weight:600;font-size:23px;color:var(--buff);
+  margin:52px 0 6px;padding-top:22px;border-top:1px solid var(--rule-d)}
+h3{font-family:var(--ff-serif);font-weight:500;font-size:17px;color:var(--brass);margin:26px 0 6px}
+p{margin:10px 0;max-width:58ch}
+ul,ol{margin:10px 0 10px 20px;max-width:58ch}
+li{margin:6px 0}
+b,strong{color:var(--buff);font-weight:600}
+code{font-family:var(--ff-mono);font-size:.88em;background:var(--umber-2);
+  border:1px solid var(--rule-d);border-radius:2px;padding:1px 5px;color:var(--cream)}
+
+ol.steps{list-style:none;margin-left:0;counter-reset:s}
+ol.steps li{counter-increment:s;position:relative;padding-left:34px;margin:14px 0}
+ol.steps li::before{content:counter(s);position:absolute;left:0;top:1px;
+  width:23px;height:23px;border:1px solid var(--brass);border-radius:50%;
+  color:var(--brass);font-family:var(--ff-mono);font-size:12px;
+  display:grid;place-items:center}
+
+.note{margin:20px 0;padding:15px 17px;border-radius:2px;
+  background:rgba(200,89,63,.09);border:1px solid rgba(200,89,63,.3);
+  border-left:3px solid var(--madder)}
+.note h3{margin:0 0 6px;color:#D97A5E;font-size:16px}
+.note p{margin:6px 0;color:var(--cream)}
+
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+th,td{text-align:left;padding:8px 10px 8px 0;border-bottom:1px solid var(--rule-d);vertical-align:top}
+th{color:var(--cream-3);font-weight:400;white-space:nowrap;width:1%}
+td{color:var(--cream)}
+kbd{font-family:var(--ff-mono);font-size:12px;border:1px solid var(--rule-d);
+  border-radius:2px;padding:1px 6px;color:var(--brass)}
+
+details{border-bottom:1px solid var(--rule-d)}
+details summary{cursor:pointer;list-style:none;padding:14px 30px 14px 0;position:relative;
+  font-size:15.5px;color:var(--buff);font-weight:500}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:'';position:absolute;right:6px;top:22px;
+  width:8px;height:8px;border-right:1.5px solid var(--brass);border-bottom:1.5px solid var(--brass);
+  transform:rotate(45deg);transition:transform .18s}
+details[open] summary::after{transform:rotate(-135deg)}
+details summary:hover{color:var(--brass)}
+details .a{padding:0 0 16px;color:var(--cream)}
+details .a p{margin:0 0 8px}
+details .a p:last-child{margin-bottom:0}
+
+.log{font-size:14px}
+.log dt{font-family:var(--ff-mono);font-size:12px;color:var(--brass);margin-top:16px}
+.log dd{margin:3px 0 0;color:var(--cream)}
+
+footer{border-top:1px solid var(--rule-d);margin-top:56px;padding-top:20px;
+  font-size:12.5px;color:var(--cream-3);line-height:1.8}
+
+@media (max-width:620px){
+  main{padding:30px 20px 70px}
+  h1{font-size:27px} h2{font-size:20px}
+  body{font-size:14.5px}
+}
+</style>
+</head>
+<body>
+
+<nav class="bar"><div>
+  <a class="back" href="./">← 回到圖譜</a>
+  <span class="ver">使用說明 · v1.7</span>
+</div></nav>
+
+<main>
+
+<h1>使用說明</h1>
+<p class="sub">我的身體解剖圖譜 · History of My Buddy</p>
+
+<p class="lede">這是一本可以點的人體解剖圖，也是一本記錄自己身體傷害史的簿子。不用註冊、不用登入，打開就能用。你的紀錄只存在自己的裝置上。</p>
+
+<h2>三步驟開始</h2>
+<ol class="steps">
+  <li><b>切到「傷害誌」。</b>在畫面上方，「圖譜」旁邊。</li>
+  <li><b>在人體圖上，點一下你受傷的位置。</b>踝、膝、肩都可以，不必剛好點在某個器官上。</li>
+  <li><b>填好部位名稱和日期，按儲存。</b>只記得年份就填年份，例如 <code>2015</code>。</li>
+</ol>
+<p>就這樣。之後同一個部位再受傷，點那顆針，按「新增此部位傷害」就好。</p>
+
+<h2>兩個模式</h2>
+
+<h3>圖譜</h3>
+<p>點圖上的器官可以看說明，每個器官有<b>概述、構造、功能、數據、臨床</b>五個分頁。左邊的搜尋框可以打中文、英文或拉丁文。</p>
+<p>右上角可以切換<b>男性、女性、腦部</b>三張圖。</p>
+<p>器官是層層疊在一起的，所以在同一個地方連續點，會一層一層往下換。滑鼠停留時會顯示你現在指到第幾層。</p>
+
+<h3>傷害誌</h3>
+<p>在圖上點一下就標一個部位。這叫「落針」。</p>
+<p>一個部位可以掛很多筆紀錄——右腳踝扭了三次，就是<b>一顆針、三筆紀錄</b>，不是三顆針。針上會顯示次數，左邊清單也會依次數排序，所以反覆受傷的地方會自己浮上來。</p>
+<p>針的顏色代表狀態：灰色是已痊癒，黃色是恢復中，紅色是反覆發作，深紅是慢性未癒。</p>
+<p>左邊清單上方有三個篩選鈕：<b>全部</b>、<b>未結案</b>（還沒好的）、<b>反覆</b>（傷過不只一次的）。</p>
+<p>沒有選任何部位時，右邊會顯示你的<b>總覽</b>：總筆數、累計休養天數、最常受傷的部位與類型，還有同一個部位再次受傷的平均間隔。</p>
+
+<h2>每一筆要填什麼</h2>
+<table>
+<tr><th>受傷日期</th><td>可以只填年份（<code>2015</code>）、年月（<code>2015-08</code>）或完整日期（<code>2015-08-14</code>）。小時候的事只記得年份也沒關係。</td></tr>
+<tr><th>痊癒日期</th><td>選填。填了時間軸才畫得出「痛了多久」。還沒好就留空。</td></tr>
+<tr><th>程度</th><td>輕度、中度、重度，憑自己的感覺就好。</td></tr>
+<tr><th>目前狀態</th><td>已痊癒／恢復中／反覆發作／慢性未癒。這決定針的顏色。</td></tr>
+<tr><th>休養天數</th><td>因為這次傷停練或休息了幾天。</td></tr>
+<tr><th>診斷與影像</th><td>醫師怎麼說的、X 光或超音波看到什麼。<b>是抄寫已經拿到的診斷，不是自己判斷。</b></td></tr>
+<tr><th>治療與復健</th><td>做了什麼處理、復健練了什麼。</td></tr>
+</table>
+<p>只有部位名稱是必要的，其他都可以之後再補。填了「休養天數」但懶得算痊癒日期時，可以按旁邊的「用休養天數推算」。</p>
+
+<h2>兩邊會互相認得</h2>
+<p>在<b>圖譜</b>裡點開一個器官，如果你曾經在那個位置附近記過傷，說明底下會出現「你在這裡的紀錄」，按一下直接跳到傷害誌。</p>
+<p>反過來，在<b>傷害誌</b>裡如果某個部位落在有標註的結構上，標題旁的編號（例如 <code>UBERON:0002107</code>）可以按，會跳到圖譜去讀那個器官的說明。</p>
+
+<h2>時間軸怎麼看</h2>
+<p>圖版下面那條線就是你的傷害史。下排是西元年，上排是你當時幾歲（要先在左上角填出生年）。</p>
+<ul>
+  <li><b>圓點</b>＝一次受傷。點越大代表程度越重。</li>
+  <li><b>長條</b>＝從受傷到痊癒的那段期間。</li>
+  <li><b>半透明的長條</b>＝標記為「慢性未癒」，畫到今天為止。</li>
+</ul>
+<p>點任何一個標記，會跳到對應的部位。</p>
+
+<h2>備份（最重要的一節）</h2>
+<p>你的紀錄存在<b>這台裝置的這個瀏覽器裡</b>，沒有上傳到任何地方。這代表沒有人看得到，但也代表<b>沒有人能幫你救回來</b>。</p>
+<p>左下角的「匯出 JSON」會下載一個檔案，把它存到雲端硬碟或寄給自己。按鈕上的數字是還沒備份的筆數。要還原時按「匯入」，可以選擇跟現有紀錄合併或整份取代。</p>
+<p>下面這些情況<b>一定會弄丟紀錄</b>，事前請先匯出：</p>
+<ul>
+  <li>清除瀏覽器資料、快取或網站資料</li>
+  <li>換手機、換電腦、重灌</li>
+  <li>用無痕／私密視窗開這個網站</li>
+</ul>
+
+<div class="note">
+  <h3>用 iPhone 或 iPad 的話，請加到主畫面</h3>
+  <p>Safari 會在你<b>七天沒開這個網站</b>之後，自動清掉它存的所有資料，紀錄會一起消失。iPhone 上的 Chrome、Firefox 也一樣，因為它們底層都是 Safari。</p>
+  <p>按瀏覽器的分享鍵 →「<b>加入主畫面</b>」。從主畫面開的版本不受這條規則影響。這是目前唯一的辦法。</p>
+</div>
+
+<h2>印給醫師或治療師看</h2>
+<p>左下角的「列印摘要」會先問你<b>要印哪些部位</b>——預設全選，看膝蓋專科時就只留膝蓋相關的，表會短很多也比較好談。統計和時間軸都會跟著只算你選的部位。</p>
+<p>另外可以選擇要不要<b>包含時間軸</b>、要不要<b>包含診斷與治療欄位</b>。想印一張很簡略的概覽時可以都關掉。</p>
+<p>產生的是黑字白底的表，可以直接印出來，或在列印視窗選「儲存成 PDF」。</p>
+<p>看診、做物理治療、或換一位新的醫師時，這張表比口頭回想清楚得多。</p>
+
+<h2>刪錯了怎麼辦</h2>
+<p>刪除不會跳確認視窗，但底下會出現「<b>復原</b>」，十四秒內按下去就能救回來——刪掉整個部位的話，底下所有紀錄也會一起回來。</p>
+<p>過了時間或重新整理頁面，就真的刪掉了。</p>
+
+<h2>鍵盤操作</h2>
+<table>
+<tr><th><kbd>/</kbd></th><td>跳到搜尋框</td></tr>
+<tr><th><kbd>↑</kbd> <kbd>↓</kbd></th><td>在左邊清單中移動</td></tr>
+<tr><th><kbd>1</kbd>–<kbd>5</kbd></th><td>切換右邊的資訊分頁</td></tr>
+<tr><th><kbd>Esc</kbd></th><td>取消選取</td></tr>
+<tr><th>滾輪／拖曳</th><td>縮放與移動圖版</td></tr>
+</table>
+
+<h2>用鍵盤或讀螢幕軟體</h2>
+<p>人體圖是給眼睛看的，所以它對讀螢幕軟體是隱藏的——圖上的每個結構都同時列在左邊索引裡，用鍵盤一樣到得了。按 <kbd>Tab</kbd> 時第一個停留點是「跳至結構索引」。</p>
+<p>選了東西、刪了東西、備份狀態改變時，讀螢幕軟體都會念出來。</p>
+
+<h2>常見問題</h2>
+
+<details><summary>我的紀錄別人看得到嗎？</summary><div class="a">
+<p>看不到。資料只寫在你自己瀏覽器裡，沒有伺服器在收，所以連把這個連結分享給你的人也看不到。</p>
+<p>唯一的例外是<b>共用同一個瀏覽器</b>：如果家人跟你用同一台平板的同一個瀏覽器，會看到同一份紀錄。這個工具沒有帳號密碼，隱私是靠「不同裝置／不同瀏覽器」來區隔的。</p>
+</div></details>
+
+<details><summary>手機記的，電腦上看得到嗎？</summary><div class="a">
+<p>看不到。兩台裝置是兩份獨立的紀錄，不會同步。</p>
+<p>如果要搬過去，在原本的裝置按「匯出 JSON」，把檔案傳到新裝置，再按「匯入」。</p>
+</div></details>
+
+<details><summary>為什麼一直提醒我備份？很煩。</summary><div class="a">
+<p>因為紀錄真的救不回來。不過提醒只有三種時候才會跳出來擋你：<b>第一筆紀錄、累積五筆沒備份、上次備份超過九十天</b>。其他時候只有左下角按鈕上的數字在默默告訴你。</p>
+</div></details>
+
+<details><summary>匯出的檔案是什麼？可以打開來看嗎？</summary><div class="a">
+<p>是一個 <code>.json</code> 純文字檔，用記事本或任何文字編輯器都打得開，內容是看得懂的中文。它不是加密的黑盒子，你的資料永遠是你的。</p>
+</div></details>
+
+<details><summary>圖上找不到我受傷的地方，例如腳踝、膝蓋、肩膀。</summary><div class="a">
+<p>這張圖標註的是<b>內臟</b>，本來就沒有踝、膝、肩這些部位。所以請直接在大概的位置點下去，然後自己輸入名稱——輸入框有常見部位的建議清單可以選。</p>
+<p>落針位置不用很精準，它是給你自己看的定位，不是解剖測量。</p>
+</div></details>
+
+<details><summary>同一個地方受傷很多次，要開很多顆針嗎？</summary><div class="a">
+<p>不用。點原本那顆針，按「新增此部位傷害」，就會在同一個部位底下多一筆。這樣復發次數才算得出來。</p>
+</div></details>
+
+<details><summary>切換男女圖版，我的紀錄會不見嗎？</summary><div class="a">
+<p>不會。兩張圖的位置幾乎完全對得上，所以針是共用的，切過去一樣在原地。性別只是換一張底圖。</p>
+</div></details>
+
+<details><summary>「休養天數」和「痊癒日期」有什麼不一樣？</summary><div class="a">
+<p>休養天數是<b>你停練或休息了幾天</b>；痊癒日期是<b>什麼時候真的好了</b>。兩者常常不一樣——可能休息兩週就回去練，但其實一個月後才完全不痛。</p>
+<p>時間軸畫的是痊癒日期。</p>
+</div></details>
+
+<details><summary>可以放 X 光片或照片嗎？</summary><div class="a">
+<p>不行。瀏覽器能存的空間很小，放兩三張照片就滿了，還會讓匯出檔大到不能用。影像請另外存在雲端硬碟，在「診斷與影像」欄位寫下重點就好。</p>
+</div></details>
+
+<details><summary>這可以當病歷用嗎？</summary><div class="a">
+<p>不行。這是個人筆記，內容是你自己輸入的，沒有經過任何醫療人員確認。它可以幫你在看診時講得更清楚，但不能取代病歷、診斷或醫囑。</p>
+</div></details>
+
+<details><summary>沒有網路可以用嗎？</summary><div class="a">
+<p>可以。第一次開過之後，整個網站會存在裝置裡，之後沒有網路也能開。加到主畫面之後更像一個獨立的 app。</p>
+</div></details>
+
+<details><summary>聲音太吵，可以關嗎？</summary><div class="a">
+<p>可以，右上角的「聲音」按一下就關掉，而且會記住，下次打開還是關的。</p>
+</div></details>
+
+<details><summary>可以只印其中幾個部位嗎？</summary><div class="a">
+<p>可以。按「列印摘要」時會先跳出一個清單，預設全部勾選，取消掉不需要的就好。統計數字和時間軸都會跟著只算你勾的部位，印出來的表上方也會註明是部分列印。</p>
+</div></details>
+
+<details><summary>「復發間隔」是什麼意思？</summary><div class="a">
+<p>同一個部位，兩次受傷之間隔了多久。總覽會給你平均值和最短的一次；點開某個部位時，標題旁也會顯示那個部位最短的間隔。</p>
+<p>間隔特別短通常代表上一次還沒真的好就回去了。</p>
+</div></details>
+
+<details><summary>我想從頭開始，怎麼清空？</summary><div class="a">
+<p>目前沒有「一鍵清空」。把每個部位逐一刪掉即可（刪除都可以復原，所以請確認過了十四秒）。清空前建議先匯出一份，以免後悔。</p>
+</div></details>
+
+<h2>更新紀錄</h2>
+<dl class="log">
+  <dt>v1.7</dt>
+  <dd>修正：同一年有很多筆紀錄時，時間軸的標記會超出圖框而看不見；現在圖表會自己長高，極密集處會註明有重疊。選到標記在另一張圖版上的部位時，也會明白告訴你並提供切換。</dd>
+  <dt>v1.6</dt>
+  <dd>列印摘要可以只選部分部位，統計與時間軸會跟著調整；並可選擇是否包含時間軸與診斷治療欄位。</dd>
+  <dt>v1.5</dt>
+  <dd>圖譜與傷害誌可互相跳轉；左欄新增篩選（全部／未結案／反覆），右欄新增總覽統計與復發間隔；改善鍵盤與讀螢幕軟體支援，並調整小字的對比度。</dd>
+  <dt>v1.4</dt>
+  <dd>加入痊癒日期，時間軸從圓點變成長條；新增「列印摘要」，可印給醫師看；資料加上結構版本號，舊的匯出檔會自動升級。</dd>
+  <dt>v1.3</dt>
+  <dd>新增女性圖版；刪除改為可復原；支援離線使用與加到主畫面，並針對 iPhone 的七天清除規則加上提醒。</dd>
+  <dt>v1.2</dt>
+  <dd>新增首次使用說明；分享連結時會顯示預覽圖；加入備份提醒與未備份筆數。</dd>
+  <dt>v1.1</dt>
+  <dd>新增傷害誌：落針、部位與紀錄兩層結構、生命時間軸、JSON 匯出與匯入。</dd>
+  <dt>v1.0</dt>
+  <dd>互動解剖圖譜，含全身與腦部兩份圖版。</dd>
+</dl>
+
+<footer>
+  底圖取自 EBI anatomogram，公眾領域（CC0）；標註採 UBERON 本體論。<br>
+  此頁供學習與個人紀錄使用，不構成醫療建議。身體有狀況請找醫師。<br>
+  由 Aaron 製作 · <a href="./">回到圖譜</a>
+</footer>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "我的身體解剖圖譜 · History of My Buddy",
+  "short_name": "身體圖譜",
+  "description": "依 UBERON 本體論標註的互動人體解剖圖譜，並可記錄個人傷害史。紀錄只存在你自己的裝置。",
+  "lang": "zh-Hant",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "id": "/listen-to-your-buddy/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#221A13",
+  "theme_color": "#221A13",
+  "categories": ["health", "education", "medical"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
