@@ -2,7 +2,7 @@
    The page is one self-contained file, so caching it is enough to make the
    whole app work with no network. HTML goes network-first so a redeploy is
    picked up on the next online visit; assets go cache-first for speed. */
-const V = 'anatomia-v1.9';
+const V = 'anatomia-v2.1';
 const SHELL = [
   './', './index.html', './guide.html', './manifest.json',
   './icon-192.png', './icon-512.png', './apple-touch-icon.png', './og-cover.png'

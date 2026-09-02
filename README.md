@@ -112,6 +112,8 @@
 
 本體論編號採 [UBERON](https://obophenotype.github.io/uberon/)，跨物種解剖本體論，以 CC BY 3.0 釋出。
 
+解剖、生理與臨床說明文字由 AI（Claude）根據一般醫學知識彙整撰寫，**非逐字引用特定教科書或資料庫**，也未經醫療專業人員審閱，僅供學習參考。完整說明見 [guide.html#content-source](https://ai-sub3.github.io/listen-to-your-buddy/guide.html#content-source)。運動部位分區的座標由這份底圖實際量測而來，不是另一份插圖。
+
 ## 免責聲明
 
 此頁供學習與個人紀錄使用，**不構成醫療建議，也不能取代專業診斷**。
@@ -120,7 +122,7 @@
 
 ## 版本
 
-目前 **v1.9**。版本號定義在建置腳本裡，同時寫進 `index.html` 的扉頁、`guide.html` 的頁首與更新紀錄，以及 service worker 的快取名稱。改版時三者一起更新，建置會檢查 `guide.html` 是否有對應的更新紀錄，沒有就中止。
+目前 **v2.1**。版本號定義在建置腳本裡，同時寫進 `index.html` 的扉頁、`guide.html` 的頁首與更新紀錄，以及 service worker 的快取名稱。改版時三者一起更新，建置會檢查 `guide.html` 是否有對應的更新紀錄，沒有就中止。
 
 完整的改動歷程見 [使用說明頁的更新紀錄](https://ai-sub3.github.io/listen-to-your-buddy/guide.html#更新紀錄)。
 

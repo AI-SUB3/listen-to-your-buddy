@@ -771,6 +771,53 @@ body.show-regions .st.rg.hit{--so:.30;--sso:.9}
 body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
 .tool[aria-pressed="true"]{background:var(--umber-4);color:var(--buff)}
 
+/* attachments */
+.vaultdocs{flex:none;margin-top:0;padding:12px 16px;border-top:1px solid var(--rule-d)}
+#docList{max-height:150px;overflow-y:auto}
+#docList::-webkit-scrollbar{width:7px}
+#docList::-webkit-scrollbar-thumb{background:var(--umber-4);border-radius:7px}
+.vaultdocs h3{font-family:var(--ff-serif);font-size:14px;font-weight:500;color:var(--brass);margin-bottom:6px}
+.dochint{font-size:12px;color:var(--cream-3);line-height:1.7;margin-bottom:10px;max-width:36ch}
+.docrow{
+  display:flex;align-items:baseline;gap:9px;padding:7px 0;
+  border-bottom:1px solid var(--rule-d);font-size:12.5px;
+}
+.docrow{flex-wrap:wrap}
+.docrow .dt{font-family:var(--ff-mono);font-size:11px;color:var(--brass);min-width:6.5em}
+.docrow .nm{min-width:70px}
+.docrow .nm{flex:1;min-width:0;color:var(--cream);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.docrow .sz{font-family:var(--ff-mono);font-size:10.5px;color:var(--cream-3);white-space:nowrap}
+.docrow button{color:var(--cream-3);font-size:11.5px;padding:0 3px}
+.docrow button:hover{color:var(--brass)}
+.docrow button.dd:hover{color:var(--madder-lit)}
+.docrow.gone .nm{color:var(--cream-3);text-decoration:line-through}
+.docacts{display:flex;gap:8px;margin-top:11px;flex-wrap:wrap}
+.docacts button{
+  border:1px solid var(--rule-d);border-radius:2px;padding:6px 13px;font-size:12px;color:var(--cream-2);
+}
+.docacts button:hover{border-color:var(--brass);color:var(--brass)}
+.docwarn{
+  margin-top:12px;padding:9px 11px;border-radius:2px;font-size:11.5px;line-height:1.7;
+  background:rgba(200,89,63,.09);border-left:2px solid var(--madder-lit);color:var(--cream-2);max-width:38ch;
+}
+.docwarn b{color:#D97A5E}
+.docquota{margin-top:8px;font-family:var(--ff-mono);font-size:10.5px;color:var(--cream-3)}
+#docForm{margin-top:11px;display:flex;flex-direction:column;gap:8px}
+#docForm input,#docForm select{
+  background:var(--umber);border:1px solid var(--rule-d);border-radius:2px;padding:6px 9px;
+  font-size:12.5px;color:var(--cream);
+}
+#docForm .row{display:flex;gap:8px}
+#docForm .row input{flex:1}
+#docForm .go{display:flex;gap:8px}
+#docForm .go button{border:1px solid var(--rule-d);border-radius:2px;padding:6px 14px;font-size:12.5px;color:var(--cream-2)}
+#docForm .go button.save{background:var(--buff);color:var(--ink);border-color:var(--buff);font-weight:500}
+#chart .doc{stroke:var(--cream-3);stroke-width:1;opacity:.6}
+
+.gearblock{margin-bottom:2px}
+.gearblock .fld:last-child{margin-bottom:13px}
+.rec .chip.flag{color:#D97A5E;border-color:#5A2A20;background:rgba(200,89,63,.10)}
+
 /* ── 扉頁 — shown once, reopenable from the masthead ────────── */
 .scrim2{
   position:fixed;inset:0;z-index:60;background:rgba(14,10,6,.62);
@@ -989,7 +1036,7 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
       <p>按瀏覽器的分享鍵 → <b>加入主畫面</b>，從主畫面開啟的版本不受這條規則限制。這是目前唯一能讓紀錄長期留在 iPhone 上的方法。</p>
     </aside>
 
-    <p class="fineprint">底圖取自 EBI anatomogram，公眾領域（CC0）。此頁供學習與個人紀錄使用，不構成醫療建議；診斷欄位是用來抄寫你已經取得的診斷，不是用來自我判斷的。<span class="stamp">v1.9</span></p>
+    <p class="fineprint">底圖取自 EBI anatomogram，公眾領域（CC0）。此頁供學習與個人紀錄使用，不構成醫療建議；診斷欄位是用來抄寫你已經取得的診斷，不是用來自我判斷的。解剖與臨床說明文字由 AI 彙整，非逐字引用特定教科書或資料庫，<a href="guide.html#content-source" target="_blank" rel="noopener">說明見此</a>。<span class="stamp">v2.1</span></p>
 
     <div class="intro-acts">
       <button id="introGo">開始使用</button>
@@ -1061,6 +1108,19 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
     <button data-f="repeat" aria-pressed="false">反覆</button>
   </div>
   <div class="sitelist" id="siteList" role="group" aria-label="受傷部位清單"></div>
+  <section class="vaultdocs" id="docSection">
+    <h3>參考資料</h3>
+    <p class="dochint">體脂計報告、影像報告、檢查單。圖片或 PDF，每個檔案上限 12 MB。</p>
+    <div id="docList"></div>
+    <div class="docacts">
+      <button id="docAdd">＋ 加入報告或影像</button>
+      <button id="docZip" hidden>匯出附件 ZIP</button>
+    </div>
+    <p class="docwarn">附件<b>不包含</b>在 JSON 備份裡。JSON 只存檔案的說明，本體請另外用上面的 ZIP 匯出。</p>
+    <p class="docquota" id="docQuota"></p>
+    <input type="file" id="docFile" accept="image/*,application/pdf" hidden>
+    <div id="docForm" hidden></div>
+  </section>
   <div class="vault">
     <p class="iosline ios-only" hidden>iOS 請按分享鍵 →「加入主畫面」，否則 Safari 會在七天不開啟後清除紀錄。</p>
     <p class="where"><span class="lamp" id="vLamp" aria-hidden="true"></span><span id="vWhere" aria-live="polite">讀取中…</span></p>
@@ -5564,6 +5624,19 @@ const CAUSE = ['訓練','比賽','跌倒','碰撞','車禍','工作','日常活�
 const STATE = ['已痊癒','恢復中','反覆發作','慢性未癒'];
 const PHASE = ['完全停練','僅交叉訓練','可輕鬆跑','正常訓練','不影響訓練'];
 const PHASE_HUE = {'完全停練':'#A63A28','僅交叉訓練':'#BF8F42','可輕鬆跑':'#9A8F5E','正常訓練':'#8A7A63','不影響訓練':'#8A7A63'};
+
+// gear & context — which block applies depends on what you were doing
+const SPORTS = ['未指定','路跑','越野跑','登山健行','自行車','游泳','其他'];
+const SHOE_TYPE = ['薄底競速／越野鞋','厚底極致緩震鞋','日常訓練鞋','釘鞋','其他'];
+const TERRAIN = ['柏油路面','碎石林道','技術型山徑（多岩石／樹根）','草地或田徑場','跑步機','其他'];
+const ELEV = ['平地為主','起伏路段','長爬升為主','長下坡為主（陡降）','上下起伏劇烈'];
+const BIKE_SETUP = ['近期無異動','剛調整座墊高度','剛調整前傾角／把手','更換卡踏或卡鞋','更換自行車','首次公路車試乘','其他異動'];
+const INOUT = ['戶外','訓練台（室內）'];
+const WATER = ['泳池','開放水域'];
+const SHOE_SUGGEST = ['Hoka Speedgoat','Hoka Mach','Hoka Rocket X','ASICS Fujispeed','ASICS Metaspeed',
+  'ASICS GT-2000','Nike Vaporfly','Nike Pegasus','Nike Terra Kiger','Adidas Adizero Adios Pro',
+  'Salomon S/Lab Ultra','Salomon Speedcross','La Sportiva Prodigio','Saucony Endorphin Speed',
+  'New Balance SC Elite','Brooks Ghost','On Cloudmonster'];
 const SIDES = ['右','左','兩側','中線','不分側'];
 const SEV   = ['輕度','中度','重度'];
 const HUE   = {'已痊癒':'#8A7A63','恢復中':'#B8873C','反覆發作':'#A63A28','慢性未癒':'#6E2418'};
@@ -5571,12 +5644,13 @@ const COMMON = ['外踝','內踝','阿基里斯腱','足底筋膜','小腿後側
                 '內側副韌帶','前十字韌帶','半月板','髂脛束','大腿後側','鼠蹊','髖','下背',
                 '薦髂關節','肩','旋轉肌袖','肘','腕','頸','肋骨','手指','腳趾'];
 
-const SCHEMA = 3;   // 1: original · 2: recovery date · 3: load, pain and follow-ups
+const SCHEMA = 5;   // 1: original · 2: recovery date · 3: load/pain/follow-ups · 4: attachments · 5: gear & terrain
 
-let data = { version: SCHEMA, birthYear:null, sites:[], injuries:[] };
+let data = { version: SCHEMA, birthYear:null, sites:[], injuries:[], docs:[] };
 let filt = 'all';
 let fileHandle = null, autoOk = false, dlEach = false;
 let ckOpen = null;   // which record is having a follow-up added
+let pendingFile = null;   // a chosen file, waiting for its metadata form
 let bin = null, binTimer = null;   // holds the last deletion so it can be put back
 let upgraded = false;              // set when load() had to migrate an older file
 let where = 'memory', sel = null, editing = null, form = null, pins = [], hot = null;
@@ -5682,6 +5756,82 @@ async function kvSet(k, v){
 }
 const fsSupported = () => typeof window.showSaveFilePicker === 'function';
 
+/* ── attachments ─────────────────────────────────────────────────
+   Reports and scans are megabytes; localStorage holds five of them in
+   total, so the bytes live in IndexedDB and only the descriptions ride
+   along in the JSON backup. That split is stated plainly in the UI —
+   a backup you believe covers your files but doesn't is worse than none. */
+const MAX_FILE = 12 * 1024 * 1024;
+const OKTYPE = /^(image\/(png|jpe?g|webp|gif|heic|heif)|application\/pdf)$/i;
+
+function fileDb(){
+  return new Promise((res, rej) => {
+    const r = indexedDB.open('anatomia-files', 1);
+    r.onupgradeneeded = () => r.result.createObjectStore('blobs');
+    r.onsuccess = () => res(r.result);
+    r.onerror = () => rej(r.error);
+  });
+}
+async function blobPut(id, blob){
+  const db = await fileDb();
+  return new Promise((res, rej) => {
+    const q = db.transaction('blobs', 'readwrite').objectStore('blobs').put(blob, id);
+    q.onsuccess = () => res(true); q.onerror = () => rej(q.error);
+  });
+}
+async function blobGet(id){
+  try {
+    const db = await fileDb();
+    return await new Promise((res, rej) => {
+      const q = db.transaction('blobs').objectStore('blobs').get(id);
+      q.onsuccess = () => res(q.result); q.onerror = () => rej(q.error);
+    });
+  } catch(e){ return undefined; }
+}
+async function blobDel(id){
+  try {
+    const db = await fileDb();
+    await new Promise(res => {
+      const q = db.transaction('blobs', 'readwrite').objectStore('blobs').delete(id);
+      q.onsuccess = res; q.onerror = res;
+    });
+  } catch(e){}
+}
+const kb = n => n >= 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.round(n / 1024) + ' KB';
+
+/* store-only ZIP, so attachments can leave in one piece without a library */
+function crc32(u8){
+  let c, t = crc32.t;
+  if (!t){ t = crc32.t = new Uint32Array(256);
+    for (let i = 0; i < 256; i++){ c = i;
+      for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1;
+      t[i] = c >>> 0; } }
+  let crc = 0xFFFFFFFF;
+  for (let i = 0; i < u8.length; i++) crc = (crc >>> 8) ^ t[(crc ^ u8[i]) & 0xFF];
+  return (crc ^ 0xFFFFFFFF) >>> 0;
+}
+function zip(entries){
+  const enc = new TextEncoder(), chunks = [], central = [];
+  let off = 0;
+  const u16 = v => [v & 255, (v >> 8) & 255];
+  const u32 = v => [v & 255, (v >> 8) & 255, (v >> 16) & 255, (v >>> 24) & 255];
+  for (const { name, bytes } of entries){
+    const nm = enc.encode(name), crc = crc32(bytes);
+    const local = Uint8Array.from([...u32(0x04034b50), ...u16(20), ...u16(0x0800), ...u16(0),
+      ...u16(0), ...u16(0), ...u32(crc), ...u32(bytes.length), ...u32(bytes.length),
+      ...u16(nm.length), ...u16(0), ...nm]);
+    chunks.push(local, bytes);
+    central.push(Uint8Array.from([...u32(0x02014b50), ...u16(20), ...u16(20), ...u16(0x0800),
+      ...u16(0), ...u16(0), ...u16(0), ...u32(crc), ...u32(bytes.length), ...u32(bytes.length),
+      ...u16(nm.length), ...u16(0), ...u16(0), ...u16(0), ...u16(0), ...u32(0), ...u32(off), ...nm]));
+    off += local.length + bytes.length;
+  }
+  const cd = central.reduce((a, b) => a + b.length, 0);
+  const end = Uint8Array.from([...u32(0x06054b50), ...u16(0), ...u16(0),
+    ...u16(central.length), ...u16(central.length), ...u32(cd), ...u32(off), ...u16(0)]);
+  return new Blob([...chunks, ...central, end], { type: 'application/zip' });
+}
+
 async function allowed(h, ask){
   const opt = { mode: 'readwrite' };
   try {
@@ -5765,6 +5915,11 @@ function migrate(d){
   const v = Number(d.version) || 1;
   if (v > SCHEMA) return null;                  // written by a newer build
   if (v < 2) d.injuries.forEach(r => { if (r.until == null) r.until = ''; });
+  if (v < 4 && !Array.isArray(d.docs)) d.docs = [];
+  if (v < 5) d.injuries.forEach(r => {
+    for (const k of ['sport','shoeModel','shoeType','terrain','elevProfile','bikeSetup','indoorOutdoor','waterEnv'])
+      if (r[k] == null) r[k] = '';
+  });
   if (v < 3) d.injuries.forEach(r => {
     if (r.loadKm == null)   r.loadKm = '';
     if (r.loadNote == null) r.loadNote = '';
@@ -5815,6 +5970,29 @@ async function hideNudge(){
 }
 
 /* ── dates: a year alone is a legitimate answer for childhood ── */
+/* ── date input mask ─────────────────────────────────────────────
+   iOS's numeric keypad (inputmode="numeric") has no "-" key, so typing
+   a dashed date is impossible on many phones. Auto-inserting the dashes
+   as digits are typed removes the need for the key entirely, and still
+   lets a desktop user type the dashes themselves — they're stripped and
+   reinserted in the same place. */
+function maskDateValue(v){
+  const d = v.replace(/\D/g, '').slice(0, 8);
+  if (d.length > 6) return d.slice(0,4) + '-' + d.slice(4,6) + '-' + d.slice(6);
+  if (d.length > 4) return d.slice(0,4) + '-' + d.slice(4);
+  return d;
+}
+function maskDateInput(el){
+  // only reshape genuinely numeric-ish input; garbage text (a paste mistake,
+  // stray letters) is left alone so the existing date validation can flag it
+  // instead of the mask silently stripping it down to an empty, "valid" field
+  if (!/^[\d\-./ ]*$/.test(el.value)) return;
+  const before = el.selectionStart, hadDash = (el.value.match(/-/g) || []).length;
+  el.value = maskDateValue(el.value);
+  const gained = (el.value.match(/-/g) || []).length - hadDash;
+  if (before != null) { const p = Math.max(0, before + gained); try { el.setSelectionRange(p, p); } catch(e){} }
+}
+
 function dparse(s){
   const m = /^(\d{4})(?:[-/.](\d{1,2}))?(?:[-/.](\d{1,2}))?$/.exec((s||'').trim());
   if (!m) return null;
@@ -5848,6 +6026,17 @@ function siteState(id){
   return r.length ? '已痊癒' : '已痊癒';
 }
 const label = s => (s.side && s.side !== '不分側' ? s.side : '') + s.label;
+
+function gearBits(r){
+  const bits = [];
+  if (r.shoeModel || r.shoeType) bits.push(['鞋款', [r.shoeModel, r.shoeType].filter(Boolean).join(' · ')]);
+  if (r.terrain || r.elevProfile) bits.push(['地形', [r.terrain, r.elevProfile].filter(Boolean).join(' · ')]);
+  if (r.bikeSetup && r.bikeSetup !== '近期無異動') bits.push(['裝備異動', r.bikeSetup]);
+  if (r.indoorOutdoor) bits.push(['場地', r.indoorOutdoor]);
+  if (r.waterEnv) bits.push(['水域', r.waterEnv]);
+  return bits;
+}
+const gearFlag = r => r.bikeSetup && r.bikeSetup !== '近期無異動';   // the one worth a loud chip
 
 /* ── recovery curve ──────────────────────────────────────────────
    One pain score is a data point; a series is a curve. Follow-ups are
@@ -6065,7 +6254,7 @@ function render(){
       ? '<p class="empty-list">沒有符合這個條件的部位。</p>'
       : '<p class="empty-list">還沒有標記任何部位。切到圖版上點一下就能開始。</p>');
 
-  renderStats(); renderPanel(); chart(); draw();
+  renderStats(); renderPanel(); renderDocs(); chart(); draw();
 }
 
 /* ── case record (right) ─────────────────────────────────────── */
@@ -6107,6 +6296,7 @@ function renderPanel(){
       ['成因', x.cause], ['當時活動', x.activity],
       ['休養天數', x.downtime ? x.downtime + ' 天' : ''],
       ['體能指標', x.loadNote],
+      ...gearBits(x),
       ['診斷與影像', x.dx], ['治療與復健', x.tx], ['備註', x.notes]
     ].filter(([,v]) => v && String(v).trim());
     return `<article class="rec">
@@ -6118,6 +6308,7 @@ function renderPanel(){
         ${x.pain !== '' && x.pain != null ? `<span class="chip pain">疼痛 ${esc(String(x.pain))}／10</span>` : ''}
         ${x.phase ? `<span class="chip">${esc(x.phase)}</span>` : ''}
         ${x.loadKm ? `<span class="chip km">當週 ${esc(String(x.loadKm))} km</span>` : ''}
+        ${gearFlag(x) ? `<span class="chip flag">${esc(x.bikeSetup)}</span>` : ''}
       </div>
       ${rows.length ? '<dl>' + rows.map(([k,v]) => `<dt>${k}</dt><dd>${esc(v).replace(/\n/g,'<br>')}</dd>`).join('') + '</dl>' : ''}
       ${checkinBlock(x)}
@@ -6135,6 +6326,8 @@ function openForm(recId, isNew){
            : { id: uid(), siteId: sel, date:'', until:'', type:TYPES[0], severity:1,
                cause:CAUSE[0], activity:'', status:STATE[0], downtime:'',
                loadKm:'', loadNote:'', pain:'', phase:PHASE[0], checkins:[],
+               sport:'', shoeModel:'', shoeType:'', terrain:'', elevProfile:'',
+               bikeSetup:'', indoorOutdoor:'', waterEnv:'',
                dx:'', tx:'', notes:'' };
   editing = { isNew: !r, site };
   const opt = (arr, v) => arr.map(o => `<option${o===v?' selected':''}>${o}</option>`).join('');
@@ -6178,6 +6371,34 @@ function openForm(recId, isNew){
       <p class="hint">0 是完全不痛，10 是無法忍受。拉動後才會記錄。</p></div>
     <div class="fld"><label for="fLoadNote">近期體能指標或訓練變化</label>
       <input id="fLoadNote" value="${esc(form.loadNote)}" placeholder="例如 FTP 258W、月跑量較上月增 35%"></div>
+
+    <h3>裝備與環境</h3>
+    <div class="fld"><label for="fSport">當時的運動類型</label><select id="fSport">${opt(SPORTS, form.sport || SPORTS[0])}</select>
+      <p class="hint">選了類型才會出現對應的欄位——鞋款、地形、座艙設定或水域。</p></div>
+
+    <div class="gearblock" id="gbRun" hidden>
+      <div class="two">
+        <div class="fld"><label for="fShoe">鞋款</label>
+          <input id="fShoe" list="shoeSuggest" value="${esc(form.shoeModel)}" placeholder="例如 Hoka Speedgoat 5">
+          <datalist id="shoeSuggest">${SHOE_SUGGEST.map(s => `<option value="${esc(s)}">`).join('')}</datalist></div>
+        <div class="fld"><label for="fShoeType">鞋型特性</label><select id="fShoeType">${opt(['',...SHOE_TYPE], form.shoeType)}</select></div>
+      </div>
+      <div class="two">
+        <div class="fld"><label for="fTerrain">地形</label><select id="fTerrain">${opt(['',...TERRAIN], form.terrain)}</select></div>
+        <div class="fld"><label for="fElev">坡度型態</label><select id="fElev">${opt(['',...ELEV], form.elevProfile)}</select></div>
+      </div>
+    </div>
+
+    <div class="gearblock" id="gbBike" hidden>
+      <div class="two">
+        <div class="fld"><label for="fBikeSetup">近期座艙／裝備異動</label><select id="fBikeSetup">${opt(['',...BIKE_SETUP], form.bikeSetup)}</select></div>
+        <div class="fld"><label for="fInOut">室內或戶外</label><select id="fInOut">${opt(['',...INOUT], form.indoorOutdoor)}</select></div>
+      </div>
+    </div>
+
+    <div class="gearblock" id="gbSwim" hidden>
+      <div class="fld"><label for="fWater">水域環境</label><select id="fWater">${opt(['',...WATER], form.waterEnv)}</select></div>
+    </div>
 
     <h3>臨床</h3>
     <div class="fld"><label for="fDx">診斷與影像結果</label><textarea id="fDx" placeholder="例如 X 光無骨折；超音波顯示前距腓韌帶第一度撕裂">${esc(form.dx)}</textarea></div>
@@ -6232,8 +6453,8 @@ function wireForm(isNew){
     painTouched = true;
     $('#fPainOut').textContent = e.target.value + ' / 10';
   };
-  $('#fDate').oninput = () => { showAge(); showDur(); };
-  $('#fUntil').oninput = showDur;
+  $('#fDate').oninput = () => { maskDateInput($('#fDate')); showAge(); showDur(); };
+  $('#fUntil').oninput = () => { maskDateInput($('#fUntil')); showDur(); };
   $('#fDown').oninput = showDur;
   $('#fGuess').onclick = () => {
     const t = dstamp($('#fDate').value), d = parseInt($('#fDown').value, 10);
@@ -6242,6 +6463,12 @@ function wireForm(isNew){
     Snd.play('detent'); showDur();
   };
   showAge(); showDur();
+  const GB = { '路跑':'gbRun', '越野跑':'gbRun', '登山健行':'gbRun', '自行車':'gbBike', '游泳':'gbSwim' };
+  const showGear = () => {
+    const want = GB[$('#fSport').value];
+    ['gbRun','gbBike','gbSwim'].forEach(id => $('#'+id).hidden = id !== want);
+  };
+  $('#fSport').onchange = showGear; showGear();
   $('#fCancel').onclick = () => {
     if (editing.isNew && !recsOf(sel).length){         // an empty pin helps nobody
       data.sites = data.sites.filter(s => s.id !== sel); sel = null;
@@ -6266,7 +6493,18 @@ function wireForm(isNew){
     if (v('fUntil') && (!dparse(v('fUntil')) || spanDays(v('fDate'), v('fUntil')) < 0)){
       $('#fUntil').focus(); showDur(); return;
     }
+    // only keep values from whichever gear block is actually showing, so
+    // switching sport away from "路跑" doesn't leave a stale shoe model behind
+    const shown = id => !$('#'+id).hidden;
     Object.assign(form, {
+      sport: $('#fSport').value,
+      shoeModel: shown('gbRun') ? v('fShoe') : '',
+      shoeType:  shown('gbRun') ? $('#fShoeType').value : '',
+      terrain:   shown('gbRun') ? $('#fTerrain').value : '',
+      elevProfile: shown('gbRun') ? $('#fElev').value : '',
+      bikeSetup: shown('gbBike') ? $('#fBikeSetup').value : '',
+      indoorOutdoor: shown('gbBike') ? $('#fInOut').value : '',
+      waterEnv: shown('gbSwim') ? $('#fWater').value : '',
       loadKm: v('fKm'), loadNote: v('fLoadNote'), phase: $('#fPhase').value,
       pain: painTouched ? $('#fPain').value : '',
       date:v('fDate'), until:v('fUntil'), type:$('#fType').value, cause:$('#fCause').value,
@@ -6358,6 +6596,80 @@ function chart(only, into){
     g.onclick = () => { Snd.play('detent'); select(g.dataset.site); });
 }
 
+const DOC_CATS = ['骨密度／InBody 報告','影像報告（X光／MRI／超音波）','抽血報告','其他文件'];
+const extOf = t => t === 'application/pdf' ? 'pdf' : (t.split('/')[1] || 'bin').replace('jpeg','jpg');
+
+async function renderDocs(){
+  const list = data.docs.slice().sort((a,b) => (dstamp(b.date)||0) - (dstamp(a.date)||0));
+  $('#docList').innerHTML = list.length ? list.map(d => `<div class="docrow" data-doc="${d.id}">
+      <span class="dt">${d.date ? esc(dshow(d.date)) : '日期未填'}</span>
+      <span class="nm">${esc(d.title || d.name)}</span>
+      <span class="sz">${kb(d.size)}</span>
+      <button data-docview="${d.id}">開啟</button>
+      <button class="dd" data-docdel="${d.id}">刪除</button>
+    </div>`).join('') : '<p class="empty-list" style="padding:8px 0">還沒有附加任何報告。</p>';
+  $('#docZip').hidden = !data.docs.length;
+  try {
+    const est = await navigator.storage?.estimate?.();
+    $('#docQuota').textContent = est?.usage
+      ? `裝置目前用量約 ${kb(est.usage)}（含所有附件與紀錄）`
+      : '';
+  } catch(e){ $('#docQuota').textContent = ''; }
+}
+
+function openDocForm(file){
+  pendingFile = file;
+  $('#docForm').hidden = false;
+  $('#docForm').innerHTML = `
+    <div class="row">
+      <input id="dgTitle" placeholder="標題，例如 InBody 報告" value="${esc(file.name.replace(/\.[^.]+$/,''))}">
+      <input id="dgDate" inputmode="numeric" placeholder="日期，例如 2026-08" style="max-width:9.5em">
+    </div>
+    <select id="dgCat">${DOC_CATS.map(c => `<option>${c}</option>`).join('')}</select>
+    <input id="dgNote" placeholder="備註（選填）">
+    <p class="dochint">檔案：${esc(file.name)}　${kb(file.size)}</p>
+    <div class="go"><button class="save" id="dgSave">加入</button><button id="dgCancel">取消</button></div>`;
+  maskDateInput($('#dgDate'));
+  $('#dgDate').oninput = () => maskDateInput($('#dgDate'));
+  $('#dgCancel').onclick = () => { pendingFile = null; $('#docForm').hidden = true; $('#docForm').innerHTML = ''; Snd.play('latch'); };
+  $('#dgSave').onclick = async () => {
+    const dt = $('#dgDate').value.trim();
+    if (dt && !dparse(dt)) return note('日期格式看不懂');
+    const id = uid();
+    try { await blobPut(id, pendingFile); }
+    catch(e){ return note('檔案寫入失敗，裝置空間可能不足'); }
+    data.docs.push({
+      id, name: pendingFile.name, type: pendingFile.type, size: pendingFile.size,
+      title: $('#dgTitle').value.trim(), date: dt,
+      category: $('#dgCat').value, note: $('#dgNote').value.trim(),
+      addedAt: new Date().toISOString()
+    });
+    pendingFile = null; $('#docForm').hidden = true; $('#docForm').innerHTML = '';
+    Snd.play('knock'); await save(); render();
+  };
+}
+
+async function exportDocsZip(){
+  if (!data.docs.length) return;
+  const entries = [];
+  for (const d of data.docs){
+    const blob = await blobGet(d.id);
+    if (!blob) continue;
+    const buf = new Uint8Array(await blob.arrayBuffer());
+    const nm = `${(d.date || '0000').replace(/[^0-9-]/g,'')}_${(d.title || d.name).replace(/[\\\/:*?"<>|]/g,'_')}.${extOf(d.type)}`;
+    entries.push({ name: nm, bytes: buf });
+  }
+  if (!entries.length) return note('沒有可匯出的檔案內容');
+  const blob = zip(entries);
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `injury-log-attachments-${new Date().toISOString().slice(0,10)}.zip`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  Snd.play('leaf');
+  note(`已匯出 ${entries.length} 個附件`);
+}
+
 /* ── deletion, reversibly ────────────────────────────────────────
    A record meant to span a lifetime should not be one mis-tap from
    gone. Nothing is confirmed up front; everything is recoverable for
@@ -6365,15 +6677,20 @@ function chart(only, into){
 const UNDO_MS = 14000;
 
 async function bury(what, describe){
+  what = { sites: what.sites || [], injuries: what.injuries || [], docs: what.docs || [] };
   clearTimeout(binTimer);
   bin = what;
   data.sites    = data.sites.filter(s => !what.sites.some(x => x.id === s.id));
   data.injuries = data.injuries.filter(r => !what.injuries.some(x => x.id === r.id));
+  data.docs     = data.docs.filter(d => !what.docs.some(x => x.id === d.id));
   if (what.sites.some(s => s.id === sel)) sel = null;
   editing = null; form = null;
   $('#undoText').textContent = describe;
   $('#undoBar').hidden = false;
-  binTimer = setTimeout(() => { bin = null; $('#undoBar').hidden = true; }, UNDO_MS);
+  binTimer = setTimeout(() => {
+    what.docs.forEach(d => blobDel(d.id));       // the file itself is gone once undo lapses
+    bin = null; $('#undoBar').hidden = true;
+  }, UNDO_MS);
   Snd.play('latch');
   await save(); render();
 }
@@ -6383,6 +6700,7 @@ async function unbury(){
   clearTimeout(binTimer);
   bin.sites.forEach(s => data.sites.push(s));
   bin.injuries.forEach(r => data.injuries.push(r));
+  bin.docs.forEach(d => data.docs.push(d));
   sel = bin.sites[0]?.id ?? bin.injuries[0]?.siteId ?? sel;
   bin = null; $('#undoBar').hidden = true;
   Snd.play('knock');
@@ -6424,6 +6742,7 @@ function buildPrintout(only, opts = {}){
           ['痊癒', x.until ? dshow(x.until) + (d != null ? `（歷時 ${d} 天）` : '') : (x.status === '慢性未癒' ? '未癒' : '')],
           ['成因', x.cause], ['當時活動', x.activity],
           ['休養', x.downtime ? x.downtime + ' 天' : ''],
+          ...gearBits(x),
           ...(opts.clinical === false ? [] : [['診斷與影像', x.dx], ['治療與復健', x.tx]]),
           ['備註', x.notes]
         ].filter(([, v]) => v && String(v).trim());
@@ -6542,6 +6861,14 @@ const CSV_COLS = [
   ['當時活動',    r => r.activity || ''],
   ['休養天數',    r => r.downtime || ''],
   ['當週跑量km',  r => r.loadKm || ''],
+  ['運動類型',    r => r.sport || ''],
+  ['鞋款',        r => r.shoeModel || ''],
+  ['鞋型特性',    r => r.shoeType || ''],
+  ['地形',        r => r.terrain || ''],
+  ['坡度型態',    r => r.elevProfile || ''],
+  ['座艙裝備異動', r => r.bikeSetup || ''],
+  ['室內戶外',    r => r.indoorOutdoor || ''],
+  ['水域環境',    r => r.waterEnv || ''],
   ['體能指標',    r => r.loadNote || ''],
   ['疼痛指數',    r => r.pain === '' || r.pain == null ? '' : r.pain],
   ['訓練狀態',    r => r.phase || ''],
@@ -6623,6 +6950,8 @@ async function init(){
   $('#records').oninput = e => {
     if (e.target.classList.contains('ckp'))
       e.target.closest('label').querySelector('.cko').textContent = e.target.value;
+    if (e.target.classList.contains('ckd'))
+      maskDateInput(e.target);
   };
   $('#records').onclick = async e => {
     const ed = e.target.closest('[data-edit]');
@@ -6660,6 +6989,30 @@ async function init(){
     const v = prompt('部位名稱', s.label); if (v === null) return;
     s.label = v.trim() || s.label; await save(); render();
   };
+  $('#docAdd').onclick = () => $('#docFile').click();
+  $('#docFile').onchange = e => {
+    const f = e.target.files[0]; e.target.value = '';
+    if (!f) return;
+    if (!OKTYPE.test(f.type)) return note('只接受圖片或 PDF 檔');
+    if (f.size > MAX_FILE) return note(`檔案太大（${kb(f.size)}），上限 12 MB`);
+    openDocForm(f);
+  };
+  $('#docList').onclick = e => {
+    const v = e.target.closest('[data-docview]');
+    if (v){
+      blobGet(v.dataset.docview).then(b => {
+        if (!b) return note('找不到這個檔案，可能已在其他裝置刪除');
+        window.open(URL.createObjectURL(b), '_blank', 'noopener');
+      });
+      return;
+    }
+    const del = e.target.closest('[data-docdel]');
+    if (del){
+      const doc = data.docs.find(d => d.id === del.dataset.docdel);
+      if (doc) bury({ docs: [doc] }, `已刪除附件「${doc.title || doc.name}」`);
+    }
+  };
+  $('#docZip').onclick = exportDocsZip;
   $('#delSite').onclick = () => {
     const s = data.sites.find(x => x.id === sel); if (!s) return;
     const rs = recsOf(sel);
