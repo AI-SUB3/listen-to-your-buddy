@@ -700,6 +700,32 @@ body:not(.mode-log) #chart{display:none}
 .pickopts input{accent-color:#A63A28;width:15px;height:15px}
 @media print{ #printout .partial{font-size:9pt;color:#555;margin-top:4px} }
 
+@media print{
+  /* numbered body-map figure, the standard shape of a clinical intake form */
+  #printout .figures{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;margin:0 0 18px;break-inside:avoid}
+  #printout .platefig-wrap{text-align:center;flex:none}
+  #printout .fig-cap{font-family:var(--ff-serif);font-style:italic;font-size:9pt;color:#666;margin-bottom:4px}
+  #printout .platefig{width:200px;height:auto;display:block}
+  #printout .platefig .figbody,#printout .platefig .figbody *{fill:#ADA593!important;stroke:none!important}
+  #printout .platefig circle{stroke:#fff;stroke-width:.6}
+  #printout .platefig text{
+    fill:#fff;font-family:var(--ff-mono);font-size:7px;font-weight:700;
+    text-anchor:middle;dominant-baseline:central;
+  }
+  #printout h2 .num{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:15pt;height:15pt;border-radius:50%;background:#111;color:#fff;
+    font-family:var(--ff-mono);font-size:8.5pt;font-weight:400;margin-right:7pt;flex:none;
+  }
+  #printout .clinbox{break-inside:avoid;margin-bottom:16px}
+  #printout .notegrid{
+    height:130pt;margin-top:6px;border:1px solid #999;border-radius:2px;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 13.9pt, #E4E4E4 14pt),
+      repeating-linear-gradient(90deg, transparent, transparent 13.9pt, #EEEEEE 14pt);
+  }
+}
+
 /* the selected site is pinned on a plate you are not currently looking at */
 .sitehead .meta .tagid.away{
   color:var(--madder-lit);border-color:#5A2A20;cursor:pointer;
@@ -818,6 +844,51 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
 .gearblock .fld:last-child{margin-bottom:13px}
 .rec .chip.flag{color:#D97A5E;border-color:#5A2A20;background:rgba(200,89,63,.10)}
 
+/* heat legend */
+.heatlegend{
+  display:flex;align-items:center;gap:8px;padding:8px 16px;
+  border-bottom:1px solid var(--rule-d);font-size:10.5px;color:var(--cream-3);
+  cursor:help;flex:none;
+}
+.hl-bar{
+  width:64px;height:7px;border-radius:4px;flex:none;
+  background:linear-gradient(90deg,#E8C468,#C97A3A,#7A1A10);
+}
+.hl-txt{white-space:nowrap}
+
+.vault .support{margin-top:11px;padding-top:11px;border-top:1px solid var(--rule-d)}
+.vault .support a{font-size:11.5px;color:var(--cream-3);border-bottom:1px solid var(--rule-d);padding-bottom:1px}
+.vault .support a:hover{color:var(--brass);border-color:var(--brass)}
+
+/* tags */
+.rec .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+.rec .tagchip{
+  font-family:var(--ff-mono);font-size:10.5px;color:var(--brass);
+  border:1px solid var(--rule-d);border-radius:10px;padding:2px 8px;
+  transition:border-color .15s,background .15s;
+}
+.rec .tagchip:hover{border-color:var(--brass);background:rgba(191,143,66,.08)}
+
+.tagcloud{
+  display:flex;flex-wrap:wrap;gap:6px;align-items:center;
+  padding:10px 16px;border-bottom:1px solid var(--rule-d);
+}
+.tagpill{
+  font-family:var(--ff-mono);font-size:10.5px;color:var(--cream-2);
+  border:1px solid var(--rule-d);border-radius:10px;padding:3px 9px;
+  transition:border-color .15s,background .15s,color .15s;
+}
+.tagpill i{font-style:normal;color:var(--cream-3);margin-left:5px}
+.tagpill:hover{border-color:var(--brass);color:var(--brass)}
+.tagpill.on{background:var(--brass);color:var(--umber);border-color:var(--brass);font-weight:500}
+.tagpill.on i{color:var(--umber)}
+.tf-active{
+  font-family:var(--ff-mono);font-size:10.5px;color:var(--madder-lit);
+  display:flex;align-items:center;gap:5px;width:100%;margin-bottom:2px;
+}
+.tf-active button{color:var(--madder-lit);font-size:14px;line-height:1;padding:0 3px}
+.tf-active button:hover{color:var(--cream)}
+
 /* ── 扉頁 — shown once, reopenable from the masthead ────────── */
 .scrim2{
   position:fixed;inset:0;z-index:60;background:rgba(14,10,6,.62);
@@ -922,6 +993,15 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
   font-family:var(--ff-mono);font-size:10.5px;color:var(--ink-3);
   float:right;margin-left:12px;
 }
+
+/* keyboard shortcuts card — same voice as the colophon, narrower */
+.intro-in.shortcuts{width:min(360px,100%);padding:26px 28px 22px}
+.sc-list{display:grid;grid-template-columns:auto 1fr;gap:9px 16px;margin-top:16px}
+.sc-list dt{
+  font-family:var(--ff-mono);font-size:11.5px;color:#8A4A22;white-space:nowrap;
+  border:1px solid var(--rule-l);border-radius:2px;padding:2px 8px;justify-self:start;
+}
+.sc-list dd{font-size:13px;color:var(--ink-2);align-self:center}
 
 
 /* ── responsive ───────────────────────────────────────────── */
@@ -1036,7 +1116,7 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
       <p>按瀏覽器的分享鍵 → <b>加入主畫面</b>，從主畫面開啟的版本不受這條規則限制。這是目前唯一能讓紀錄長期留在 iPhone 上的方法。</p>
     </aside>
 
-    <p class="fineprint">底圖取自 EBI anatomogram，公眾領域（CC0）。此頁供學習與個人紀錄使用，不構成醫療建議；診斷欄位是用來抄寫你已經取得的診斷，不是用來自我判斷的。解剖與臨床說明文字由 AI 彙整，非逐字引用特定教科書或資料庫，<a href="guide.html#content-source" target="_blank" rel="noopener">說明見此</a>。<span class="stamp">v2.1</span></p>
+    <p class="fineprint">底圖取自 EBI anatomogram，公眾領域（CC0）。此頁供學習與個人紀錄使用，不構成醫療建議；診斷欄位是用來抄寫你已經取得的診斷，不是用來自我判斷的。解剖與臨床說明文字由 AI 彙整，非逐字引用特定教科書或資料庫，<a href="guide.html#content-source" target="_blank" rel="noopener">說明見此</a>。<span class="stamp">v2.3</span></p>
 
     <div class="intro-acts">
       <button id="introGo">開始使用</button>
@@ -1046,6 +1126,22 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
   </div>
 </div>
 
+<div class="scrim2" id="shortcutsScrim" hidden></div>
+<div class="intro" id="shortcutsDlg" role="dialog" aria-modal="true" aria-labelledby="shortcutsTitle" hidden>
+  <div class="intro-in shortcuts">
+    <p class="eyebrow">Keyboard</p>
+    <h2 id="shortcutsTitle">快捷鍵</h2>
+    <dl class="sc-list">
+      <dt>/</dt><dd>跳至搜尋（圖譜模式）</dd>
+      <dt>↑ ↓</dt><dd>在左欄索引中移動</dd>
+      <dt>1 – 5</dt><dd>切換右側資訊分頁</dd>
+      <dt>Esc</dt><dd>取消選取，或關閉目前的視窗</dd>
+      <dt>?</dt><dd>顯示或關閉這個列表</dd>
+      <dt>滾輪 · 拖曳</dt><dd>縮放與平移圖版</dd>
+    </dl>
+    <div class="intro-acts"><button id="shortcutsClose">關閉</button></div>
+  </div>
+</div>
 <div class="scrim2" id="nudgeScrim" hidden></div>
 <div class="intro" id="nudge" role="dialog" aria-modal="true" aria-labelledby="nudgeTitle" hidden>
   <div class="intro-in nudge">
@@ -1074,8 +1170,10 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
     </div>
     <div class="picklist" id="printPick" role="group" aria-label="選擇要列印的部位"></div>
     <div class="pickopts">
+      <label><input type="checkbox" id="optFigure" checked> 包含標號人形圖</label>
       <label><input type="checkbox" id="optChart" checked> 包含時間軸</label>
       <label><input type="checkbox" id="optClin" checked> 包含診斷與治療欄位</label>
+      <label><input type="checkbox" id="optNotes" checked> 包含空白筆記欄位</label>
     </div>
     <div class="intro-acts">
       <button id="printGo">列印</button>
@@ -1106,6 +1204,13 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
     <button data-f="all" aria-pressed="true">全部</button>
     <button data-f="open" aria-pressed="false">未結案</button>
     <button data-f="repeat" aria-pressed="false">反覆</button>
+    <button data-f="taper" aria-pressed="false" title="過去 30 天內曾經不舒服、或仍反覆發作／慢性未癒的部位">賽前 30 天</button>
+  </div>
+  <div class="tagcloud" id="tagCloud" hidden></div>
+  <div class="heatlegend" id="heatLegend" title="圖版上的顏色代表該部位的累積負荷——次數、嚴重度、是否仍反覆發作、多久以前發生，綜合而成。與清單上的狀態小點是兩種不同的資訊。">
+    <span class="hl-label">部位熱度</span>
+    <span class="hl-bar"></span>
+    <span class="hl-txt">偶發 → 弱點</span>
   </div>
   <div class="sitelist" id="siteList" role="group" aria-label="受傷部位清單"></div>
   <section class="vaultdocs" id="docSection">
@@ -1139,6 +1244,7 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
       <label class="ab-dl"><input type="checkbox" id="abDl"> 每次儲存也下載一份</label>
     </div>
     <input type="file" id="impFile" accept="application/json,.json" hidden>
+    <p class="support"><a href="#" target="_blank" rel="noopener">贊助這個專案</a></p>
   </div>
 </div>
     <div class="credit">
@@ -1146,6 +1252,7 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
       標註採 <a href="https://obophenotype.github.io/uberon/" target="_blank" rel="noopener">UBERON</a> 本體論。
       底圖為公眾領域（CC0）。此頁供學習參考，非醫療建議。
       <a href="guide.html" target="_blank" rel="noopener">使用說明與常見問題</a>
+      · <a href="#" target="_blank" rel="noopener">贊助這個專案</a>
     </div>
   </aside>
 
@@ -5566,6 +5673,7 @@ $('#q').addEventListener('keydown', e => {
 addEventListener('keydown', e => {
   const typing = /^(INPUT|TEXTAREA)$/.test(e.target.tagName);
   if (e.key === '/' && !typing){ e.preventDefault(); $('#q').focus(); openDrawer(true); return; }
+  if (e.key === '?' && !typing){ e.preventDefault(); openShortcuts(); return; }
   if (typing) return;
   if (e.key === 'Escape' && st.sel){ select(st.sel, true); return; }
   if (e.key === 'ArrowDown' || e.key === 'ArrowUp'){
@@ -5602,6 +5710,34 @@ $('#sndBtn').dataset.on = Snd.on;      // reflect the stored preference on load
 /* ── go ────────────────────────────────────────────────────── */
 // the log calls this when you tap a structure's ontology tag
 window.__goAtlas = id => { if (DB[id]) { st.sel = null; select(id, false); } };
+
+/* ── keyboard shortcuts help ─────────────────────────────────── */
+const scDlg = $('#shortcutsDlg'), scScrim = $('#shortcutsScrim');
+function openShortcuts(){
+  scDlg.hidden = false; scScrim.hidden = false; Snd.play('leaf');
+  $('#shortcutsClose').focus();
+}
+function closeShortcuts(){ scDlg.hidden = true; scScrim.hidden = true; }
+$('#shortcutsClose').onclick = closeShortcuts;
+scScrim.onclick = closeShortcuts;
+addEventListener('keydown', e => {
+  if (scDlg.hidden) return;
+  e.stopPropagation();
+  if (e.key === 'Escape' || e.key === '?'){ e.preventDefault(); closeShortcuts(); }
+}, true);
+
+/* ── unsaved-data guard ──────────────────────────────────────────
+   Everything lives in this browser only. If there is anything not yet
+   exported when the tab is about to close, ask the browser to confirm —
+   modern browsers show their own generic wording, not this string, but
+   the confirmation itself is what protects an incognito or one-off visit. */
+addEventListener('beforeunload', e => {
+  if (typeof Log !== 'undefined' && Log.hasUnsavedWork && Log.hasUnsavedWork()){
+    e.preventDefault();
+    e.returnValue = '你有尚未匯出的新紀錄，離開這個頁面可能會遺失。確定要離開嗎？';
+    return e.returnValue;
+  }
+});
 
 addEventListener('resize', () => { clampPan(); applyTransform(); });
 paintPlates();   // setView returns early on the initial view, so paint explicitly
@@ -5644,10 +5780,31 @@ const COMMON = ['外踝','內踝','阿基里斯腱','足底筋膜','小腿後側
                 '內側副韌帶','前十字韌帶','半月板','髂脛束','大腿後側','鼠蹊','髖','下背',
                 '薦髂關節','肩','旋轉肌袖','肘','腕','頸','肋骨','手指','腳趾'];
 
-const SCHEMA = 5;   // 1: original · 2: recovery date · 3: load/pain/follow-ups · 4: attachments · 5: gear & terrain
+const SCHEMA = 6;   // 1: original · 2: recovery date · 3: load/pain/follow-ups · 4: attachments · 5: gear & terrain · 6: hashtags
 
 let data = { version: SCHEMA, birthYear:null, sites:[], injuries:[], docs:[] };
 let filt = 'all';
+let tagFilter = null;   // an active #tag click, ANDed with whichever chip is selected
+
+// One predicate, used identically by the sidebar list and the plate pins —
+// picking "反覆" or "賽前 30 天" should mean the same thing in both places,
+// not just thin out the list while every pin keeps glowing on the figure.
+function withinTaper(id){
+  const cutoff = Date.now() - 30 * 864e5;
+  return recsOf(id).some(r =>
+    (dstamp(r.date) != null && dstamp(r.date) >= cutoff) ||
+    r.status === '反覆發作' || r.status === '慢性未癒' ||
+    (r.checkins || []).some(c => dstamp(c.date) != null && dstamp(c.date) >= cutoff)
+  );
+}
+function siteMatchesFilter(s){
+  const chip = filt === 'open'   ? siteState(s.id) !== '已痊癒'
+             : filt === 'repeat' ? recsOf(s.id).length > 1
+             : filt === 'taper'  ? withinTaper(s.id)
+             : true;
+  if (!chip) return false;
+  return !tagFilter || recsOf(s.id).some(r => (r.tags || []).includes(tagFilter));
+}
 let fileHandle = null, autoOk = false, dlEach = false;
 let ckOpen = null;   // which record is having a follow-up added
 let pendingFile = null;   // a chosen file, waiting for its metadata form
@@ -5920,6 +6077,7 @@ function migrate(d){
     for (const k of ['sport','shoeModel','shoeType','terrain','elevProfile','bikeSetup','indoorOutdoor','waterEnv'])
       if (r[k] == null) r[k] = '';
   });
+  if (v < 6) d.injuries.forEach(r => { r.tags = extractTags(r.notes); });
   if (v < 3) d.injuries.forEach(r => {
     if (r.loadKm == null)   r.loadKm = '';
     if (r.loadNote == null) r.loadNote = '';
@@ -6014,6 +6172,12 @@ function dstamp(str){
 function spanDays(a, b){
   const x = dstamp(a), y = dstamp(b);
   return (x != null && y != null) ? Math.round((y - x) / 864e5) : null;
+}
+// #tags live only in the notes text — nothing new to fill in, nothing to keep
+// in sync. They're recomputed from notes every time a record is saved.
+function extractTags(text){
+  const m = (text || '').match(/#[^\s#，,。；;！!？?、]+/g) || [];
+  return [...new Set(m.map(t => t.slice(1)))].filter(Boolean);
 }
 const uid = () => Math.random().toString(36).slice(2, 10);
 
@@ -6112,6 +6276,17 @@ function stats(){
   const durations = inj.map(r => spanDays(r.date, r.until)).filter(d => d != null && d >= 0);
   const kms = inj.map(r => parseFloat(r.loadKm)).filter(v => !isNaN(v) && v > 0).sort((a,b) => a - b);
   const med = kms.length ? (kms.length % 2 ? kms[(kms.length-1)/2] : (kms[kms.length/2-1] + kms[kms.length/2]) / 2) : null;
+  // laterality: purely descriptive — a count, not a verdict. Weighted by
+  // record count per site, so a side that keeps recurring shows up more
+  // than one that was hurt once and stayed fine.
+  let leftN = 0, rightN = 0;
+  data.sites.forEach(s => {
+    const rn = recsOf(s.id).length;
+    if (s.side === '右') rightN += rn; else if (s.side === '左') leftN += rn;
+  });
+  const lateral = leftN + rightN;
+  const dominant = rightN > leftN ? '右' : leftN > rightN ? '左' : null;
+  const dominantPct = lateral ? Math.round(Math.max(leftN, rightN) / lateral * 100) : null;
   return {
     n: inj.length, sites: data.sites.length,
     open: data.sites.filter(s => siteState(s.id) !== '已痊癒').length,
@@ -6121,7 +6296,8 @@ function stats(){
     kmN: kms.length, kmMed: med, kmLo: kms[0] ?? null, kmHi: kms[kms.length-1] ?? null,
     meanGap: allGaps.length ? Math.round(allGaps.reduce((a,b) => a+b, 0) / allGaps.length) : null,
     minGap: allGaps.length ? Math.min(...allGaps) : null,
-    longest: durations.length ? Math.max(...durations) : null
+    longest: durations.length ? Math.max(...durations) : null,
+    leftN, rightN, lateral, dominant, dominantPct
   };
 }
 
@@ -6147,10 +6323,64 @@ function renderStats(){
       `<li><span>${esc(t)}</span><span class="bar"><i style="width:${Math.round(c/k.types[0][1]*100)}%"></i></span><span class="n">${c} 次</span></li>`
     ).join('') + '</ul>' : '') +
     (k.kmN >= 2 ? `<h3>受傷當週的訓練量</h3><p class="plain">有填跑量的 <b>${k.kmN}</b> 筆中，中位數是 <b>${k.kmMed} km</b>，範圍 ${k.kmLo}–${k.kmHi} km。這個中位數大致就是你身體開始抗議的量級。</p>` : '') +
+    (k.lateral >= 2 ? `<h3>左右分布</h3><p class="plain">右側 <b>${k.rightN}</b> 次・左側 <b>${k.leftN}</b> 次。` +
+      (k.lateral >= 4 && k.dominantPct >= 65
+        ? `約 <b>${k.dominantPct}%</b> 集中在${k.dominant}側，這個比例值得留意。`
+        : '') + `</p>` : '') +
     (k.meanGap != null || k.longest != null ? `<h3>復發與病程</h3><p class="plain">` +
       (k.meanGap != null ? `同一部位再次受傷的間隔平均 <b>${days(k.meanGap)}</b>，最短一次只隔 <b>${days(k.minGap)}</b>。` : '') +
       (k.longest != null ? ` 有紀錄的最長一次病程是 <b>${days(k.longest)}</b>。` : '') +
       `</p>` : '');
+}
+
+/* ── heat map ─────────────────────────────────────────────────────
+   A pin's colour is the site's clinical status (recovered / recurring /
+   chronic) — useful, but it doesn't answer "where is my body actually
+   weak?" A knee sprained once, mild, five years ago, now recovered,
+   looks the same red dot as a knee sprained three times this year.
+   Heat is a separate, continuous score: how much of a standing weak
+   point this part is, blending how often, how bad, how unresolved, and
+   how recent. It replaces the pin's fill; the left-hand list still
+   shows the plain status dot, so neither reading is lost. */
+const STATUS_WEIGHT = { '已痊癒': 0, '恢復中': 0.6, '反覆發作': 0.85, '慢性未癒': 1 };
+function heatOf(id){
+  const recs = recsOf(id);
+  if (!recs.length) return 0;
+  const count = recs.length;
+  const maxSev = Math.max(...recs.map(r => r.severity || 1));
+  const lastT = Math.max(0, ...recs.map(r => dstamp(r.date) || 0));
+  const days = lastT ? (Date.now() - lastT) / 864e5 : 9999;
+  const countW    = Math.min(1, (count - 1) / 2);          // 1 rec → 0, 3+ → 1
+  const sevW      = (maxSev - 1) / 2;                        // 輕/中/重 → 0 / .5 / 1
+  const statusW   = STATUS_WEIGHT[siteState(id)] ?? 0;
+  const recencyW  = days < 90 ? 1 : days < 365 ? 0.6 : days < 365 * 3 ? 0.3 : 0.1;
+  return Math.min(1, 0.40 * countW + 0.15 * sevW + 0.30 * statusW + 0.15 * recencyW);
+}
+function heatColor(t){
+  // warm-only, three anchor stops: barely-there yellow → orange → deep red
+  const stops = [[0, [232,196,104]], [0.45, [201,122,58]], [1, [122,26,16]]];
+  let a = stops[0], b = stops[stops.length - 1];
+  for (let i = 0; i < stops.length - 1; i++)
+    if (t >= stops[i][0] && t <= stops[i+1][0]) { a = stops[i]; b = stops[i+1]; break; }
+  const span = (b[0] - a[0]) || 1, k = (t - a[0]) / span;
+  const mix = (x, y) => Math.round(x + (y - x) * k);
+  return `rgb(${mix(a[1][0],b[1][0])},${mix(a[1][1],b[1][1])},${mix(a[1][2],b[1][2])})`;
+}
+
+/* ── tags ──────────────────────────────────────────────────────
+   Derived purely from #hashtags in notes text — a tag cloud for browsing
+   by them (the thing a single clickable chip on one record can't give
+   you), plus a way to clear an active tag filter once it's set. */
+function renderTagCloud(){
+  const counts = new Map();
+  data.injuries.forEach(r => (r.tags || []).forEach(t => counts.set(t, (counts.get(t) || 0) + 1)));
+  const box = $('#tagCloud');
+  if (!counts.size){ box.hidden = true; tagFilter = null; return; }
+  box.hidden = false;
+  const tags = [...counts.entries()].sort((a,b) => b[1] - a[1]);
+  box.innerHTML =
+    (tagFilter ? `<span class="tf-active">篩選：#${esc(tagFilter)}<button id="tfClear" aria-label="清除標籤篩選">×</button></span>` : '') +
+    tags.map(([t,n]) => `<button class="tagpill ${t===tagFilter?'on':''}" data-tag="${esc(t)}">#${esc(t)}<i>${n}</i></button>`).join('');
 }
 
 /* ── pins on the plate ───────────────────────────────────────── */
@@ -6163,17 +6393,22 @@ function draw(){
   const host = plate.getBoundingClientRect();
   pins = [];
   let h = '';
-  data.sites.filter(s => s.view === st.view).forEach(s => {
+  // a filter thins the plate exactly like it thins the list — the point of
+  // "賽前 30 天" is a clean, uncluttered figure, not just a shorter sidebar.
+  // Whatever is currently open in the panel stays visible regardless, so
+  // selecting something never makes its own pin vanish out from under you.
+  data.sites.filter(s => s.view === st.view && (s.id === sel || siteMatchesFilter(s))).forEach(s => {
     const q = new DOMPoint(s.x, s.y).matrixTransform(ctm);
     const x = q.x - host.left, y = q.y - host.top;
     pins.push({ id: s.id, x, y });
     const n = recsOf(s.id).length;
-    const c = HUE[siteState(s.id)];
-    const r = n > 1 ? 9 : 7;
+    const heat = heatOf(s.id);
+    const c = heatColor(heat);
+    const r = 6 + heat * 6;
     const on = sel === s.id, warm = hot === s.id;
     h += `<g class="${on ? 'sel' : ''}">` +
-         (on || warm ? `<circle class="ring" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r + 5}" stroke="${c}"/>` : '') +
-         `<circle class="hit" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="${c}"/>` +
+         (on || warm ? `<circle class="ring" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(r + 5).toFixed(1)}" stroke="${c}"/>` : '') +
+         `<circle class="hit" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="${c}"/>` +
          (n > 1 ? `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}">${n}</text>` : '') +
          `</g>`;
   });
@@ -6235,10 +6470,7 @@ function render(){
   $('#birthYear').value = data.birthYear || '';
   $('#ageNow').textContent = data.birthYear ? `（今年 ${new Date().getFullYear() - data.birthYear} 歲）` : '';
 
-  const keep = s => filt === 'all' ? true
-    : filt === 'open' ? siteState(s.id) !== '已痊癒'
-    : recsOf(s.id).length > 1;
-  const sorted = [...data.sites].filter(keep).sort((a,b) => {
+  const sorted = [...data.sites].filter(siteMatchesFilter).sort((a,b) => {
     const d = recsOf(b.id).length - recsOf(a.id).length;
     if (d) return d;
     return (dparse(recsOf(b.id)[0]?.date)?.t ?? 0) - (dparse(recsOf(a.id)[0]?.date)?.t ?? 0);
@@ -6254,7 +6486,7 @@ function render(){
       ? '<p class="empty-list">沒有符合這個條件的部位。</p>'
       : '<p class="empty-list">還沒有標記任何部位。切到圖版上點一下就能開始。</p>');
 
-  renderStats(); renderPanel(); renderDocs(); chart(); draw();
+  renderStats(); renderPanel(); renderDocs(); renderTagCloud(); chart(); draw();
 }
 
 /* ── case record (right) ─────────────────────────────────────── */
@@ -6311,6 +6543,8 @@ function renderPanel(){
         ${gearFlag(x) ? `<span class="chip flag">${esc(x.bikeSetup)}</span>` : ''}
       </div>
       ${rows.length ? '<dl>' + rows.map(([k,v]) => `<dt>${k}</dt><dd>${esc(v).replace(/\n/g,'<br>')}</dd>`).join('') + '</dl>' : ''}
+      ${x.tags && x.tags.length ? `<div class="tags">${x.tags.map(t =>
+        `<button class="tagchip" data-tag="${esc(t)}">#${esc(t)}</button>`).join('')}</div>` : ''}
       ${checkinBlock(x)}
       <button class="edit" data-edit="${x.id}">編輯</button>
     </article>`;
@@ -6325,7 +6559,7 @@ function openForm(recId, isNew){
   form = r ? { ...r, checkins: [...(r.checkins || [])] }
            : { id: uid(), siteId: sel, date:'', until:'', type:TYPES[0], severity:1,
                cause:CAUSE[0], activity:'', status:STATE[0], downtime:'',
-               loadKm:'', loadNote:'', pain:'', phase:PHASE[0], checkins:[],
+               loadKm:'', loadNote:'', pain:'', phase:PHASE[0], checkins:[], tags:[],
                sport:'', shoeModel:'', shoeType:'', terrain:'', elevProfile:'',
                bikeSetup:'', indoorOutdoor:'', waterEnv:'',
                dx:'', tx:'', notes:'' };
@@ -6403,7 +6637,8 @@ function openForm(recId, isNew){
     <h3>臨床</h3>
     <div class="fld"><label for="fDx">診斷與影像結果</label><textarea id="fDx" placeholder="例如 X 光無骨折；超音波顯示前距腓韌帶第一度撕裂">${esc(form.dx)}</textarea></div>
     <div class="fld"><label for="fTx">治療方式與復健內容</label><textarea id="fTx" placeholder="例如 冰敷加壓、物理治療、平衡與腓骨肌訓練">${esc(form.tx)}</textarea></div>
-    <div class="fld"><label for="fNotes">備註</label><textarea id="fNotes">${esc(form.notes)}</textarea></div>
+    <div class="fld"><label for="fNotes">備註</label><textarea id="fNotes">${esc(form.notes)}</textarea>
+      <p class="hint">打 <code>#標籤</code> 會自動變成可點擊的標籤，例如 #越野 #Hoka。</p></div>
     <div class="formacts">
       <button class="save" id="fSave">儲存</button>
       <button id="fCancel">取消</button>
@@ -6509,7 +6744,7 @@ function wireForm(isNew){
       pain: painTouched ? $('#fPain').value : '',
       date:v('fDate'), until:v('fUntil'), type:$('#fType').value, cause:$('#fCause').value,
       status:$('#fStatus').value, activity:v('fAct'), downtime:v('fDown'),
-      dx:v('fDx'), tx:v('fTx'), notes:v('fNotes') });
+      dx:v('fDx'), tx:v('fTx'), notes:v('fNotes'), tags: extractTags(v('fNotes')) });
     const i = data.injuries.findIndex(x => x.id === form.id);
     if (i >= 0) data.injuries[i] = form; else data.injuries.push(form);
     editing = null; form = null; Snd.play('knock');
@@ -6708,6 +6943,22 @@ async function unbury(){
 }
 
 /* ── a sheet to hand to a clinician ──────────────────────────── */
+// a numbered figure with a legend is the standard shape of a clinical
+// intake body-map — the same idea, built from the plate's own outline
+// and the sites' own stored coordinates, no separate artwork needed
+function plateFigureSvg(view, marks){
+  const svgEl = view === 'brain' ? svgBrain : view === 'female' ? svgFemale : svgBody;
+  const layer = svgEl?.querySelector('#LAYER_OUTLINE');
+  const vb = svgEl?.getAttribute('viewBox') || '0 0 106 195';
+  const outline = layer ? layer.outerHTML.replace('<g ', '<g class="figbody" ') : '';
+  const dots = marks.map(({ site, num }) => {
+    const heat = heatOf(site.id), r = 4.2 + heat * 3.2;
+    return `<circle cx="${site.x}" cy="${site.y}" r="${r.toFixed(1)}" fill="${heatColor(heat)}"/>
+      <text x="${site.x}" y="${site.y}">${num}</text>`;
+  }).join('');
+  return `<svg class="platefig" viewBox="${vb}" xmlns="http://www.w3.org/2000/svg">${outline}${dots}</svg>`;
+}
+
 function buildPrintout(only, opts = {}){
   const box = $('#printout');
   const now = new Date().toISOString().slice(0, 10);
@@ -6732,10 +6983,19 @@ function buildPrintout(only, opts = {}){
   }
 
   const sites = chosen.sort((a, b) => recsOf(b.id).length - recsOf(a.id).length);
-  const body = sites.map(s => {
+
+  // one small numbered figure per plate actually used, legend numbers match the headings below
+  const byView = {};
+  sites.forEach((s, i) => (byView[s.view] ||= []).push({ site: s, num: i + 1 }));
+  const VIEW_LABEL = { body: '全身圖版', female: '全身圖版（女性）', brain: '腦部圖版' };
+  const figuresHtml = opts.figure === false ? '' : Object.entries(byView).map(([view, marks]) =>
+    `<div class="platefig-wrap"><p class="fig-cap">${VIEW_LABEL[view] || view}</p>${plateFigureSvg(view, marks)}</div>`
+  ).join('');
+
+  const body = sites.map((s, i) => {
     const rs = recsOf(s.id);
     if (!rs.length) return '';
-    return `<section><h2>${esc(label(s))}<em>${rs.length} 筆 · ${esc(siteState(s.id))}</em></h2>` +
+    return `<section><h2><span class="num">${i + 1}</span>${esc(label(s))}<em>${rs.length} 筆 · ${esc(siteState(s.id))}</em></h2>` +
       rs.map(x => {
         const a = ageAt(x.date), d = spanDays(x.date, x.until);
         const rows = [
@@ -6768,10 +7028,14 @@ function buildPrintout(only, opts = {}){
       <div><b>${open}</b><span>尚未結案</span></div>
       <div><b>${downtime}</b><span>累計休養天數</span></div>
     </div>
+    ${figuresHtml ? `<div class="figures">${figuresHtml}</div>` : ''}
     ${dates.length && svg ? `<div class="chartwrap">${svg.outerHTML}</div>` : ''}
     ${body || '<p>尚無紀錄。</p>'}
+    ${opts.notes === false ? '' : `
+    <section class="clinbox"><h2>臨床所見<em>Clinical findings</em></h2><div class="notegrid"></div></section>
+    <section class="clinbox"><h2>治療計畫與醫囑<em>Plan</em></h2><div class="notegrid"></div></section>`}
     <p class="foot">此表由個人紀錄工具自動整理，內容為使用者自行輸入，非醫療文件，亦不構成診斷。
-    診斷與治療欄位為使用者抄錄自醫療人員的說明。原始資料可另以 JSON 匯出。</p>`;
+    診斷與治療欄位為使用者抄錄自醫療人員的說明。圖版上的數字對應下方各部位標題的編號。原始資料可另以 JSON 匯出。</p>`;
 }
 
 /* ── choosing what to print ─────────────────────────────────────
@@ -6869,6 +7133,7 @@ const CSV_COLS = [
   ['座艙裝備異動', r => r.bikeSetup || ''],
   ['室內戶外',    r => r.indoorOutdoor || ''],
   ['水域環境',    r => r.waterEnv || ''],
+  ['標籤',        r => (r.tags || []).map(t => '#'+t).join(' ')],
   ['體能指標',    r => r.loadNote || ''],
   ['疼痛指數',    r => r.pain === '' || r.pain == null ? '' : r.pain],
   ['訓練狀態',    r => r.phase || ''],
@@ -6954,6 +7219,8 @@ async function init(){
       maskDateInput(e.target);
   };
   $('#records').onclick = async e => {
+    const tag = e.target.closest('.tagchip');
+    if (tag){ selectTag(tag.dataset.tag); return; }
     const ed = e.target.closest('[data-edit]');
     if (ed){ Snd.play('leaf'); return openForm(ed.dataset.edit, false); }
     const add = e.target.closest('[data-ckadd]');
@@ -7031,6 +7298,15 @@ async function init(){
     $('#siteFilter').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
     Snd.play('detent'); render();
   };
+  function selectTag(t){
+    tagFilter = (tagFilter === t) ? null : t;
+    Snd.play('detent'); render();
+  }
+  $('#tagCloud').onclick = e => {
+    if (e.target.id === 'tfClear'){ tagFilter = null; Snd.play('latch'); return render(); }
+    const p = e.target.closest('.tagpill');
+    if (p) selectTag(p.dataset.tag);
+  };
   $('#abBtn').onclick  = () => (fileHandle ? relinkBackupFile() : linkBackupFile());
   $('#abOff').onclick  = unlinkBackupFile;
   $('#abDl').onchange  = e => {
@@ -7054,7 +7330,10 @@ async function init(){
     const ids = pickedIds();
     if (!ids.size) return;
     const all = ids.size === data.sites.filter(s => recsOf(s.id).length).length;
-    buildPrintout(all ? null : ids, { chart: $('#optChart').checked, clinical: $('#optClin').checked });
+    buildPrintout(all ? null : ids, {
+      chart: $('#optChart').checked, clinical: $('#optClin').checked,
+      figure: $('#optFigure').checked, notes: $('#optNotes').checked
+    });
     closePrintDialog(); Snd.play('leaf');
     setTimeout(() => window.print(), 60);
   };
@@ -7104,7 +7383,13 @@ function openSite(id){ setMode(true); sel = id; editing = null; form = null; ren
 const countOf = id => recsOf(id).length;
 const nameOf = id => { const s = data.sites.find(x => x.id === id); return s ? label(s) : ''; };
 
-return { init, draw, chart, plateMove, plateClick, render, hitsFor, openSite, countOf, nameOf,
+// true only when closing the tab right now would genuinely lose something:
+// a live backup file or a download-per-save both already cover every change.
+function hasUnsavedWork(){
+  return pending() > 0 && !(autoOk && fileHandle) && !dlEach;
+}
+
+return { init, draw, chart, plateMove, plateClick, render, hitsFor, openSite, countOf, nameOf, hasUnsavedWork,
          get active(){ return document.body.classList.contains('mode-log'); } };
 })();
 

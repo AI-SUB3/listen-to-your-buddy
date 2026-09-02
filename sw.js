@@ -2,7 +2,7 @@
    The page is one self-contained file, so caching it is enough to make the
    whole app work with no network. HTML goes network-first so a redeploy is
    picked up on the next online visit; assets go cache-first for speed. */
-const V = 'anatomia-v2.1';
+const V = 'anatomia-v2.3';
 const SHELL = [
   './', './index.html', './guide.html', './manifest.json',
   './icon-192.png', './icon-512.png', './apple-touch-icon.png', './og-cover.png'
@@ -26,7 +26,14 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   const req = e.request;
-  if (req.method !== 'GET' || new URL(req.url).origin !== location.origin) return;
+  if (req.method !== 'GET') return;
+  const sameOrigin = new URL(req.url).origin === location.origin;
+  const isFont = /fonts\.(googleapis|gstatic)\.com/.test(req.url);
+  // Google Fonts is the one cross-origin dependency the shell has. Everything
+  // that actually runs the app (SVG plates, JS, data) is already inline in
+  // index.html, so this only affects whether the branded typefaces render —
+  // but it's still worth caching properly rather than leaving it to chance.
+  if (!sameOrigin && !isFont) return;
 
   if (req.mode === 'navigate' || req.destination === 'document'){
     e.respondWith(
