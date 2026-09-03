@@ -4,6 +4,7 @@
 
 **線上版本 → https://ai-sub3.github.io/listen-to-your-buddy/**
 **使用說明與常見問題 → https://ai-sub3.github.io/listen-to-your-buddy/guide.html**
+**三分鐘懶人包 → https://ai-sub3.github.io/listen-to-your-buddy/start.html**
 
 ![封面](og-cover.png)
 
@@ -122,7 +123,7 @@
 
 ## 版本
 
-目前 **v2.3**。版本號定義在建置腳本裡，同時寫進 `index.html` 的扉頁、`guide.html` 的頁首與更新紀錄，以及 service worker 的快取名稱。改版時三者一起更新，建置會檢查 `guide.html` 是否有對應的更新紀錄，沒有就中止。
+目前 **v3.0**。版本號定義在建置腳本裡，同時寫進 `index.html` 的扉頁、`guide.html` 的頁首與更新紀錄，以及 service worker 的快取名稱。改版時三者一起更新，建置會檢查 `guide.html` 是否有對應的更新紀錄，沒有就中止。
 
 完整的改動歷程見 [使用說明頁的更新紀錄](https://ai-sub3.github.io/listen-to-your-buddy/guide.html#更新紀錄)。
 

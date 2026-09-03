@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>三分鐘看懂 · 我的身體解剖圖譜</title>
+<meta name="description" content="「我的身體解剖圖譜」懶人包，三分鐘看懂怎麼用。">
+<meta name="theme-color" content="#221A13">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23EFE6D3'/%3E%3Cpath d='M6 20h9' stroke='%235C4E3C' stroke-width='1.4' stroke-linecap='round'/%3E%3Ccircle cx='20' cy='14' r='5' fill='%23A63A28'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400&family=Noto+Serif+TC:wght@600&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --umber:#221A13; --umber-2:#2B221A; --buff:#EFE6D3;
+  --ink:#1E1710; --ink-2:#5C4E3C;
+  --cream:#EAE0CC; --cream-3:#8A7A62;
+  --madder:#A63A28; --madder-lit:#D97A5E; --brass:#BF8F42;
+  --rule:#463625;
+  --ff-serif:'Newsreader','Noto Serif TC',Georgia,serif;
+  --ff-sans:'IBM Plex Sans','Noto Sans TC',-apple-system,sans-serif;
+  --ff-mono:'IBM Plex Mono',Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--umber); color:var(--cream); font-family:var(--ff-sans);
+  font-size:16px; line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+a{color:var(--brass)}
+main{max-width:640px;margin:0 auto;padding:48px 24px 70px}
+
+.eyebrow{font-family:var(--ff-serif);font-style:italic;font-size:15px;color:var(--cream-3)}
+h1{
+  font-family:'Noto Serif TC',var(--ff-serif);font-weight:600;font-size:32px;color:var(--buff);
+  line-height:1.3;margin:6px 0 22px;
+}
+h2{
+  font-family:'Noto Serif TC',var(--ff-serif);font-weight:600;font-size:20px;color:var(--brass);
+  margin:38px 0 12px;
+}
+p{margin:10px 0;max-width:56ch}
+p.lede{font-size:17.5px;color:var(--buff);line-height:1.8;margin-bottom:6px}
+
+.steps{list-style:none;counter-reset:s;margin:16px 0}
+.steps li{
+  counter-increment:s;position:relative;padding-left:44px;margin:16px 0;
+  font-size:16.5px;color:var(--cream);
+}
+.steps li b{color:var(--buff)}
+.steps li::before{
+  content:counter(s);position:absolute;left:0;top:-1px;
+  width:29px;height:29px;border-radius:50%;background:var(--buff);color:var(--ink);
+  font-family:var(--ff-mono);font-weight:700;font-size:14px;display:grid;place-items:center;
+}
+
+.warn{
+  margin:16px 0;padding:18px 20px;border-radius:3px;
+  background:rgba(166,58,40,.10);border:1px solid rgba(166,58,40,.35);border-left:4px solid var(--madder);
+}
+.warn h3{font-family:'Noto Serif TC',var(--ff-serif);font-size:17px;font-weight:600;color:var(--madder-lit);margin-bottom:8px}
+.warn p{color:var(--cream);font-size:15.5px;margin:8px 0}
+.warn p b{color:var(--buff)}
+
+.also{list-style:none;margin:14px 0}
+.also li{
+  padding:10px 0;border-bottom:1px solid var(--rule);
+  font-size:15.5px;display:flex;gap:10px;align-items:baseline;
+}
+.also li b{color:var(--buff);font-weight:600;flex:none;min-width:6.2em}
+.also li span{color:var(--cream-3)}
+
+.cta{
+  display:inline-flex;align-items:center;gap:8px;margin-top:24px;
+  background:var(--buff);color:var(--ink);font-weight:600;font-size:15px;
+  padding:11px 22px;border-radius:3px;text-decoration:none;
+}
+.cta:hover{background:#E5DAC2}
+
+footer{
+  margin-top:52px;padding-top:20px;border-top:1px solid var(--rule);
+  font-size:13px;color:var(--cream-3);line-height:1.9;
+}
+footer a{border-bottom:1px solid var(--rule)}
+
+@media (max-width:480px){
+  main{padding:36px 20px 60px}
+  h1{font-size:26px}
+}
+</style>
+</head>
+<body>
+<main>
+
+  <p class="eyebrow">懶人包 · 三分鐘看懂</p>
+  <h1>我的身體解剖圖譜</h1>
+
+  <p class="lede">一個可以點的人體地圖，用來記你自己受傷的地方——腳踝扭到、膝蓋痛、肩膀卡卡的都可以。</p>
+  <p>不用註冊、不用登入，打開就能用。你記的東西<b style="color:var(--buff)">只存在你自己的手機或電腦裡</b>，別人打開同一個連結看不到你的紀錄。</p>
+
+  <h2>怎麼開始</h2>
+  <ol class="steps">
+    <li>切到上面的<b>「傷害誌」</b>。</li>
+    <li>在人體圖上，<b>點一下你受傷的地方</b>。踝、膝、肩都可以，不用剛好點準器官。</li>
+    <li>填部位名稱跟大概日期，<b>按儲存</b>。日期只記得年份也沒關係。</li>
+  </ol>
+  <p>就這樣，可以開始用了。之後同個地方又痛，點原本那個點，按「新增此部位傷害」加一筆就好。</p>
+
+  <h2>只有一件事你一定要記得</h2>
+  <div class="warn">
+    <h3>你的紀錄只存在這台裝置上</h3>
+    <p>換手機、換電腦、清瀏覽器資料，紀錄就<b>永遠不見了</b>，沒有任何地方找得回來——這不是危言聳聽，是真的救不回來。</p>
+    <p>最省事的解法：左下角按<b>「連結一個備份檔案」</b>，設定一次，之後每次存檔都自動同步，不用再管它。（需要電腦版 Chrome 或 Edge）</p>
+    <p>用 <b>iPhone</b> 的話，記得把這個網頁「加到主畫面」——不然 Safari 會在<b>七天沒打開</b>後自動清掉資料。</p>
+  </div>
+
+  <h2>想玩更多花樣？</h2>
+  <p>熟悉基本操作之後，這裡面其實藏了不少東西：</p>
+  <ul class="also">
+    <li><b>語音輸入</b><span>對著手機說話，自動幫你填表單</span></li>
+    <li><b>拍照存證</b><span>腫脹、瘀青拍下來，跟部位連在一起</span></li>
+    <li><b>#標籤</b><span>備註打 #越野 #Hoka，之後可以篩選比對</span></li>
+    <li><b>時間回放</b><span>拖時間軸，看傷怎麼在身上移動</span></li>
+    <li><b>雷達圖</b><span>看哪項運動最容易讓你受傷</span></li>
+    <li><b>列印摘要</b><span>印一張表，帶去給醫師或治療師看</span></li>
+  </ul>
+  <p>這些都寫在完整說明裡，想用的時候點進去查就好，不用先背起來。</p>
+
+  <a class="cta" href="guide.html">完整使用說明 →</a>
+
+  <footer>
+    這頁是精簡版，內容不會逐版更新；有問題以 <a href="guide.html">完整說明</a> 為準。<br>
+    <a href="./">回到圖譜</a> · 由 Aaron 製作
+  </footer>
+
+</main>
+</body>
+</html>

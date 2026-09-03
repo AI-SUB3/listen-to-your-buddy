@@ -128,6 +128,36 @@ input{font:inherit;color:inherit}
   height:calc(100% - 60px);
 }
 
+/* ── 戰情室：ultra-wide only, purely additive ─────────────────────
+   A persistent, always-on stats sidebar so a selected injury's detail
+   and the overview never have to trade places — but only where there
+   is genuinely spare width for it. Every narrower breakpoint below is
+   untouched: same three columns, same behaviour, zero regression risk. */
+/* hidden below the wide breakpoint regardless of JS state — the media
+   query below is the only place this ever becomes visible */
+.dashbar{display:none}
+
+@media (min-width:1760px){
+  .desk{ grid-template-columns:var(--index-w) minmax(0,1fr) var(--panel-w) 280px; }
+  .dashbar{
+    display:block;
+    border-left:1px solid var(--rule-d); overflow-y:auto; overscroll-behavior:contain;
+    padding:20px 18px 30px; background:var(--umber-2);
+  }
+  .dashbar[hidden]{display:none}
+  .dashbar::-webkit-scrollbar{width:9px}
+  .dashbar::-webkit-scrollbar-thumb{background:var(--umber-4);border-radius:9px;border:3px solid var(--umber-2)}
+  .dashbar h3{
+    font-family:var(--ff-serif);font-size:13px;font-weight:500;color:var(--brass);
+    margin:20px 0 8px;padding-top:14px;border-top:1px solid var(--rule-d);
+  }
+  .dashbar h3:first-child{margin-top:0;padding-top:0;border-top:0}
+  .dashbar .dashcap{
+    font-family:var(--ff-serif);font-style:italic;font-size:13px;color:var(--cream-3);
+    padding-bottom:12px;border-bottom:1px solid var(--rule-d);
+  }
+}
+
 /* ── index (left) ─────────────────────────────────────────── */
 .index{
   border-right:1px solid var(--rule-d); display:flex; flex-direction:column;
@@ -889,6 +919,163 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
 .tf-active button{color:var(--madder-lit);font-size:14px;line-height:1;padding:0 3px}
 .tf-active button:hover{color:var(--cream)}
 
+/* attachments linked to the site currently open in the panel */
+#siteDocs{padding:0 24px}
+#siteDocs h3{
+  font-family:var(--ff-serif);font-size:14px;font-weight:500;color:var(--brass);
+  margin:18px 0 8px;
+}
+#siteDocs .siteDocList{border:1px solid var(--rule-d);border-radius:2px;overflow:hidden;margin-bottom:6px}
+#siteDocs .docrow{padding:8px 12px;font-size:12.5px}
+#siteDocs .docrow .nm{color:var(--cream)}
+#siteDocs .docrow .lk{display:none}
+.docrow .nm i.lk{
+  font-style:normal;font-family:var(--ff-mono);font-size:10px;color:var(--brass);
+  margin-left:8px;
+}
+#docForm select#dgSite{width:100%}
+
+/* voice input */
+.voicebox{
+  display:flex;flex-wrap:wrap;align-items:center;gap:10px;
+  margin-bottom:18px;padding:11px 13px;border:1px solid var(--rule-d);border-radius:2px;
+  background:var(--umber-2);
+}
+.vmic{
+  display:flex;align-items:center;gap:7px;flex:none;
+  border:1px solid var(--rule-d);border-radius:20px;padding:6px 15px 6px 12px;
+  font-size:12.5px;color:var(--cream-2);transition:border-color .15s,color .15s,background .15s;
+}
+.vmic svg{width:14px;height:14px}
+.vmic:hover:not(:disabled){border-color:var(--brass);color:var(--brass)}
+.vmic:disabled{opacity:.4;cursor:not-allowed}
+.vmic.on{
+  background:var(--madder);border-color:var(--madder);color:var(--buff);
+  animation:vpulse 1.4s ease-in-out infinite;
+}
+@keyframes vpulse{0%,100%{box-shadow:0 0 0 0 rgba(166,58,40,.35)}50%{box-shadow:0 0 0 6px rgba(166,58,40,0)}}
+@media (prefers-reduced-motion:reduce){.vmic.on{animation:none}}
+.vstate{font-size:11.5px;color:var(--cream-3);flex:1;min-width:120px}
+.vpreview{
+  width:100%;margin:0;padding:8px 10px;border-radius:2px;background:var(--umber);
+  font-size:12.5px;color:var(--cream-2);line-height:1.6;
+}
+
+/* fields voice just touched — a visual cue to double-check before saving */
+.voice-filled{
+  outline:1px solid var(--brass);outline-offset:1px;
+  background:rgba(191,143,66,.08);transition:background .4s,outline-color .4s;
+}
+.seg.voice-filled{background:rgba(191,143,66,.08)}
+
+/* radar chart */
+.radarwrap{display:flex;justify-content:center;margin:4px 0 2px}
+.radar{width:100%;max-width:260px;height:auto}
+.radar .rgrid{fill:none;stroke:var(--rule-d);stroke-width:1}
+.radar .rshape{fill:rgba(191,143,66,.22);stroke:var(--brass);stroke-width:1.4;stroke-linejoin:round}
+.radar .rdot{fill:var(--brass)}
+.radar .rlabel{font-family:var(--ff-sans);font-size:10px;fill:var(--cream)}
+.radar .rval{font-family:var(--ff-mono);font-size:9px;fill:var(--cream-3)}
+
+/* depth-of-injury control, above the plate */
+.depthbar{
+  flex:none;display:flex;align-items:center;gap:11px;padding:10px 20px 0;
+}
+.db-label{font-size:12px;color:var(--cream-3);white-space:nowrap}
+.db-seg{display:flex;border:1px solid var(--rule-d);border-radius:2px;overflow:hidden}
+.db-seg button{padding:5px 12px;font-size:12px;color:var(--cream-2);transition:background .14s,color .14s}
+.db-seg button+button{border-left:1px solid var(--rule-d)}
+.db-seg button:hover{color:var(--cream)}
+.db-seg button[aria-pressed="true"]{background:var(--buff);color:var(--ink);font-weight:500}
+
+/* time-lapse playback */
+.db-play{
+  display:flex;align-items:center;gap:6px;margin-left:auto;
+  border:1px solid var(--rule-d);border-radius:2px;padding:5px 11px;
+  font-size:12px;color:var(--cream-2);transition:border-color .15s,color .15s,background .15s;
+}
+.db-play:hover{border-color:var(--brass);color:var(--brass)}
+.db-play[aria-pressed="true"]{background:var(--madder);border-color:var(--madder);color:var(--buff)}
+.playbar{
+  display:flex;align-items:center;gap:11px;flex:1 1 100%;
+  padding-top:9px;margin-top:2px;border-top:1px solid var(--rule-d);
+}
+#playBtn{
+  flex:none;width:26px;height:26px;border-radius:50%;border:1px solid var(--brass);
+  color:var(--brass);display:grid;place-items:center;transition:background .15s,color .15s;
+}
+#playBtn:hover{background:var(--brass);color:var(--umber)}
+#playSlider{
+  flex:1;accent-color:var(--madder);height:20px;min-width:80px;
+}
+.pb-date{
+  font-family:var(--ff-mono);font-size:12px;color:var(--brass);min-width:6.5em;
+  text-align:center;flex:none;
+}
+#playExit{
+  flex:none;font-size:12px;color:var(--cream-3);border:1px solid var(--rule-d);border-radius:2px;
+  padding:4px 10px;transition:border-color .15s,color .15s;
+}
+#playExit:hover{border-color:var(--madder-lit);color:var(--madder-lit)}
+@media (max-width:880px){ .playbar{flex-wrap:wrap} .pb-date{order:1;width:100%;text-align:left} }
+
+/* photo indicator on a plate pin */
+.pbadge{fill:var(--buff);stroke:var(--umber);stroke-width:.8}
+.pbadge-i{fill:var(--umber)}
+
+/* inline thumbnails in the general reference list */
+.docrow{align-items:center}
+.docrow .thumb{
+  width:26px;height:26px;flex:none;border-radius:2px;background-color:var(--umber);
+  background-size:cover;background-position:center;border:1px solid var(--rule-d);
+  cursor:pointer;opacity:0;transition:opacity .2s;
+}
+.docrow .thumb.ready{opacity:1}
+
+/* photo gallery inside a site's own panel */
+.photogrid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.photo{
+  position:relative;width:84px;height:84px;border-radius:2px;overflow:hidden;
+  background-color:var(--umber-4);background-size:cover;background-position:center;
+  border:1px solid var(--rule-d);flex:none;opacity:0;transition:opacity .25s,border-color .15s;
+}
+.photo.ready{opacity:1}
+.photo:hover{border-color:var(--brass)}
+.photo .pcap{
+  position:absolute;left:0;right:0;bottom:0;padding:2px 5px;
+  background:linear-gradient(transparent,rgba(0,0,0,.75));
+  font-family:var(--ff-mono);font-size:9px;color:var(--buff);text-align:right;
+}
+
+/* text equivalent of the plate's heat colour — for the site list */
+.heatword{
+  display:inline-block;margin-left:7px;padding:1px 6px;border-radius:8px;
+  font-family:var(--ff-mono);font-size:9.5px;vertical-align:middle;
+}
+.heatword.cool{color:var(--cream-3);border:1px solid var(--rule-d)}
+.heatword.warm{color:var(--brass);border:1px solid #4E3B1C}
+.heatword.hot{color:#D97A5E;border:1px solid #5A2A20}
+.rec .chip.brick{color:var(--brass);border-color:#4E3B1C;background:rgba(191,143,66,.08)}
+
+/* pain quality — multi-select toggle chips */
+.painq{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.painq button{
+  font-size:12px;color:var(--cream-2);border:1px solid var(--rule-d);border-radius:14px;
+  padding:5px 12px;transition:background .14s,color .14s,border-color .14s;
+}
+.painq button:hover{border-color:var(--brass);color:var(--brass)}
+.painq button[aria-pressed="true"]{background:var(--brass);color:var(--umber);border-color:var(--brass);font-weight:500}
+.rec .chip.q{color:#C9A876;border-color:#4E3B1C}
+
+/* the same toggle style, compact, inside a follow-up entry */
+.ckq{display:flex;flex-wrap:wrap;gap:4px;width:100%;margin:2px 0}
+.ckqbtn{
+  font-family:var(--ff-sans);font-size:10.5px;color:var(--cream-3);
+  border:1px solid var(--rule-d);border-radius:10px;padding:2px 8px;
+}
+.ckqbtn:hover{border-color:var(--brass);color:var(--brass)}
+.ckqbtn[aria-pressed="true"]{background:var(--brass);color:var(--umber);border-color:var(--brass)}
+
 /* ── 扉頁 — shown once, reopenable from the masthead ────────── */
 .scrim2{
   position:fixed;inset:0;z-index:60;background:rgba(14,10,6,.62);
@@ -1116,10 +1303,11 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
       <p>按瀏覽器的分享鍵 → <b>加入主畫面</b>，從主畫面開啟的版本不受這條規則限制。這是目前唯一能讓紀錄長期留在 iPhone 上的方法。</p>
     </aside>
 
-    <p class="fineprint">底圖取自 EBI anatomogram，公眾領域（CC0）。此頁供學習與個人紀錄使用，不構成醫療建議；診斷欄位是用來抄寫你已經取得的診斷，不是用來自我判斷的。解剖與臨床說明文字由 AI 彙整，非逐字引用特定教科書或資料庫，<a href="guide.html#content-source" target="_blank" rel="noopener">說明見此</a>。<span class="stamp">v2.3</span></p>
+    <p class="fineprint">底圖取自 EBI anatomogram，公眾領域（CC0）。此頁供學習與個人紀錄使用，不構成醫療建議；診斷欄位是用來抄寫你已經取得的診斷，不是用來自我判斷的。解剖與臨床說明文字由 AI 彙整，非逐字引用特定教科書或資料庫，<a href="guide.html#content-source" target="_blank" rel="noopener">說明見此</a>。<span class="stamp">v3.0</span></p>
 
     <div class="intro-acts">
       <button id="introGo">開始使用</button>
+      <a class="guide" href="start.html" target="_blank" rel="noopener">三分鐘懶人包</a>
       <a class="guide" href="guide.html" target="_blank" rel="noopener">完整說明與常見問題</a>
       <span class="hint">日後可從上方的「說明」再次開啟</span>
     </div>
@@ -1148,9 +1336,10 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
     <p class="eyebrow" id="nudgeEyebrow"></p>
     <h2 id="nudgeTitle"></h2>
     <p class="lede" id="nudgeLede"></p>
-    <p class="small">匯出的是一個 JSON 檔，日後用左下角的「匯入」就能還原。之後新增紀錄時，記得再匯出一次。</p>
+    <p class="small">匯出的是一個 JSON 檔，日後用左下角的「匯入」就能還原。之後新增紀錄時，記得再匯出一次——或者乾脆連結一個檔案，讓它自動同步，不用再手動匯出。</p>
     <div class="intro-acts">
       <button id="nudgeGo">立即匯出備份</button>
+      <button class="ghost" id="nudgeLink" hidden>改為自動同步一個檔案</button>
       <button class="ghost" id="nudgeLater">稍後再說</button>
     </div>
   </div>
@@ -1206,7 +1395,7 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
     <button data-f="repeat" aria-pressed="false">反覆</button>
     <button data-f="taper" aria-pressed="false" title="過去 30 天內曾經不舒服、或仍反覆發作／慢性未癒的部位">賽前 30 天</button>
   </div>
-  <div class="tagcloud" id="tagCloud" hidden></div>
+  <div class="tagcloud" id="tagCloud" role="group" aria-label="常用標籤" hidden></div>
   <div class="heatlegend" id="heatLegend" title="圖版上的顏色代表該部位的累積負荷——次數、嚴重度、是否仍反覆發作、多久以前發生，綜合而成。與清單上的狀態小點是兩種不同的資訊。">
     <span class="hl-label">部位熱度</span>
     <span class="hl-bar"></span>
@@ -1257,6 +1446,27 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
   </aside>
 
   <section class="stage">
+    <div class="depthbar" id="depthBar" hidden>
+      <span class="db-label">顯示深度</span>
+      <div class="db-seg" id="depthSeg" role="group" aria-label="依傷害深度篩選">
+        <button data-d="all" aria-pressed="true">全部</button>
+        <button data-d="表層" aria-pressed="false" title="挫傷、撕裂傷">表層</button>
+        <button data-d="軟組織" aria-pressed="false" title="韌帶扭傷、肌肉拉傷、肌腱病變、過度使用">軟組織</button>
+        <button data-d="深層" aria-pressed="false" title="骨折、關節與軟骨、神經壓迫、手術">深層</button>
+      </div>
+      <button class="db-play" id="playToggle" aria-pressed="false" title="依時間播放，觀察傷害在身體上如何隨時間出現與淡去">
+        <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 2.6v10.8l9-5.4z"/></svg>
+        時間回放
+      </button>
+      <div class="playbar" id="playBar" hidden>
+        <button id="playBtn" aria-label="播放" aria-pressed="false">
+          <svg id="playIcon" viewBox="0 0 16 16" width="12" height="12" fill="currentColor" stroke="none"><path d="M4 2.6v10.8l9-5.4z"/></svg>
+        </button>
+        <input type="range" id="playSlider" min="0" max="1000" value="1000" aria-label="回放時間軸">
+        <span class="pb-date" id="playDate"></span>
+        <button id="playExit" aria-label="結束回放，回到目前狀態">結束回放</button>
+      </div>
+    </div>
     <div class="plate" id="plate" role="img"
          aria-label="人體解剖圖版。圖上的結構同時列在左側索引中，可用鍵盤操作。">
       <div class="canvas" id="canvas">
@@ -1346,6 +1556,7 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
         <button class="warn" id="delSite">刪除部位</button>
       </div>
     </div>
+    <div id="siteDocs"></div>
     <div class="records" id="records"></div>
   </div>
   <div class="form" id="formView" hidden></div>
@@ -1355,6 +1566,8 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
   </div>
 </div>
   </aside>
+
+  <aside class="dashbar" id="dashBar" hidden aria-label="戰情室總覽"></aside>
 
 </main>
 
@@ -5763,6 +5976,8 @@ const PHASE_HUE = {'完全停練':'#A63A28','僅交叉訓練':'#BF8F42','可輕�
 
 // gear & context — which block applies depends on what you were doing
 const SPORTS = ['未指定','路跑','越野跑','登山健行','自行車','游泳','其他'];
+const BRICK = ['游泳→自行車','自行車→跑步','游泳→自行車→跑步','其他組合'];
+const PAIN_Q = ['刺痛','鈍痛','痠痛','發麻','彈響','灼熱','緊繃','抽痛'];
 const SHOE_TYPE = ['薄底競速／越野鞋','厚底極致緩震鞋','日常訓練鞋','釘鞋','其他'];
 const TERRAIN = ['柏油路面','碎石林道','技術型山徑（多岩石／樹根）','草地或田徑場','跑步機','其他'];
 const ELEV = ['平地為主','起伏路段','長爬升為主','長下坡為主（陡降）','上下起伏劇烈'];
@@ -5780,10 +5995,25 @@ const COMMON = ['外踝','內踝','阿基里斯腱','足底筋膜','小腿後側
                 '內側副韌帶','前十字韌帶','半月板','髂脛束','大腿後側','鼠蹊','髖','下背',
                 '薦髂關節','肩','旋轉肌袖','肘','腕','頸','肋骨','手指','腳趾'];
 
-const SCHEMA = 6;   // 1: original · 2: recovery date · 3: load/pain/follow-ups · 4: attachments · 5: gear & terrain · 6: hashtags
+const SCHEMA = 9;   // 1: original · 2: recovery date · 3: load/pain/follow-ups · 4: attachments · 5: gear & terrain · 6: hashtags · 7: attachments linked to a site · 8: brick workouts · 9: pain quality
 
 let data = { version: SCHEMA, birthYear:null, sites:[], injuries:[], docs:[] };
 let filt = 'all';
+let depthFilt = 'all';   // 表層／軟組織／深層 — derived from each record's own 類型 field
+let playing = false, playTimer = null, playLo = 0, playHi = 0;   // time-lapse playback state
+
+// which depth bucket a record's TYPE falls into — real, already-collected
+// data, not a fabricated anatomical layer. 表層 = skin/superficial tissue,
+// 深層 = bone/joint/nerve, everything else is soft-tissue in between.
+const DEPTH_OF = {
+  '挫傷':'表層', '撕裂傷':'表層',
+  '骨折':'深層', '應力性骨折':'深層', '脫臼／半脫位':'深層', '關節與軟骨損傷':'深層', '神經壓迫':'深層', '手術':'深層',
+  '韌帶扭傷':'軟組織', '肌肉拉傷':'軟組織', '肌腱病變':'軟組織', '過度使用症候群':'軟組織'
+};
+function siteDepth(id){
+  const ds = new Set(recsOf(id).map(r => DEPTH_OF[r.type]).filter(Boolean));
+  return ds;   // a site can span more than one depth across its history
+}
 let tagFilter = null;   // an active #tag click, ANDed with whichever chip is selected
 
 // One predicate, used identically by the sidebar list and the plate pins —
@@ -5803,6 +6033,7 @@ function siteMatchesFilter(s){
              : filt === 'taper'  ? withinTaper(s.id)
              : true;
   if (!chip) return false;
+  if (depthFilt !== 'all' && !siteDepth(s.id).has(depthFilt)) return false;
   return !tagFilter || recsOf(s.id).some(r => (r.tags || []).includes(tagFilter));
 }
 let fileHandle = null, autoOk = false, dlEach = false;
@@ -6078,6 +6309,12 @@ function migrate(d){
       if (r[k] == null) r[k] = '';
   });
   if (v < 6) d.injuries.forEach(r => { r.tags = extractTags(r.notes); });
+  if (v < 7) d.docs.forEach(doc => { if (doc.siteId === undefined) doc.siteId = null; });
+  if (v < 8) d.injuries.forEach(r => { if (r.brick == null) r.brick = ''; });
+  if (v < 9) d.injuries.forEach(r => {
+    if (!Array.isArray(r.painQ)) r.painQ = [];
+    (r.checkins || []).forEach(c => { if (!Array.isArray(c.painQ)) c.painQ = []; });
+  });
   if (v < 3) d.injuries.forEach(r => {
     if (r.loadKm == null)   r.loadKm = '';
     if (r.loadNote == null) r.loadNote = '';
@@ -6118,6 +6355,9 @@ function showNudge(){
   $('#nudgeLede').textContent = first
     ? '這筆紀錄只存在這台裝置。清一次瀏覽資料、或換一支手機，它就沒了，沒有任何地方救得回來。'
     : `上一份備份不包含這 ${p} 筆。重新匯出一次，備份才會跟上你目前的紀錄。`;
+  // the better option — one click now, never asked again — only offered
+  // where the browser can actually do it, and not once already linked
+  $('#nudgeLink').hidden = !fsSupported() || (autoOk && fileHandle);
   $('#nudge').hidden = false; $('#nudgeScrim').hidden = false;
   Snd.play('leaf'); $('#nudgeGo').focus();
 }
@@ -6193,11 +6433,14 @@ const label = s => (s.side && s.side !== '不分側' ? s.side : '') + s.label;
 
 function gearBits(r){
   const bits = [];
+  if (r.pain !== '' && r.pain != null) bits.push(['疼痛指數', `${r.pain}／10`]);
+  if ((r.painQ||[]).length) bits.push(['痛感性質', r.painQ.join('、')]);
   if (r.shoeModel || r.shoeType) bits.push(['鞋款', [r.shoeModel, r.shoeType].filter(Boolean).join(' · ')]);
   if (r.terrain || r.elevProfile) bits.push(['地形', [r.terrain, r.elevProfile].filter(Boolean).join(' · ')]);
   if (r.bikeSetup && r.bikeSetup !== '近期無異動') bits.push(['裝備異動', r.bikeSetup]);
   if (r.indoorOutdoor) bits.push(['場地', r.indoorOutdoor]);
   if (r.waterEnv) bits.push(['水域', r.waterEnv]);
+  if (r.brick) bits.push(['轉換訓練', r.brick]);
   return bits;
 }
 const gearFlag = r => r.bikeSetup && r.bikeSetup !== '近期無異動';   // the one worth a loud chip
@@ -6243,12 +6486,13 @@ function checkinBlock(r){
     ${rows.length ? '<ul class="cklist">' + rows.map((c, i) =>
       `<li><span class="d">${esc(dshow(c.date))}</span>
            <span class="p">疼痛 ${esc(String(c.pain))}</span>
-           <span class="ph">${esc(c.phase || '')}</span>
+           <span class="ph">${esc(c.phase || '')}${c.painQ && c.painQ.length ? '　' + c.painQ.map(esc).join('、') : ''}</span>
            <button class="ckdel" data-ckdel="${r.id}:${i}" aria-label="刪除這筆追蹤">×</button></li>`).join('') + '</ul>' : ''}
     ${open ? `<div class="ckform">
         <input class="ckd" placeholder="2026-09-01" inputmode="numeric" value="${new Date().toISOString().slice(0,10)}">
         <label>疼痛 <output class="cko">3</output><input class="ckp" type="range" min="0" max="10" step="1" value="3"></label>
         <select class="ckph">${PHASE.map(o => `<option>${o}</option>`).join('')}</select>
+        <div class="ckq" role="group" aria-label="痛感性質">${PAIN_Q.map(q => `<button type="button" class="ckqbtn" data-q="${q}" aria-pressed="false">${q}</button>`).join('')}</div>
         <button class="cksave" data-cksave="${r.id}">記錄</button>
         <button class="ckcancel">取消</button>
       </div>`
@@ -6287,6 +6531,17 @@ function stats(){
   const lateral = leftN + rightN;
   const dominant = rightN > leftN ? '右' : leftN > rightN ? '左' : null;
   const dominantPct = lateral ? Math.round(Math.max(leftN, rightN) / lateral * 100) : null;
+  // cross-training balance: real data already collected per record (the
+  // sport field from gear tracking), not a separate thing to fill in.
+  const bySport = {};
+  inj.forEach(r => { if (r.sport && r.sport !== '未指定') bySport[r.sport] = (bySport[r.sport] || 0) + 1; });
+  const sportAxes = Object.entries(bySport).sort((a,b) => b[1]-a[1]);
+  // transition-period injuries: pulled out separately, as their own count
+  // and (if there's enough of it) which combination shows up most.
+  const brickN = inj.filter(r => r.brick).length;
+  const byBrick = {};
+  inj.forEach(r => { if (r.brick) byBrick[r.brick] = (byBrick[r.brick] || 0) + 1; });
+  const brickTop = Object.entries(byBrick).sort((a,b) => b[1]-a[1])[0] || null;
   return {
     n: inj.length, sites: data.sites.length,
     open: data.sites.filter(s => siteState(s.id) !== '已痊癒').length,
@@ -6297,8 +6552,39 @@ function stats(){
     meanGap: allGaps.length ? Math.round(allGaps.reduce((a,b) => a+b, 0) / allGaps.length) : null,
     minGap: allGaps.length ? Math.min(...allGaps) : null,
     longest: durations.length ? Math.max(...durations) : null,
-    leftN, rightN, lateral, dominant, dominantPct
+    leftN, rightN, lateral, dominant, dominantPct, sportAxes, brickN, brickTop
   };
+}
+
+// hand-rolled SVG spider chart — no charting library, matches how the life
+// timeline is built elsewhere in this file. Needs at least 3 axes: a radar
+// with one or two points is just a line, not a shape worth looking at.
+function radarSvg(axes){
+  if (axes.length < 3) return '';
+  const W = 240, H = 220, cx = W/2, cy = H/2 - 6, R = 76;
+  const max = Math.max(...axes.map(([,n]) => n));
+  const N = axes.length;
+  const pt = (i, r) => {
+    const a = -Math.PI/2 + i * 2*Math.PI/N;
+    return [cx + Math.cos(a)*r, cy + Math.sin(a)*r];
+  };
+  const rings = [0.33, 0.66, 1].map(f =>
+    `<polygon class="rgrid" points="${axes.map((_,i) => pt(i, R*f).join(',')).join(' ')}"/>`).join('');
+  const spokes = axes.map((_,i) => { const [x,y] = pt(i, R); return `<line class="rgrid" x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}"/>`; }).join('');
+  const shape = axes.map(([,n], i) => pt(i, R * (n/max)).map(v=>v.toFixed(1)).join(',')).join(' ');
+  const labels = axes.map(([label, n], i) => {
+    const [x,y] = pt(i, R + 20);
+    const anchor = Math.abs(x-cx) < 4 ? 'middle' : (x > cx ? 'start' : 'end');
+    return `<text class="rlabel" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="${anchor}">${esc(label)}</text>
+            <text class="rval" x="${x.toFixed(1)}" y="${(y+12).toFixed(1)}" text-anchor="${anchor}">${n} 次</text>`;
+  }).join('');
+  const spoken = axes.map(([label, n]) => `${label} ${n} 次`).join('、');
+  return `<svg class="radar" viewBox="0 0 ${W} ${H}" role="img" aria-label="分項運動傷害分布雷達圖：${spoken}">
+    ${rings}${spokes}
+    <polygon class="rshape" points="${shape}"/>
+    ${axes.map(([,n],i) => { const [x,y]=pt(i, R*(n/max)); return `<circle class="rdot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.6"/>`; }).join('')}
+    ${labels}
+  </svg>`;
 }
 
 function renderStats(){
@@ -6327,10 +6613,47 @@ function renderStats(){
       (k.lateral >= 4 && k.dominantPct >= 65
         ? `約 <b>${k.dominantPct}%</b> 集中在${k.dominant}側，這個比例值得留意。`
         : '') + `</p>` : '') +
+    (k.sportAxes.length >= 3 ? `<h3>跨運動負荷分布</h3><div class="radarwrap">${radarSvg(k.sportAxes)}</div>
+      <p class="plain">面積偏向哪一軸，近期的勞損就偏向那項運動——用來調整交叉訓練的比例。</p>` : '') +
+    (k.brickN ? `<h3>轉換訓練（Brick）</h3><p class="plain">
+      有 <b>${k.brickN}</b> 筆紀錄發生在轉換訓練期間，佔全部的 <b>${Math.round(k.brickN/k.n*100)}%</b>。` +
+      (k.brickTop ? ` 最常見的組合是 <b>${esc(k.brickTop[0])}</b>（${k.brickTop[1]} 次）。` : '') +
+      `</p>` : '') +
     (k.meanGap != null || k.longest != null ? `<h3>復發與病程</h3><p class="plain">` +
       (k.meanGap != null ? `同一部位再次受傷的間隔平均 <b>${days(k.meanGap)}</b>，最短一次只隔 <b>${days(k.minGap)}</b>。` : '') +
       (k.longest != null ? ` 有紀錄的最長一次病程是 <b>${days(k.longest)}</b>。` : '') +
       `</p>` : '');
+}
+
+// 戰情室：a persistent, always-on summary for very wide screens only — see
+// the shell's CSS. It exists so that drilling into one injury's detail
+// doesn't cost you the overview; the numbers come from the exact same
+// stats() the main panel uses, just laid out for a narrow column that
+// never goes away regardless of what else is selected.
+function renderDashbar(){
+  const bar = $('#dashBar');
+  if (!bar) return;
+  if (!data.injuries.length){
+    bar.innerHTML = `<p class="dashcap">戰情室</p><p class="plain">還沒有紀錄。</p>`;
+    return;
+  }
+  const k = stats(), top = k.bySite.slice(0, 5), max = top[0]?.n || 1;
+  bar.innerHTML =
+    `<p class="dashcap">戰情室 · 即時總覽</p>
+     <div class="grid4">
+       <div><b>${k.n}</b><span>傷害紀錄</span></div>
+       <div><b>${k.sites}</b><span>受傷部位</span></div>
+       <div><b>${k.open}</b><span>尚未結案</span></div>
+       <div><b>${k.downtime}</b><span>累計休養天數</span></div>
+     </div>` +
+    (top.length ? `<h3>弱點排行</h3><ul class="rank">` + top.map(x => {
+      const hw = heatWord(heatOf(x.s.id));
+      return `<li><span>${esc(label(x.s))}</span><span class="bar"><i style="width:${Math.round(x.n/max*100)}%"></i></span><span class="n ${hw.cls}">${x.n}</span></li>`;
+    }).join('') + '</ul>' : '') +
+    (k.sportAxes.length >= 3 ? `<h3>跨運動負荷</h3><div class="radarwrap">${radarSvg(k.sportAxes)}</div>` : '') +
+    (k.lateral >= 4 && k.dominantPct >= 65
+      ? `<h3>左右分布</h3><p class="plain">右 <b>${k.rightN}</b>・左 <b>${k.leftN}</b>，約 <b>${k.dominantPct}%</b> 偏${k.dominant}側。</p>` : '') +
+    (k.brickN ? `<h3>轉換訓練</h3><p class="plain"><b>${k.brickN}</b> 筆（${Math.round(k.brickN/k.n*100)}%）發生在轉換期間。</p>` : '');
 }
 
 /* ── heat map ─────────────────────────────────────────────────────
@@ -6356,6 +6679,27 @@ function heatOf(id){
   const recencyW  = days < 90 ? 1 : days < 365 ? 0.6 : days < 365 * 3 ? 0.3 : 0.1;
   return Math.min(1, 0.40 * countW + 0.15 * sevW + 0.30 * statusW + 0.15 * recencyW);
 }
+
+// the same weighting as heatOf, but "as of" an arbitrary past date instead
+// of now — for time-lapse playback. Only counts records that had already
+// happened by that date; status is approximated from whichever record was
+// most recent at that point, since there's no separately-tracked history
+// of status changes over time — an honest limitation, not hidden.
+function heatAt(id, asOf){
+  const recs = recsOf(id).filter(r => { const t = dstamp(r.date); return t != null && t <= asOf; });
+  if (!recs.length) return null;                 // hadn't happened yet
+  const sorted = recs.slice().sort((a,b) => dstamp(b.date) - dstamp(a.date));
+  const count = recs.length;
+  const maxSev = Math.max(...recs.map(r => r.severity || 1));
+  const lastT = dstamp(sorted[0].date);
+  const days = (asOf - lastT) / 864e5;
+  const countW   = Math.min(1, (count - 1) / 2);
+  const sevW     = (maxSev - 1) / 2;
+  const statusW  = STATUS_WEIGHT[sorted[0].status] ?? 0;
+  const recencyW = days < 90 ? 1 : days < 365 ? 0.6 : days < 365 * 3 ? 0.3 : 0.1;
+  return Math.min(1, 0.40 * countW + 0.15 * sevW + 0.30 * statusW + 0.15 * recencyW);
+}
+
 function heatColor(t){
   // warm-only, three anchor stops: barely-there yellow → orange → deep red
   const stops = [[0, [232,196,104]], [0.45, [201,122,58]], [1, [122,26,16]]];
@@ -6365,6 +6709,15 @@ function heatColor(t){
   const span = (b[0] - a[0]) || 1, k = (t - a[0]) / span;
   const mix = (x, y) => Math.round(x + (y - x) * k);
   return `rgb(${mix(a[1][0],b[1][0])},${mix(a[1][1],b[1][1])},${mix(a[1][2],b[1][2])})`;
+}
+
+// the same heat score drives colour AND size on the plate, which conveys
+// nothing to anyone reading the text list instead of looking at the
+// figure — screen readers, low-vision or colourblind users, or just
+// someone scanning quickly. This gives everyone the same "at a glance
+// weak point" signal, in the same words the legend already uses.
+function heatWord(t){
+  return t >= 0.65 ? { text:'弱點', cls:'hot' } : t >= 0.35 ? { text:'留意', cls:'warm' } : { text:'偶發', cls:'cool' };
 }
 
 /* ── tags ──────────────────────────────────────────────────────
@@ -6380,7 +6733,7 @@ function renderTagCloud(){
   const tags = [...counts.entries()].sort((a,b) => b[1] - a[1]);
   box.innerHTML =
     (tagFilter ? `<span class="tf-active">篩選：#${esc(tagFilter)}<button id="tfClear" aria-label="清除標籤篩選">×</button></span>` : '') +
-    tags.map(([t,n]) => `<button class="tagpill ${t===tagFilter?'on':''}" data-tag="${esc(t)}">#${esc(t)}<i>${n}</i></button>`).join('');
+    tags.map(([t,n]) => `<button class="tagpill ${t===tagFilter?'on':''}" data-tag="${esc(t)}" aria-pressed="${t===tagFilter}">#${esc(t)}<i>${n}</i></button>`).join('');
 }
 
 /* ── pins on the plate ───────────────────────────────────────── */
@@ -6406,11 +6759,41 @@ function draw(){
     const c = heatColor(heat);
     const r = 6 + heat * 6;
     const on = sel === s.id, warm = hot === s.id;
+    const hasPhoto = docsFor(s.id).some(isImg);
+    const bx = x + r * 0.62, by = y - r * 0.62;
     h += `<g class="${on ? 'sel' : ''}">` +
          (on || warm ? `<circle class="ring" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(r + 5).toFixed(1)}" stroke="${c}"/>` : '') +
          `<circle class="hit" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="${c}"/>` +
          (n > 1 ? `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}">${n}</text>` : '') +
+         (hasPhoto ? `<circle class="pbadge" cx="${bx.toFixed(1)}" cy="${by.toFixed(1)}" r="3.1"/>
+           <circle class="pbadge-i" cx="${bx.toFixed(1)}" cy="${by.toFixed(1)}" r="1.3"/>` : '') +
          `</g>`;
+  });
+  layer.innerHTML = h;
+}
+
+// time-lapse playback — a chronological scrub through the same pins, using
+// heatAt() instead of heatOf() so it shows what the plate would have looked
+// like on any given day, not just today. This is a history scrubber, not a
+// claim that the tool has detected any causal compensation pattern — it
+// only shows *when* things happened; what it means is for the person
+// looking at it to judge.
+function drawPlayback(asOf){
+  const layer = $('#pins');
+  if (!layer) return;
+  const ctm = activeSvg().getScreenCTM();
+  if (!ctm) return;
+  const host = plate.getBoundingClientRect();
+  pins = [];
+  let h = '';
+  data.sites.filter(s => s.view === st.view).forEach(s => {
+    const heat = heatAt(s.id, asOf);
+    if (heat == null) return;                    // hasn't happened yet at this point in time
+    const q = new DOMPoint(s.x, s.y).matrixTransform(ctm);
+    const x = q.x - host.left, y = q.y - host.top;
+    pins.push({ id: s.id, x, y });
+    const r = 6 + heat * 6;
+    h += `<circle class="hit" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="${heatColor(heat)}" opacity="${(0.35 + heat * 0.65).toFixed(2)}"/>`;
   });
   layer.innerHTML = h;
 }
@@ -6429,10 +6812,11 @@ function plateMove(e){
   const tip = $('#tip');
   if (id){
     const s = data.sites.find(x => x.id === id), n = recsOf(id).length;
+    const photoN = docsFor(id).filter(isImg).length;
     const host = plate.getBoundingClientRect();
     tip.style.left = (e.clientX - host.left) + 'px';
     tip.style.top  = (e.clientY - host.top) + 'px';
-    tip.innerHTML = esc(label(s)) + '<b>' + n + ' 筆</b>';
+    tip.innerHTML = esc(label(s)) + '<b>' + n + ' 筆</b>' + (photoN ? '<b>' + photoN + ' 張照片</b>' : '');
     tip.dataset.show = 'true';
   } else tip.dataset.show = 'false';
 }
@@ -6477,16 +6861,17 @@ function render(){
   });
   $('#siteList').innerHTML = sorted.length ? sorted.map(s => {
     const r = recsOf(s.id), last = r[0];
+    const hw = heatWord(heatOf(s.id));
     return `<button class="site" data-site="${s.id}" aria-current="${sel===s.id}">
       <span class="row"><span class="nm"><span class="dot" style="background:${HUE[siteState(s.id)]}"></span>${esc(label(s))}</span>
       <span class="ct">${r.length}</span></span>
-      <span class="when">${last ? dshow(last.date) + ' · ' + esc(last.type || '未分類') : '尚無紀錄'}${s.view==='brain' ? ' · 腦部圖版' : ''}</span>
+      <span class="when">${last ? dshow(last.date) + ' · ' + esc(last.type || '未分類') : '尚無紀錄'}${s.view==='brain' ? ' · 腦部圖版' : ''}<span class="heatword ${hw.cls}">${hw.text}</span></span>
     </button>`;
   }).join('') : (data.sites.length
       ? '<p class="empty-list">沒有符合這個條件的部位。</p>'
       : '<p class="empty-list">還沒有標記任何部位。切到圖版上點一下就能開始。</p>');
 
-  renderStats(); renderPanel(); renderDocs(); renderTagCloud(); chart(); draw();
+  renderStats(); renderPanel(); renderDocs(); renderTagCloud(); renderDashbar(); chart(); draw();
 }
 
 /* ── case record (right) ─────────────────────────────────────── */
@@ -6538,9 +6923,11 @@ function renderPanel(){
         <span class="chip sev">${SEV[(x.severity||1)-1]}</span>
         <span class="chip">${esc(x.status || '已痊癒')}</span>
         ${x.pain !== '' && x.pain != null ? `<span class="chip pain">疼痛 ${esc(String(x.pain))}／10</span>` : ''}
+        ${(x.painQ||[]).map(q => `<span class="chip q">${esc(q)}</span>`).join('')}
         ${x.phase ? `<span class="chip">${esc(x.phase)}</span>` : ''}
         ${x.loadKm ? `<span class="chip km">當週 ${esc(String(x.loadKm))} km</span>` : ''}
         ${gearFlag(x) ? `<span class="chip flag">${esc(x.bikeSetup)}</span>` : ''}
+        ${x.brick ? `<span class="chip brick">轉換：${esc(x.brick)}</span>` : ''}
       </div>
       ${rows.length ? '<dl>' + rows.map(([k,v]) => `<dt>${k}</dt><dd>${esc(v).replace(/\n/g,'<br>')}</dd>`).join('') + '</dl>' : ''}
       ${x.tags && x.tags.length ? `<div class="tags">${x.tags.map(t =>
@@ -6549,24 +6936,259 @@ function renderPanel(){
       <button class="edit" data-edit="${x.id}">編輯</button>
     </article>`;
   }).join('') : '<p class="empty-list">這個部位還沒有紀錄。按上方「新增此部位傷害」開始。</p>';
+
+  const linkedDocs = docsFor(sel);
+  const imgs = linkedDocs.filter(isImg), other = linkedDocs.filter(d => !isImg(d));
+  $('#siteDocs').innerHTML = linkedDocs.length ? '<h3>相關參考資料</h3>' +
+    (imgs.length ? `<div class="photogrid">` + imgs.map(d =>
+      `<button class="photo" data-thumb-for="${d.id}" data-docview="${d.id}"
+         aria-label="開啟照片：${esc(d.title || d.name)}${d.date ? '，' + esc(dshow(d.date)) : ''}">
+         <span class="pcap">${d.date ? esc(dshow(d.date)) : ''}</span>
+       </button>`).join('') + `</div>` : '') +
+    (other.length ? `<div class="siteDocList">` + other.map(d =>
+      `<div class="docrow" data-doc="${d.id}">
+         <span class="dt">${d.date ? esc(dshow(d.date)) : '日期未填'}</span>
+         <span class="nm">${esc(d.title || d.name)}</span>
+         <button data-docview="${d.id}">開啟</button>
+       </div>`).join('') + `</div>` : '') : '';
+  fillThumbs($('#siteDocs'));
 }
 
 /* ── form ────────────────────────────────────────────────────── */
+/* ── voice input ──────────────────────────────────────────────────
+   Chrome/Edge only, and it needs a network connection (the browser
+   streams audio to Google's servers to transcribe it) — the opposite
+   of the offline-first design elsewhere in this app. So this is an
+   optional convenience layered on top of the ordinary form, never a
+   replacement for it: recognised values are written straight into the
+   real fields, the existing 儲存 flow is the review step, and the raw
+   transcript always lands in 備註 too, so a mis-heard word never
+   silently erases the thing you actually said. */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+const voiceSupported = typeof SR === 'function';
+
+function today(){ const d = new Date(); return d.toISOString().slice(0,10); }
+function addDays(n){ const d = new Date(); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); }
+
+// speech recognition renders spoken numbers as Chinese numerals by default
+// ("七分", "十二公里", "三天"), not Arabic digits — every number-bearing
+// field needs this or it silently matches nothing on real dictated speech.
+function cnNum(s){
+  const D = {'零':0,'一':1,'二':2,'兩':2,'三':3,'四':4,'五':5,'六':6,'七':7,'八':8,'九':9};
+  if (s.length === 1) return D[s] ?? null;
+  if (s === '十') return 10;
+  if (s[0] === '十'){ const d = D[s[1]]; return d != null ? 10 + d : null; }
+  if (s.includes('十')){
+    const [tenPart, onePart] = s.split('十');
+    const tens = tenPart ? D[tenPart] : 1, ones = onePart ? D[onePart] : 0;
+    if (tens != null && ones != null) return tens * 10 + ones;
+  }
+  return null;
+}
+function cnToArabic(text){
+  return text.replace(/[零一二兩三四五六七八九十]+/g, m => { const v = cnNum(m); return v != null ? String(v) : m; });
+}
+
+// longest-phrase-first keyword → canonical vocab value
+function pick(text, map){
+  const hits = Object.keys(map).filter(k => text.includes(k)).sort((a,b) => b.length - a.length);
+  return hits.length ? map[hits[0]] : null;
+}
+
+function parseDate(text){
+  const now = new Date();
+  const t = cnToArabic(text);
+  if (/今天|今日/.test(t)) return today();
+  if (/昨天|昨日/.test(t)) return addDays(-1);
+  if (/前天/.test(t)) return addDays(-2);
+  if (/上禮拜|上星期|上週/.test(t)) return addDays(-7);
+  let m = t.match(/(\d{4})年(\d{1,2})月(?:(\d{1,2})[號日])?/);
+  if (m) return `${m[1]}-${m[2].padStart(2,'0')}${m[3] ? '-' + m[3].padStart(2,'0') : ''}`;
+  m = t.match(/(\d{1,2})月(\d{1,2})[號日]/);
+  if (m) return `${now.getFullYear()}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`;
+  m = t.match(/(\d{1,2})\/(\d{1,2})/);
+  if (m) return `${now.getFullYear()}-${m[1].padStart(2,'0')}-${m[2].padStart(2,'0')}`;
+  return null;
+}
+
+function parseVoice(text, hasLabel){
+  const out = {};
+  const num = cnToArabic(text);
+  out.date = parseDate(text);
+
+  out.type = pick(text, {
+    '應力性骨折':'應力性骨折', '疲勞性骨折':'應力性骨折',
+    '骨折':'骨折', '脫臼':'脫臼／半脫位', '脫位':'脫臼／半脫位', '半脫位':'脫臼／半脫位',
+    '扭傷':'韌帶扭傷', '扭到':'韌帶扭傷', '翻船':'韌帶扭傷', '韌帶':'韌帶扭傷',
+    '拉傷':'肌肉拉傷', '拉到':'肌肉拉傷', '肌肉':'肌肉拉傷',
+    '肌腱炎':'肌腱病變', '肌腱發炎':'肌腱病變', '肌腱':'肌腱病變',
+    '過度使用':'過度使用症候群', '挫傷':'挫傷', '瘀青':'挫傷', '撞傷':'挫傷',
+    '撕裂傷':'撕裂傷', '割傷':'撕裂傷', '裂傷':'撕裂傷',
+    '軟骨':'關節與軟骨損傷', '半月板':'關節與軟骨損傷',
+    '神經壓迫':'神經壓迫', '手術':'手術', '開刀':'手術'
+  });
+
+  out.severity = pick(text, {
+    '重度':3, '非常嚴重':3, '劇痛':3, '痛到不行':3, '完全不能走':3, '完全不能動':3,
+    '中度':2, '蠻痛':2, '滿痛':2, '走路會痛':2,
+    '輕度':1, '有點痛':1, '不嚴重':1, '還好':1
+  });
+
+  out.cause = pick(text, {
+    '比賽':'比賽', '路跑賽':'比賽', '馬拉松':'比賽',
+    '訓練':'訓練', '練習':'訓練', '跌倒':'跌倒', '摔倒':'跌倒', '滑倒':'跌倒',
+    '碰撞':'碰撞', '撞到':'碰撞', '相撞':'碰撞', '車禍':'車禍',
+    '工作':'工作', '搬東西':'日常活動', '日常':'日常活動',
+    '慢慢':'逐漸發生', '漸漸':'逐漸發生', '越來越':'逐漸發生'
+  });
+
+  out.status = pick(text, {
+    '已經好了':'已痊癒', '痊癒':'已痊癒', '已經康復':'已痊癒',
+    '在恢復':'恢復中', '慢慢好轉':'恢復中', '復健中':'恢復中',
+    '反覆發作':'反覆發作', '反覆':'反覆發作', '常常痛':'反覆發作', '又痛了':'反覆發作',
+    '慢性':'慢性未癒', '長期':'慢性未癒', '一直沒好':'慢性未癒'
+  });
+
+  out.phase = pick(text, {
+    '完全停練':'完全停練', '完全休息':'完全停練', '完全不能練':'完全停練',
+    '交叉訓練':'僅交叉訓練', '只能游泳':'僅交叉訓練', '只能騎車':'僅交叉訓練',
+    '輕鬆跑':'可輕鬆跑', '可以慢跑':'可輕鬆跑',
+    '正常訓練':'正常訓練', '照常訓練':'正常訓練', '不影響':'不影響訓練'
+  });
+
+  out.sport = pick(text, {
+    '越野跑':'越野跑', '越野':'越野跑', '登山':'登山健行', '健行':'登山健行',
+    '自行車':'自行車', '腳踏車':'自行車', '單車':'自行車', '騎車':'自行車',
+    '游泳':'游泳', '路跑':'路跑'
+  });
+
+  if (/兩側|雙側|兩邊/.test(text)) out.side = '兩側';
+  else if (/右/.test(text)) out.side = '右';
+  else if (/左/.test(text)) out.side = '左';
+
+  let m = num.match(/(\d+)\s*天/);
+  if (m) out.downtime = m[1];
+  m = num.match(/(\d+(?:\.\d+)?)\s*(公里|km)/i);
+  if (m) out.loadKm = m[1];
+  m = num.match(/疼痛[指数數]*\s*(\d{1,2})|(\d{1,2})\s*分/);
+  if (m){ const v = +(m[1]||m[2]); if (v >= 0 && v <= 10) out.pain = String(v); }
+
+  if (hasLabel){
+    const region = Object.values(DB).find(d => d.region && text.includes(d.base));
+    if (region) out.label = region.base;
+  }
+  return out;
+}
+
+function vSetState(msg){ $('#vState').textContent = msg; }
+function vFlag(id, evt){
+  const el = $('#'+id); if (!el) return;
+  el.classList.add('voice-filled');
+  const clear = () => el.classList.remove('voice-filled');
+  el.addEventListener(evt || 'input', clear, { once:true });
+}
+
+function wireVoice(){
+  if (!voiceSupported){
+    $('#vMic').disabled = true;
+    $('#vMic').title = '這個瀏覽器不支援語音輸入，請改用電腦版 Chrome 或 Edge';
+    vSetState('此瀏覽器不支援');
+    return;
+  }
+  let rec = null, listening = false;
+  $('#vMic').onclick = () => {
+    if (listening){ rec?.stop(); return; }
+    rec = new SR();
+    rec.lang = 'zh-TW'; rec.interimResults = true; rec.maxAlternatives = 1;
+    let finalText = '';
+    listening = true;
+    $('#vMic').setAttribute('aria-pressed','true');
+    $('#vMic').classList.add('on');
+    vSetState('聆聽中…說完會自動停止');
+    $('#vPreview').hidden = false; $('#vPreview').textContent = '';
+    Snd.play('leaf');
+
+    rec.onresult = e => {
+      let interim = '';
+      for (let i = e.resultIndex; i < e.results.length; i++){
+        const t = e.results[i][0].transcript;
+        if (e.results[i].isFinal) finalText += t; else interim += t;
+      }
+      $('#vPreview').textContent = finalText + interim;
+    };
+    rec.onerror = e => {
+      const msg = { 'not-allowed':'需要允許麥克風權限才能使用', 'no-speech':'沒有偵測到語音，請再試一次',
+        'network':'語音辨識需要網路連線，離線時無法使用' }[e.error] || '語音辨識發生錯誤';
+      vSetState(msg); note(msg);
+    };
+    rec.onend = () => {
+      listening = false;
+      $('#vMic').setAttribute('aria-pressed','false');
+      $('#vMic').classList.remove('on');
+      if (!finalText.trim()){ vSetState('沒有辨識到內容'); return; }
+      applyVoice(finalText.trim());
+      Snd.play('knock');
+    };
+    try { rec.start(); } catch(e){ listening = false; vSetState('無法啟動語音辨識'); }
+  };
+}
+
+function applyVoice(text){
+  const hasLabel = !!$('#fLabel');
+  const p = parseVoice(text, hasLabel);
+  const set = (id, val, isSelect) => {
+    const el = $('#'+id); if (!el || val == null) return;
+    if (isSelect){ if ([...el.options].some(o => o.value === val)) { el.value = val; vFlag(id); } }
+    else { el.value = val; vFlag(id); }
+  };
+  if (hasLabel && p.label && !$('#fLabel').value.trim()) set('fLabel', p.label);
+  if (hasLabel && p.side) set('fSide', p.side, true);
+  if (p.date){ $('#fDate').value = p.date; $('#fDate').dispatchEvent(new Event('input',{bubbles:true})); vFlag('fDate'); }
+  if (p.type) set('fType', p.type, true);
+  if (p.severity){ $('#fSev button[data-v="'+p.severity+'"]')?.click(); vFlag('fSev', 'click'); }
+  if (p.cause) set('fCause', p.cause, true);
+  if (p.status) set('fStatus', p.status, true);
+  if (p.downtime) set('fDown', p.downtime);
+  if (p.pain != null){ $('#fPain').value = p.pain; $('#fPain').dispatchEvent(new Event('input',{bubbles:true})); vFlag('fPain'); }
+  if (p.sport && $('#fSport')){ set('fSport', p.sport, true); $('#fSport').dispatchEvent(new Event('change',{bubbles:true})); }
+  if (p.phase && $('#fPhase')) set('fPhase', p.phase, true);
+  if (p.loadKm) set('fKm', p.loadKm);
+
+  const notes = $('#fNotes');
+  const stamp = '語音原文：' + text;
+  notes.value = notes.value.trim() ? notes.value.trim() + '\n\n' + stamp : stamp;
+  vFlag('fNotes');
+
+  const matched = Object.keys(p).filter(k => p[k] != null).length;
+  vSetState(`已辨識並帶入 ${matched} 個欄位，原文已附在備註，請確認後再儲存。`);
+}
+
 function openForm(recId, isNew){
   const site = data.sites.find(s => s.id === sel);
   if (!site) return;
   const r = recId ? data.injuries.find(x => x.id === recId) : null;
-  form = r ? { ...r, checkins: [...(r.checkins || [])] }
+  form = r ? { ...r, checkins: [...(r.checkins || [])], painQ: [...(r.painQ || [])] }
            : { id: uid(), siteId: sel, date:'', until:'', type:TYPES[0], severity:1,
                cause:CAUSE[0], activity:'', status:STATE[0], downtime:'',
                loadKm:'', loadNote:'', pain:'', phase:PHASE[0], checkins:[], tags:[],
                sport:'', shoeModel:'', shoeType:'', terrain:'', elevProfile:'',
-               bikeSetup:'', indoorOutdoor:'', waterEnv:'',
+               bikeSetup:'', indoorOutdoor:'', waterEnv:'', brick:'', painQ:[],
                dx:'', tx:'', notes:'' };
   editing = { isNew: !r, site };
   const opt = (arr, v) => arr.map(o => `<option${o===v?' selected':''}>${o}</option>`).join('');
   $('#formView').innerHTML = `
     <h3>${r ? '編輯紀錄' : '新增傷害'} · ${esc(label(site) || '未命名部位')}</h3>
+    <div class="voicebox" id="voiceBox">
+      <button type="button" id="vMic" class="vmic" aria-pressed="false">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3">
+          <rect x="6" y="1.5" width="4" height="7.5" rx="2"/>
+          <path d="M3.5 7.5a4.5 4.5 0 0 0 9 0M8 12v2.5M5.5 14.5h5" stroke-linecap="round"/>
+        </svg>
+        語音輸入
+      </button>
+      <span class="vstate" id="vState" aria-live="polite"></span>
+      <p class="vpreview" id="vPreview" hidden></p>
+    </div>
     ${isNew ? `<div class="two">
       <div class="fld"><label for="fLabel">部位名稱</label>
         <input id="fLabel" list="siteNames" value="${esc(site.label)}" placeholder="例如 外踝">
@@ -6603,12 +7225,19 @@ function openForm(recId, isNew){
     <div class="fld"><label for="fPain">疼痛指數　<span class="painval" id="fPainOut">${form.pain === '' ? '未填' : form.pain + ' / 10'}</span></label>
       <input id="fPain" type="range" min="0" max="10" step="1" value="${form.pain === '' ? 0 : form.pain}">
       <p class="hint">0 是完全不痛，10 是無法忍受。拉動後才會記錄。</p></div>
+    <div class="fld"><label id="fPainQLabel">痛感性質<span class="hint" style="display:inline">（可複選，怎麼痛往往比多痛更關鍵）</span></label>
+      <div class="painq" id="fPainQ" role="group" aria-labelledby="fPainQLabel">
+        ${PAIN_Q.map(q => `<button type="button" data-q="${q}" aria-pressed="${(form.painQ||[]).includes(q)}">${q}</button>`).join('')}
+      </div></div>
     <div class="fld"><label for="fLoadNote">近期體能指標或訓練變化</label>
       <input id="fLoadNote" value="${esc(form.loadNote)}" placeholder="例如 FTP 258W、月跑量較上月增 35%"></div>
 
     <h3>裝備與環境</h3>
     <div class="fld"><label for="fSport">當時的運動類型</label><select id="fSport">${opt(SPORTS, form.sport || SPORTS[0])}</select>
       <p class="hint">選了類型才會出現對應的欄位——鞋款、地形、座艙設定或水域。</p></div>
+    <div class="fld"><label for="fBrick">轉換訓練（Brick）</label>
+      <select id="fBrick">${opt(['非轉換訓練', ...BRICK], form.brick || '非轉換訓練')}</select>
+      <p class="hint">兩項運動緊接著切換時發生的（例如上岸接騎車、下訓練台接跑步），神經徵召模式瞬間切換是抽筋與急性拉傷的高風險期。</p></div>
 
     <div class="gearblock" id="gbRun" hidden>
       <div class="two">
@@ -6645,6 +7274,7 @@ function openForm(recId, isNew){
       ${r ? '<button class="del" id="fDel">刪除這筆</button>' : ''}
     </div>`;
   wireForm(isNew);
+  wireVoice();
   renderPanel();
   $('#formView').scrollTop = 0;
   $('#fDate')?.focus();
@@ -6655,6 +7285,13 @@ function wireForm(isNew){
     const b = e.target.closest('button'); if (!b) return;
     form.severity = +b.dataset.v;
     $('#fSev').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    Snd.play('detent');
+  };
+  $('#fPainQ').onclick = e => {
+    const b = e.target.closest('button'); if (!b) return;
+    const q = b.dataset.q, on = !(form.painQ || []).includes(q);
+    form.painQ = on ? [...(form.painQ||[]), q] : form.painQ.filter(x => x !== q);
+    b.setAttribute('aria-pressed', on);
     Snd.play('detent');
   };
   const showAge = () => {
@@ -6733,6 +7370,8 @@ function wireForm(isNew){
     const shown = id => !$('#'+id).hidden;
     Object.assign(form, {
       sport: $('#fSport').value,
+      brick: $('#fBrick').value === '非轉換訓練' ? '' : $('#fBrick').value,
+      painQ: form.painQ || [],
       shoeModel: shown('gbRun') ? v('fShoe') : '',
       shoeType:  shown('gbRun') ? $('#fShoeType').value : '',
       terrain:   shown('gbRun') ? $('#fTerrain').value : '',
@@ -6834,16 +7473,37 @@ function chart(only, into){
 const DOC_CATS = ['骨密度／InBody 報告','影像報告（X光／MRI／超音波）','抽血報告','其他文件'];
 const extOf = t => t === 'application/pdf' ? 'pdf' : (t.split('/')[1] || 'bin').replace('jpeg','jpg');
 
+const thumbUrls = {};   // doc id -> object URL, so re-renders don't leak blobs
+async function fillThumbs(root){
+  const slots = root.querySelectorAll('[data-thumb-for]');
+  for (const el of slots){
+    const id = el.dataset.thumbFor;
+    if (!thumbUrls[id]){
+      const b = await blobGet(id);
+      if (!b) continue;
+      thumbUrls[id] = URL.createObjectURL(b);
+    }
+    el.style.backgroundImage = `url("${thumbUrls[id]}")`;
+    el.classList.add('ready');
+  }
+}
+const isImg = d => /^image\//.test(d.type || '');
+
 async function renderDocs(){
   const list = data.docs.slice().sort((a,b) => (dstamp(b.date)||0) - (dstamp(a.date)||0));
-  $('#docList').innerHTML = list.length ? list.map(d => `<div class="docrow" data-doc="${d.id}">
+  $('#docList').innerHTML = list.length ? list.map(d => {
+    const linkedSite = d.siteId ? data.sites.find(s => s.id === d.siteId) : null;
+    return `<div class="docrow" data-doc="${d.id}">
+      ${isImg(d) ? `<span class="thumb" data-thumb-for="${d.id}" data-docview="${d.id}"></span>` : ''}
       <span class="dt">${d.date ? esc(dshow(d.date)) : '日期未填'}</span>
-      <span class="nm">${esc(d.title || d.name)}</span>
+      <span class="nm">${esc(d.title || d.name)}${linkedSite ? `<i class="lk">→ ${esc(label(linkedSite))}</i>` : ''}</span>
       <span class="sz">${kb(d.size)}</span>
       <button data-docview="${d.id}">開啟</button>
       <button class="dd" data-docdel="${d.id}">刪除</button>
-    </div>`).join('') : '<p class="empty-list" style="padding:8px 0">還沒有附加任何報告。</p>';
+    </div>`;
+  }).join('') : '<p class="empty-list" style="padding:8px 0">還沒有附加任何報告。</p>';
   $('#docZip').hidden = !data.docs.length;
+  fillThumbs($('#docList'));
   try {
     const est = await navigator.storage?.estimate?.();
     $('#docQuota').textContent = est?.usage
@@ -6852,15 +7512,21 @@ async function renderDocs(){
   } catch(e){ $('#docQuota').textContent = ''; }
 }
 
+// docs linked to whichever site's panel is currently open — the actual hook
+function docsFor(siteId){ return data.docs.filter(d => d.siteId === siteId); }
+
 function openDocForm(file){
   pendingFile = file;
   $('#docForm').hidden = false;
+  const siteOpts = data.sites.map(s =>
+    `<option value="${s.id}"${s.id === sel ? ' selected' : ''}>${esc(label(s))}</option>`).join('');
   $('#docForm').innerHTML = `
     <div class="row">
       <input id="dgTitle" placeholder="標題，例如 InBody 報告" value="${esc(file.name.replace(/\.[^.]+$/,''))}">
       <input id="dgDate" inputmode="numeric" placeholder="日期，例如 2026-08" style="max-width:9.5em">
     </div>
     <select id="dgCat">${DOC_CATS.map(c => `<option>${c}</option>`).join('')}</select>
+    <select id="dgSite"><option value="">不特定（一般參考資料）</option>${siteOpts}</select>
     <input id="dgNote" placeholder="備註（選填）">
     <p class="dochint">檔案：${esc(file.name)}　${kb(file.size)}</p>
     <div class="go"><button class="save" id="dgSave">加入</button><button id="dgCancel">取消</button></div>`;
@@ -6877,10 +7543,12 @@ function openDocForm(file){
       id, name: pendingFile.name, type: pendingFile.type, size: pendingFile.size,
       title: $('#dgTitle').value.trim(), date: dt,
       category: $('#dgCat').value, note: $('#dgNote').value.trim(),
+      siteId: $('#dgSite').value || null,
       addedAt: new Date().toISOString()
     });
     pendingFile = null; $('#docForm').hidden = true; $('#docForm').innerHTML = '';
     Snd.play('knock'); await save(); render();
+    note('已加入' + ($('#dgSite')?.value ? '，並連結到這個部位' : ''));
   };
 }
 
@@ -7077,6 +7745,13 @@ function setMode(on){
   document.body.classList.toggle('mode-log', on);
   $('#vAtlas').setAttribute('aria-pressed', !on);
   $('#vLog').setAttribute('aria-pressed', on);
+  $('#depthBar').hidden = !on;
+  $('#dashBar').hidden = !on;
+  if (!on){                          // leaving log mode: don't leave playback running
+    playing = false; clearInterval(playTimer); playTimer = null;
+    $('#playBar').hidden = true; $('#depthSeg').hidden = false;
+    $('#playToggle')?.setAttribute('aria-pressed', 'false');
+  }
   if (on){ $('#leader').innerHTML = ''; render(); }
   else { pins = []; $('#pins').innerHTML = ''; drawLeader(); }
   $('#tip').dataset.show = 'false';
@@ -7133,6 +7808,8 @@ const CSV_COLS = [
   ['座艙裝備異動', r => r.bikeSetup || ''],
   ['室內戶外',    r => r.indoorOutdoor || ''],
   ['水域環境',    r => r.waterEnv || ''],
+  ['轉換訓練',    r => r.brick || ''],
+  ['痛感性質',    r => (r.painQ || []).join('、')],
   ['標籤',        r => (r.tags || []).map(t => '#'+t).join(' ')],
   ['體能指標',    r => r.loadNote || ''],
   ['疼痛指數',    r => r.pain === '' || r.pain == null ? '' : r.pain],
@@ -7226,6 +7903,8 @@ async function init(){
     const add = e.target.closest('[data-ckadd]');
     if (add){ ckOpen = add.dataset.ckadd; Snd.play('leaf'); return renderPanel(); }
     if (e.target.classList.contains('ckcancel')){ ckOpen = null; Snd.play('latch'); return renderPanel(); }
+    const qbtn = e.target.closest('.ckqbtn');
+    if (qbtn){ qbtn.setAttribute('aria-pressed', qbtn.getAttribute('aria-pressed') !== 'true'); Snd.play('detent'); return; }
     const del = e.target.closest('[data-ckdel]');
     if (del){
       const [rid, i] = del.dataset.ckdel.split(':');
@@ -7245,7 +7924,8 @@ async function init(){
       if (!dparse(dt)){ box.querySelector('.ckd').focus(); return note('日期格式看不懂'); }
       const rec = data.injuries.find(x => x.id === sv.dataset.cksave);
       if (rec){
-        (rec.checkins ||= []).push({ date: dt, pain: box.querySelector('.ckp').value, phase: box.querySelector('.ckph').value });
+        const painQ = [...box.querySelectorAll('.ckqbtn[aria-pressed="true"]')].map(b => b.dataset.q);
+        (rec.checkins ||= []).push({ date: dt, pain: box.querySelector('.ckp').value, phase: box.querySelector('.ckph').value, painQ });
         ckOpen = null; Snd.play('knock'); await save(); render();
       }
     }
@@ -7264,20 +7944,24 @@ async function init(){
     if (f.size > MAX_FILE) return note(`檔案太大（${kb(f.size)}），上限 12 MB`);
     openDocForm(f);
   };
+  function openDocBlob(id){
+    blobGet(id).then(b => {
+      if (!b) return note('找不到這個檔案，可能已在其他裝置刪除');
+      window.open(URL.createObjectURL(b), '_blank', 'noopener');
+    });
+  }
   $('#docList').onclick = e => {
     const v = e.target.closest('[data-docview]');
-    if (v){
-      blobGet(v.dataset.docview).then(b => {
-        if (!b) return note('找不到這個檔案，可能已在其他裝置刪除');
-        window.open(URL.createObjectURL(b), '_blank', 'noopener');
-      });
-      return;
-    }
+    if (v) return openDocBlob(v.dataset.docview);
     const del = e.target.closest('[data-docdel]');
     if (del){
       const doc = data.docs.find(d => d.id === del.dataset.docdel);
       if (doc) bury({ docs: [doc] }, `已刪除附件「${doc.title || doc.name}」`);
     }
+  };
+  $('#siteDocs').onclick = e => {
+    const v = e.target.closest('[data-docview]');
+    if (v) openDocBlob(v.dataset.docview);
   };
   $('#docZip').onclick = exportDocsZip;
   $('#delSite').onclick = () => {
@@ -7298,6 +7982,73 @@ async function init(){
     $('#siteFilter').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
     Snd.play('detent'); render();
   };
+  $('#depthSeg').onclick = e => {
+    const b = e.target.closest('button'); if (!b) return;
+    depthFilt = b.dataset.d;
+    $('#depthSeg').querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    Snd.play('detent'); render();
+  };
+
+  /* ── time-lapse playback ──────────────────────────────────────
+     A scrub through real dates already on record — not a claim of
+     detected causation, just a chronological view. Depth filtering and
+     playback don't mix (neither has meaning applied to the other), so
+     opening one puts the other away rather than trying to combine them. */
+  const reducedMotion = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function playDateAt(frac){ return Math.round(playLo + (playHi - playLo) * frac); }
+  function renderPlayFrame(frac){
+    const t = playDateAt(frac);
+    drawPlayback(t);
+    const d = new Date(t);
+    $('#playDate').textContent = `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+  }
+  function stopPlaying(){
+    playing = false; clearInterval(playTimer); playTimer = null;
+    $('#playBtn').setAttribute('aria-pressed', 'false');
+    $('#playIcon').innerHTML = '<path d="M4 2.6v10.8l9-5.4z"/>';
+  }
+  function openPlayback(){
+    const dates = data.injuries.map(r => dstamp(r.date)).filter(v => v != null);
+    if (!dates.length){ note('還沒有可以回放的紀錄'); return; }
+    playLo = Math.min(...dates); playHi = Date.now();
+    if (playLo >= playHi) playLo = playHi - 864e5;   // guard a single same-day record
+    $('#playToggle').setAttribute('aria-pressed', 'true');
+    $('#depthSeg').hidden = true; $('#playBar').hidden = false;
+    $('#playSlider').value = 1000;
+    renderPlayFrame(1);
+    Snd.play('leaf');
+  }
+  function closePlayback(){
+    stopPlaying();
+    $('#playToggle').setAttribute('aria-pressed', 'false');
+    $('#depthSeg').hidden = false; $('#playBar').hidden = true;
+    draw();          // back to the live, current-state view
+    Snd.play('latch');
+  }
+  $('#playToggle').onclick = () => {
+    if ($('#playBar').hidden) openPlayback(); else closePlayback();
+  };
+  $('#playExit').onclick = closePlayback;
+  $('#playSlider').oninput = e => { stopPlaying(); renderPlayFrame(+e.target.value / 1000); };
+  $('#playBtn').onclick = () => {
+    if (playing){ stopPlaying(); return; }
+    if (reducedMotion){                     // no auto-advance; scrubbing still works
+      note('已關閉自動動畫（系統設定：減少動態效果），可用滑桿手動拖曳。');
+      return;
+    }
+    playing = true;
+    $('#playBtn').setAttribute('aria-pressed', 'true');
+    $('#playIcon').innerHTML = '<rect x="3.2" y="2.6" width="3" height="10.8"/><rect x="9.8" y="2.6" width="3" height="10.8"/>';
+    Snd.play('detent');
+    const slider = $('#playSlider');
+    if (+slider.value >= 1000) slider.value = 0;   // replay from the start if already at the end
+    playTimer = setInterval(() => {
+      let v = +slider.value + 6;
+      if (v >= 1000){ v = 1000; slider.value = v; renderPlayFrame(1); stopPlaying(); return; }
+      slider.value = v; renderPlayFrame(v / 1000);
+    }, 90);
+  };
+
   function selectTag(t){
     tagFilter = (tagFilter === t) ? null : t;
     Snd.play('detent'); render();
@@ -7343,6 +8094,7 @@ async function init(){
     if (e.key === 'Escape'){ e.preventDefault(); closePrintDialog(); }
   }, true);
   $('#nudgeGo').onclick = async () => { await hideNudge(); exportJson(); };
+  $('#nudgeLink').onclick = async () => { await hideNudge(); linkBackupFile(); };
   $('#nudgeLater').onclick = async () => { await hideNudge(); Snd.play('latch'); note('左下角的「匯出 JSON」隨時可用'); };
   $('#nudgeScrim').onclick = () => hideNudge();
   addEventListener('keydown', e => {
@@ -7350,7 +8102,7 @@ async function init(){
     e.stopPropagation();
     if (e.key === 'Escape'){ e.preventDefault(); hideNudge(); }
     if (e.key === 'Tab'){
-      const f = [$('#nudgeGo'), $('#nudgeLater')];
+      const f = [$('#nudgeGo'), $('#nudgeLink'), $('#nudgeLater')].filter(el => el && !el.hidden);
       const i = f.indexOf(document.activeElement);
       e.preventDefault();
       f[(i + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
