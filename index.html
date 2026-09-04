@@ -427,7 +427,7 @@ body:not(.mode-log) #chart{display:none}
 /* author display rules silently beat the UA's [hidden]; settle it once */
 [hidden]{display:none!important}
 
-#logIndex{flex:1;display:flex;flex-direction:column;min-height:0}
+#logIndex{flex:1;display:flex;flex-direction:column;min-height:0;overflow-y:auto}
 #logPanel{flex:1;display:flex;flex-direction:column;min-height:0}
 #siteView{flex:1;display:flex;flex-direction:column;min-height:0}
 
@@ -457,7 +457,7 @@ body:not(.mode-log) #chart{display:none}
 }
 .tally .birth input:focus{outline:none;border-color:var(--brass)}
 
-.sitelist{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:6px 0 20px}
+.sitelist{flex:1;min-height:160px;overflow-y:auto;overscroll-behavior:contain;padding:6px 0 20px}
 .sitelist::-webkit-scrollbar{width:9px}
 .sitelist::-webkit-scrollbar-thumb{background:var(--umber-4);border-radius:9px;border:3px solid var(--umber)}
 .site{
@@ -828,12 +828,28 @@ body.show-regions .st.rg.hit{--so:.30;--sso:.9}
 body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
 .tool[aria-pressed="true"]{background:var(--umber-4);color:var(--buff)}
 
-/* attachments */
-.vaultdocs{flex:none;margin-top:0;padding:12px 16px;border-top:1px solid var(--rule-d)}
+/* attachments — collapsed by default; the fixed footprint of this plus
+   the vault below was crowding the actual site list out of its own
+   column on shorter screens, so this now costs ~30px until opened. */
+.vaultdocs{flex:none;margin-top:0;padding:0;border-top:1px solid var(--rule-d)}
+.vaultdocs summary{
+  display:flex;align-items:center;gap:6px;list-style:none;cursor:pointer;
+  padding:11px 16px;font-family:var(--ff-serif);font-size:14px;font-weight:500;color:var(--brass);
+}
+.vaultdocs summary #docHelp{margin-left:auto}
+.vaultdocs summary::-webkit-details-marker{display:none}
+.vaultdocs summary::before{
+  content:'';width:0;height:0;flex:none;
+  border-left:4px solid var(--brass);border-top:3.5px solid transparent;border-bottom:3.5px solid transparent;
+  transition:transform .15s;
+}
+.vaultdocs[open] summary::before{transform:rotate(90deg)}
+.vaultdocs summary:hover{color:var(--buff)}
+.vaultdocs .docn{font-family:var(--ff-mono);font-size:11px;color:var(--cream-3);font-weight:400}
+.vaultdocs .docbody{padding:0 16px 14px}
 #docList{max-height:150px;overflow-y:auto}
 #docList::-webkit-scrollbar{width:7px}
 #docList::-webkit-scrollbar-thumb{background:var(--umber-4);border-radius:7px}
-.vaultdocs h3{font-family:var(--ff-serif);font-size:14px;font-weight:500;color:var(--brass);margin-bottom:6px}
 .dochint{font-size:12px;color:var(--cream-3);line-height:1.7;margin-bottom:10px;max-width:36ch}
 .docrow{
   display:flex;align-items:baseline;gap:9px;padding:7px 0;
@@ -1366,7 +1382,7 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
       <p>按瀏覽器的分享鍵 → <b>加入主畫面</b>，從主畫面開啟的版本不受這條規則限制。這是目前唯一能讓紀錄長期留在 iPhone 上的方法。</p>
     </aside>
 
-    <p class="fineprint">底圖取自 EBI anatomogram，公眾領域（CC0）。此頁供學習與個人紀錄使用，不構成醫療建議；診斷欄位是用來抄寫你已經取得的診斷，不是用來自我判斷的。解剖與臨床說明文字由 AI 彙整，非逐字引用特定教科書或資料庫，<a href="guide.html#content-source" target="_blank" rel="noopener">說明見此</a>。<span class="stamp">v3.3</span></p>
+    <p class="fineprint">底圖取自 EBI anatomogram，公眾領域（CC0）。此頁供學習與個人紀錄使用，不構成醫療建議；診斷欄位是用來抄寫你已經取得的診斷，不是用來自我判斷的。解剖與臨床說明文字由 AI 彙整，非逐字引用特定教科書或資料庫，<a href="guide.html#content-source" target="_blank" rel="noopener">說明見此</a>。<span class="stamp">v3.4</span></p>
 
     <div class="intro-acts">
       <button id="introGo">開始標註我的第一筆傷害</button>
@@ -1466,19 +1482,21 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
     <span class="hl-txt">偶發 → 弱點</span>
   </div>
   <div class="sitelist" id="siteList" role="group" aria-label="受傷部位清單"></div>
-  <section class="vaultdocs" id="docSection">
-    <h3>參考資料<a class="ctxhelp" href="guide.html#attach" target="_blank" rel="noopener" aria-label="關於參考資料的說明">?</a></h3>
-    <p class="dochint">體脂計報告、影像報告、檢查單。圖片或 PDF，每個檔案上限 12 MB。</p>
-    <div id="docList"></div>
-    <div class="docacts">
-      <button id="docAdd">＋ 加入報告或影像</button>
-      <button id="docZip" hidden>匯出附件 ZIP</button>
+  <details class="vaultdocs" id="docSection">
+    <summary>參考資料<span class="docn" id="docCount"></span><a class="ctxhelp" id="docHelp" href="guide.html#attach" target="_blank" rel="noopener" aria-label="關於參考資料的說明">?</a></summary>
+    <div class="docbody">
+      <p class="dochint">體脂計報告、影像報告、檢查單。圖片或 PDF，每個檔案上限 12 MB。</p>
+      <div id="docList"></div>
+      <div class="docacts">
+        <button id="docAdd">＋ 加入報告或影像</button>
+        <button id="docZip" hidden>匯出附件 ZIP</button>
+      </div>
+      <p class="docwarn">附件<b>不包含</b>在 JSON 備份裡。JSON 只存檔案的說明，本體請另外用上面的 ZIP 匯出。</p>
+      <p class="docquota" id="docQuota"></p>
+      <input type="file" id="docFile" accept="image/*,application/pdf" hidden>
+      <div id="docForm" hidden></div>
     </div>
-    <p class="docwarn">附件<b>不包含</b>在 JSON 備份裡。JSON 只存檔案的說明，本體請另外用上面的 ZIP 匯出。</p>
-    <p class="docquota" id="docQuota"></p>
-    <input type="file" id="docFile" accept="image/*,application/pdf" hidden>
-    <div id="docForm" hidden></div>
-  </section>
+  </details>
   <div class="vault">
     <p class="iosline ios-only" hidden>iOS 請按分享鍵 →「加入主畫面」，否則 Safari 會在七天不開啟後清除紀錄。</p>
     <p class="where"><span class="lamp" id="vLamp" aria-hidden="true"></span><span id="vWhere" aria-live="polite">讀取中…</span><a class="ctxhelp" href="guide.html#backup" target="_blank" rel="noopener" aria-label="關於備份的說明">?</a></p>
@@ -7655,6 +7673,7 @@ const isImg = d => /^image\//.test(d.type || '');
 
 async function renderDocs(){
   const list = data.docs.slice().sort((a,b) => (dstamp(b.date)||0) - (dstamp(a.date)||0));
+  $('#docCount').textContent = list.length ? `${list.length} 筆` : '';
   $('#docList').innerHTML = list.length ? list.map(d => {
     const linkedSite = d.siteId ? data.sites.find(s => s.id === d.siteId) : null;
     return `<div class="docrow" data-doc="${d.id}">
@@ -8182,6 +8201,7 @@ async function init(){
     $('#reposBanner').addEventListener(evt, e => e.stopPropagation());
   });
   $('#docAdd').onclick = () => $('#docFile').click();
+  $('#docHelp').onclick = e => e.stopPropagation();   // the [?] shouldn't also toggle the accordion it sits in
   $('#docFile').onchange = e => {
     const f = e.target.files[0]; e.target.value = '';
     if (!f) return;
