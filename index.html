@@ -456,6 +456,15 @@ body:not(.mode-log) #chart{display:none}
   padding:4px 7px;font-family:var(--ff-mono);font-size:12px;color:var(--cream);
 }
 .tally .birth input:focus{outline:none;border-color:var(--brass)}
+.tally .race{display:flex;align-items:center;gap:7px;margin-top:7px;font-size:12px;color:var(--cream-3);flex-wrap:wrap}
+.tally .race input{
+  background:var(--umber-3);border:1px solid var(--rule-d);border-radius:2px;
+  padding:4px 7px;font-family:var(--ff-mono);font-size:11.5px;color:var(--cream);
+  color-scheme:dark;
+}
+.tally .race input:focus{outline:none;border-color:var(--brass)}
+#raceCountdown{font-family:var(--ff-mono);font-size:11.5px;color:var(--cream-3)}
+#raceCountdown.near{color:var(--brass);font-weight:600}
 
 .sitelist{flex:1;min-height:160px;overflow-y:auto;overscroll-behavior:contain;padding:6px 0 20px}
 .sitelist::-webkit-scrollbar{width:9px}
@@ -1036,6 +1045,19 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
 #playExit:hover{border-color:var(--madder-lit);color:var(--madder-lit)}
 @media (max-width:880px){ .playbar{flex-wrap:wrap} .pb-date{order:1;width:100%;text-align:left} }
 
+/* multisport quick-focus: same visual language as the depth bar right above it */
+.sportfocus{
+  flex:none;display:flex;flex-wrap:wrap;gap:8px;padding:0 20px 10px;
+}
+.sportfocus button{
+  border:1px solid var(--rule-d);border-radius:20px;padding:6px 14px;
+  font-size:12px;color:var(--cream-2);transition:border-color .15s,color .15s,background .15s;
+}
+.sportfocus button:hover{border-color:var(--brass);color:var(--brass)}
+.sportfocus button[aria-pressed="true"]{background:var(--buff);color:var(--ink);border-color:var(--buff);font-weight:500}
+.sportfocus button.ghost{color:var(--madder-lit);border-color:#5A2A20}
+.sportfocus button.ghost:hover{border-color:var(--madder-lit)}
+
 /* photo indicator on a plate pin */
 .pbadge{fill:var(--buff);stroke:var(--umber);stroke-width:.8}
 .pbadge-i{fill:var(--umber)}
@@ -1382,7 +1404,7 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
       <p>按瀏覽器的分享鍵 → <b>加入主畫面</b>，從主畫面開啟的版本不受這條規則限制。這是目前唯一能讓紀錄長期留在 iPhone 上的方法。</p>
     </aside>
 
-    <p class="fineprint">底圖取自 EBI anatomogram，公眾領域（CC0）。此頁供學習與個人紀錄使用，不構成醫療建議；診斷欄位是用來抄寫你已經取得的診斷，不是用來自我判斷的。解剖與臨床說明文字由 AI 彙整，非逐字引用特定教科書或資料庫，<a href="guide.html#content-source" target="_blank" rel="noopener">說明見此</a>。<span class="stamp">v3.4</span></p>
+    <p class="fineprint">底圖取自 EBI anatomogram，公眾領域（CC0）。此頁供學習與個人紀錄使用，不構成醫療建議；診斷欄位是用來抄寫你已經取得的診斷，不是用來自我判斷的。解剖與臨床說明文字由 AI 彙整，非逐字引用特定教科書或資料庫，<a href="guide.html#content-source" target="_blank" rel="noopener">說明見此</a>。<span class="stamp">v3.5</span></p>
 
     <div class="intro-acts">
       <button id="introGo">開始標註我的第一筆傷害</button>
@@ -1466,6 +1488,10 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
     <label class="birth">出生年
       <input id="birthYear" inputmode="numeric" maxlength="4" placeholder="1990" aria-label="出生年">
       <span id="ageNow"></span>
+    </label>
+    <label class="race">目標賽事
+      <input id="raceDate" type="date" aria-label="目標賽事日期">
+      <span id="raceCountdown"></span>
     </label>
   </div>
   <div class="chips" id="siteFilter" role="group" aria-label="篩選部位">
@@ -1553,6 +1579,12 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
         <span class="pb-date" id="playDate"></span>
         <button id="playExit" aria-label="結束回放，回到目前狀態">結束回放</button>
       </div>
+    </div>
+    <div class="sportfocus" id="sportFocus" hidden role="group" aria-label="依運動情境快速聚焦">
+      <button data-focus="swim">開放水域游泳</button>
+      <button data-focus="bike">室內自行車訓練台</button>
+      <button data-focus="trail">越野單攻</button>
+      <button id="focusExit" class="ghost" hidden aria-label="回到完整視圖">回到完整視圖</button>
     </div>
     <div class="plate" id="plate" role="img"
          aria-label="人體解剖圖版。圖上的結構同時列在左側索引中，可用鍵盤操作。">
@@ -5921,7 +5953,58 @@ function applyTransform(){
 }
 $('#zIn').onclick  = () => zoomBy(1.45);
 $('#zOut').onclick = () => zoomBy(1/1.45);
-$('#zRst').onclick = () => { st.z=1; st.x=0; st.y=0; applyTransform(); Snd.play('detent'); };
+$('#zRst').onclick = () => { st.z=1; st.x=0; st.y=0; applyTransform(); Snd.play('detent'); exitSportFocus(); };
+
+/* ── multisport quick-focus ────────────────────────────────────────
+   Real coordinates from the same region layer the pins use, not
+   guessed screen fractions — so the framing stays correct at any
+   viewport size. Each preset centres and zooms toward the pair of
+   areas that discipline actually loads, then can be backed straight
+   out again with one button. */
+const SPORT_FOCUS = {
+  swim:  { x: 53.0, y: 40,  z: 2.3 },   // shoulders + upper back — RG_shoulder_l/r straddle x=53
+  bike:  { x: 53.0, y: 108, z: 1.7 },   // lower back (RG_lowback, y=76) through the knees (y=139.5)
+  trail: { x: 53.0, y: 148, z: 1.6 },   // quads (RG_quad, y=112) through the ankles (y≈180)
+};
+let sportFocusOn = null;
+function zoomToPoint(svgX, svgY, targetZoom){
+  const svg = PLATE[PK()];
+  if (!svg) return;
+  const prevTransform = canvas.style.transform;
+  canvas.style.transform = 'translate(0px,0px) scale(1)';
+  const ctm = svg.getScreenCTM();
+  const host = plate.getBoundingClientRect();
+  canvas.style.transform = prevTransform;   // restore before repainting for real
+  if (!ctm) return;
+  const q = new DOMPoint(svgX, svgY).matrixTransform(ctm);
+  const baseX = q.x - host.left, baseY = q.y - host.top;
+  const nz = Math.min(9, Math.max(1, targetZoom));
+  st.x = host.width/2  - baseX * nz;
+  st.y = host.height/2 - baseY * nz;
+  st.z = nz;
+  clampPan(); applyTransform();
+}
+function exitSportFocus(){
+  if (!sportFocusOn) return;
+  sportFocusOn = null;
+  $('#sportFocus').querySelectorAll('button[data-focus]').forEach(b => b.setAttribute('aria-pressed','false'));
+  $('#focusExit').hidden = true;
+  st.z = 1; st.x = 0; st.y = 0; applyTransform();
+}
+$('#sportFocus').addEventListener('click', e => {
+  const exit = e.target.closest('#focusExit');
+  if (exit){ exitSportFocus(); Snd.play('latch'); return; }
+  const b = e.target.closest('button[data-focus]'); if (!b) return;
+  const key = b.dataset.focus;
+  if (sportFocusOn === key){ exitSportFocus(); Snd.play('latch'); return; }
+  const p = SPORT_FOCUS[key]; if (!p) return;
+  if (st.view === 'brain') setView('body');
+  sportFocusOn = key;
+  $('#sportFocus').querySelectorAll('button[data-focus]').forEach(x => x.setAttribute('aria-pressed', x === b));
+  $('#focusExit').hidden = false;
+  zoomToPoint(p.x, p.y, p.z);
+  Snd.play('detent');
+});
 
 /* ── views ─────────────────────────────────────────────────── */
 const CAPS = {
@@ -6093,9 +6176,9 @@ const COMMON = ['外踝','內踝','阿基里斯腱','足底筋膜','小腿後側
                 '內側副韌帶','前十字韌帶','半月板','髂脛束','大腿後側','鼠蹊','髖','下背',
                 '薦髂關節','肩','旋轉肌袖','肘','腕','頸','肋骨','手指','腳趾'];
 
-const SCHEMA = 9;   // 1: original · 2: recovery date · 3: load/pain/follow-ups · 4: attachments · 5: gear & terrain · 6: hashtags · 7: attachments linked to a site · 8: brick workouts · 9: pain quality
+const SCHEMA = 10;   // 1: original · 2: recovery date · 3: load/pain/follow-ups · 4: attachments · 5: gear & terrain · 6: hashtags · 7: attachments linked to a site · 8: brick workouts · 9: pain quality · 10: FTP/elevation, race countdown
 
-let data = { version: SCHEMA, birthYear:null, sites:[], injuries:[], docs:[], isDemo:false };
+let data = { version: SCHEMA, birthYear:null, sites:[], injuries:[], docs:[], isDemo:false, raceDate:'' };
 let filt = 'all';
 let depthFilt = 'all';   // 表層／軟組織／深層 — derived from each record's own 類型 field
 let playing = false, playTimer = null, playLo = 0, playHi = 0;   // time-lapse playback state
@@ -6118,6 +6201,18 @@ let tagFilter = null;   // an active #tag click, ANDed with whichever chip is se
 // One predicate, used identically by the sidebar list and the plate pins —
 // picking "反覆" or "賽前 30 天" should mean the same thing in both places,
 // not just thin out the list while every pin keeps glowing on the figure.
+// whole days until data.raceDate — dstamp gives UTC midnight for the race
+// date, and using the UTC midnight of "today" on the other end keeps the
+// subtraction a clean multiple of a day regardless of local timezone.
+function raceCountdownDays(){
+  if (!data.raceDate) return null;
+  const race = dstamp(data.raceDate);
+  if (race == null) return null;
+  const now = new Date();
+  const todayUTC = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+  return Math.round((race - todayUTC) / 864e5);
+}
+
 function withinTaper(id){
   const cutoff = Date.now() - 30 * 864e5;
   return recsOf(id).some(r =>
@@ -6421,6 +6516,11 @@ function migrate(d){
     if (!Array.isArray(r.painQ)) r.painQ = [];
     (r.checkins || []).forEach(c => { if (!Array.isArray(c.painQ)) c.painQ = []; });
   });
+  if (v < 10) d.injuries.forEach(r => {
+    if (r.ftp == null) r.ftp = '';
+    if (r.elevGain == null) r.elevGain = '';
+  });
+  if (d.raceDate == null) d.raceDate = '';
   if (v < 3) d.injuries.forEach(r => {
     if (r.loadKm == null)   r.loadKm = '';
     if (r.loadNote == null) r.loadNote = '';
@@ -6541,6 +6641,7 @@ function gearBits(r){
   const bits = [];
   if (r.pain !== '' && r.pain != null) bits.push(['疼痛指數', `${r.pain}／10`]);
   if ((r.painQ||[]).length) bits.push(['痛感性質', r.painQ.join('、')]);
+  if (r.ftp || r.elevGain) bits.push(['體能數據', [r.ftp && `FTP ${r.ftp}W`, r.elevGain && `爬升 ${r.elevGain}m`].filter(Boolean).join(' · ')]);
   if (r.shoeModel || r.shoeType) bits.push(['鞋款', [r.shoeModel, r.shoeType].filter(Boolean).join(' · ')]);
   if (r.terrain || r.elevProfile) bits.push(['地形', [r.terrain, r.elevProfile].filter(Boolean).join(' · ')]);
   if (r.bikeSetup && r.bikeSetup !== '近期無異動') bits.push(['裝備異動', r.bikeSetup]);
@@ -6708,6 +6809,15 @@ function renderStats(){
        <div><b>${k.open}</b><span>尚未結案</span></div>
        <div><b>${k.downtime}</b><span>累計休養天數</span></div>
      </div>` +
+    (() => {
+      const rd = raceCountdownDays();
+      if (rd == null || rd < 0 || rd > 35) return '';
+      const flagged = data.sites.filter(s => withinTaper(s.id));
+      return `<h3>賽前檢核</h3><p class="plain">距你設定的賽事還有 <b>${rd} 天</b>。` +
+        (flagged.length
+          ? `近期曾不適的部位：<b>${flagged.map(s => esc(label(s))).join('、')}</b>——單純列出，怎麼安排保養是你自己的判斷。`
+          : `過去 30 天沒有任何部位觸發警戒，狀態看起來乾淨。`) + `</p>`;
+    })() +
     (top.length ? `<h3>最常受傷的部位</h3><ul class="rank">` + top.map(x =>
       `<li><span>${esc(label(x.s))}</span><span class="bar"><i style="width:${Math.round(x.n/max*100)}%"></i></span><span class="n">${x.n} 次</span></li>`
     ).join('') + '</ul>' : '') +
@@ -7034,6 +7144,19 @@ function render(){
     : '尚未記錄';
   $('#birthYear').value = data.birthYear || '';
   $('#ageNow').textContent = data.birthYear ? `（今年 ${new Date().getFullYear() - data.birthYear} 歲）` : '';
+  $('#raceDate').value = data.raceDate || '';
+  const rd = raceCountdownDays();
+  const cdEl = $('#raceCountdown');
+  cdEl.textContent = rd == null ? '' : rd > 0 ? `倒數 ${rd} 天` : rd === 0 ? '就是今天' : `已過 ${-rd} 天`;
+  cdEl.classList.toggle('near', rd != null && rd >= 0 && rd <= 28);
+  const taperBtn = $('#siteFilter [data-f="taper"]');
+  if (taperBtn){
+    const inTaperWindow = rd != null && rd >= 0 && rd <= 35;
+    taperBtn.textContent = inTaperWindow ? `距賽事 ${rd} 天` : '賽前 30 天';
+    taperBtn.title = inTaperWindow
+      ? `過去 30 天內曾經不舒服、或仍反覆發作／慢性未癒的部位——距你設定的賽事還有 ${rd} 天`
+      : '過去 30 天內曾經不舒服、或仍反覆發作／慢性未癒的部位';
+  }
 
   const sorted = [...data.sites].filter(siteMatchesFilter).sort((a,b) => {
     const d = recsOf(b.id).length - recsOf(a.id).length;
@@ -7353,7 +7476,7 @@ function openForm(recId, isNew){
                cause:CAUSE[0], activity:'', status:STATE[0], downtime:'',
                loadKm:'', loadNote:'', pain:'', phase:PHASE[0], checkins:[], tags:[],
                sport:'', shoeModel:'', shoeType:'', terrain:'', elevProfile:'',
-               bikeSetup:'', indoorOutdoor:'', waterEnv:'', brick:'', painQ:[],
+               bikeSetup:'', indoorOutdoor:'', waterEnv:'', brick:'', painQ:[], ftp:'', elevGain:'',
                dx:'', tx:'', notes:'' };
   editing = { isNew: !r, site };
   const opt = (arr, v) => arr.map(o => `<option${o===v?' selected':''}>${o}</option>`).join('');
@@ -7411,8 +7534,14 @@ function openForm(recId, isNew){
       <div class="painq" id="fPainQ" role="group" aria-labelledby="fPainQLabel">
         ${PAIN_Q.map(q => `<button type="button" data-q="${q}" aria-pressed="${(form.painQ||[]).includes(q)}">${q}</button>`).join('')}
       </div></div>
-    <div class="fld"><label for="fLoadNote">近期體能指標或訓練變化</label>
-      <input id="fLoadNote" value="${esc(form.loadNote)}" placeholder="例如 FTP 258W、月跑量較上月增 35%"></div>
+    <div class="two">
+      <div class="fld"><label for="fFtp">FTP（瓦特）</label>
+        <input id="fFtp" type="number" min="0" step="1" value="${esc(form.ftp)}" placeholder="例如 258"></div>
+      <div class="fld"><label for="fElevGain">近期總爬升（公尺）</label>
+        <input id="fElevGain" type="number" min="0" step="1" value="${esc(form.elevGain)}" placeholder="例如 1800"></div>
+    </div>
+    <div class="fld"><label for="fLoadNote">其他體能指標或訓練變化</label>
+      <input id="fLoadNote" value="${esc(form.loadNote)}" placeholder="例如 推重比 4.1 W/kg、月跑量較上月增 35%"></div>
 
     <h3>裝備與環境</h3>
     <div class="fld"><label for="fSport">當時的運動類型</label><select id="fSport">${opt(SPORTS, form.sport || SPORTS[0])}</select>
@@ -7562,6 +7691,7 @@ function wireForm(isNew){
       indoorOutdoor: shown('gbBike') ? $('#fInOut').value : '',
       waterEnv: shown('gbSwim') ? $('#fWater').value : '',
       loadKm: v('fKm'), loadNote: v('fLoadNote'), phase: $('#fPhase').value,
+      ftp: v('fFtp'), elevGain: v('fElevGain'),
       pain: painTouched ? $('#fPain').value : '',
       date:v('fDate'), until:v('fUntil'), type:$('#fType').value, cause:$('#fCause').value,
       status:$('#fStatus').value, activity:v('fAct'), downtime:v('fDown'),
@@ -7932,6 +8062,8 @@ function setMode(on){
   $('#vLog').setAttribute('aria-pressed', on);
   $('#depthBar').hidden = !on;
   $('#dashBar').hidden = !on;
+  $('#sportFocus').hidden = !on;
+  if (!on && typeof exitSportFocus === 'function') exitSportFocus();   // leaving log mode drops any active zoom preset
   if (!on){                          // leaving log mode: don't leave playback running
     playing = false; clearInterval(playTimer); playTimer = null;
     $('#playBar').hidden = true; $('#depthSeg').hidden = false;
@@ -8034,6 +8166,8 @@ function exportJson(){
    spreadsheet, a coach, a stats package. One row per injury, with the
    follow-up series flattened into a single readable cell. */
 const CSV_COLS = [
+  ['傷害ID',      r => r.id],
+  ['部位ID',      (r, s) => s ? s.id : ''],
   ['部位',        (r, s) => s ? s.label : ''],
   ['側別',        (r, s) => s ? s.side : ''],
   ['圖版',        (r, s) => s ? (s.view === 'brain' ? '腦部' : '全身') : ''],
@@ -8060,6 +8194,8 @@ const CSV_COLS = [
   ['水域環境',    r => r.waterEnv || ''],
   ['轉換訓練',    r => r.brick || ''],
   ['痛感性質',    r => (r.painQ || []).join('、')],
+  ['FTP瓦特',    r => r.ftp || ''],
+  ['近期總爬升m', r => r.elevGain || ''],
   ['標籤',        r => (r.tags || []).map(t => '#'+t).join(' ')],
   ['體能指標',    r => r.loadNote || ''],
   ['疼痛指數',    r => r.pain === '' || r.pain == null ? '' : r.pain],
@@ -8077,24 +8213,67 @@ const csvCell = v => {
   return /[",\r\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t;
 };
 
+const CHECKIN_COLS = [
+  ['追蹤ID',   c => c.ckId],
+  ['傷害ID',   c => c.injuryId],       // foreign key → injuries.csv 的「傷害ID」
+  ['部位',     c => c.siteLabel],       // denormalised for a quick look without a join
+  ['受傷日期', c => c.injuryDate],
+  ['追蹤日期', c => c.date || ''],
+  ['疼痛指數', c => c.pain ?? ''],
+  ['訓練狀態', c => c.phase || ''],
+  ['痛感性質', c => (c.painQ || []).join('、')],
+];
+function buildCsv(cols, rows){
+  return '\uFEFF' + [cols.map(c => csvCell(c[0])).join(','), ...rows].join('\r\n') + '\r\n';
+}
+function downloadBlob(blob, filename){
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+
+// two linked tables, not one flattened one — a follow-up series embedded
+// as a single cell is fine to eyeball but useless to a JOIN. injuries.csv
+// carries a stable 傷害ID; checkins.csv references it as a foreign key,
+// the same shape a relational import expects.
 function exportCsv(){
   if (!data.injuries.length) return note('還沒有紀錄可以匯出');
-  const rows = data.injuries
-    .slice()
-    .sort((a, b) => (dstamp(a.date) || 0) - (dstamp(b.date) || 0))
-    .map(r => {
-      const site = data.sites.find(s => s.id === r.siteId);
-      return CSV_COLS.map(([, get]) => csvCell(get(r, site))).join(',');
+  const sorted = data.injuries.slice().sort((a, b) => (dstamp(a.date) || 0) - (dstamp(b.date) || 0));
+  const injRows = sorted.map(r => {
+    const site = data.sites.find(s => s.id === r.siteId);
+    return CSV_COLS.map(([, get]) => csvCell(get(r, site))).join(',');
+  });
+  const injCsv = buildCsv(CSV_COLS, injRows);
+  const stamp = new Date().toISOString().slice(0,10);
+
+  const checkinRows = [];
+  sorted.forEach(r => {
+    const site = data.sites.find(s => s.id === r.siteId);
+    (r.checkins || []).forEach((c, i) => {
+      const row = { ckId: `${r.id}-ck${i+1}`, injuryId: r.id, siteLabel: site ? site.label : '',
+                     injuryDate: r.date || '', date: c.date, pain: c.pain, phase: c.phase, painQ: c.painQ };
+      checkinRows.push(CHECKIN_COLS.map(([, get]) => csvCell(get(row))).join(','));
     });
-  const text = '\uFEFF' + [CSV_COLS.map(c => csvCell(c[0])).join(','), ...rows].join('\r\n') + '\r\n';
+  });
+
   try {
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([text], { type: 'text/csv;charset=utf-8' }));
-    a.download = `injury-log-${new Date().toISOString().slice(0,10)}.csv`;
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
-    Snd.play('leaf');
-    note(`已匯出 ${rows.length} 列 CSV（不含此檔的還原能力，備份請用 JSON）`);
+    if (!checkinRows.length){
+      // no follow-up data at all — one file is simpler than a one-entry zip
+      downloadBlob(new Blob([injCsv], { type: 'text/csv;charset=utf-8' }), `injury-log-${stamp}.csv`);
+      Snd.play('leaf');
+      note(`已匯出 ${injRows.length} 列 CSV（不含此檔的還原能力，備份請用 JSON）`);
+    } else {
+      const checkinCsv = buildCsv(CHECKIN_COLS, checkinRows);
+      const blob = zip([
+        { name: 'injuries.csv',  bytes: new TextEncoder().encode(injCsv) },
+        { name: 'checkins.csv',  bytes: new TextEncoder().encode(checkinCsv) },
+      ]);
+      downloadBlob(blob, `injury-log-${stamp}.zip`);
+      Snd.play('leaf');
+      note(`已匯出 2 個關聯表格（injuries.csv、checkins.csv，用「傷害ID」對應）`);
+    }
   } catch(e){ note('CSV 匯出失敗'); }
 }
 
@@ -8240,6 +8419,11 @@ async function init(){
     const v = parseInt(e.target.value, 10);
     data.birthYear = (v >= 1900 && v <= new Date().getFullYear()) ? v : null;
     await save(); render();
+  };
+  $('#raceDate').onchange = async e => {
+    data.raceDate = e.target.value || '';
+    await save(); render();
+    if (data.raceDate) Snd.play('leaf');
   };
   $('#siteFilter').onclick = e => {
     const b = e.target.closest('button'); if (!b) return;
