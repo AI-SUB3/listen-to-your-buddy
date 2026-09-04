@@ -1,3 +1,4 @@
+<!-- © 2026 Aaron. All rights reserved. Not licensed for reuse — see LICENSE.md. -->
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -125,7 +126,7 @@ footer{border-top:1px solid var(--rule-d);margin-top:56px;padding-top:20px;
 
 <nav class="bar"><div>
   <a class="back" href="./">← 回到圖譜</a>
-  <span class="ver">使用說明 · v3.5</span>
+  <span class="ver">使用說明 · v3.7</span>
 </div></nav>
 
 <main>
@@ -440,6 +441,10 @@ footer{border-top:1px solid var(--rule-d);margin-top:56px;padding-top:20px;
 
 <h2 id="changelog">更新紀錄</h2>
 <dl class="log">
+  <dt>v3.7</dt>
+  <dd>建置流程新增壓縮：正式上線的 index.html 現在會把 JavaScript 跟 CSS 壓縮、拿掉註解，行為完全不變（兩套既有測試與多項新功能都在壓縮後的版本上重新驗證過），純粹是提高隨手複製貼上的門檻。新增 LICENSE.md，明確聲明原始碼與設計保留所有權利；頁尾加上正式的著作權標示。</dd>
+  <dt>v3.6</dt>
+  <dd>右上角的「說明」按鈕拿掉，改成畫面右下角一個常駐的小人像，寫著「有問題找我！」——點下去分開列出「使用說明」跟「常見問題 Q&amp;A」兩個直接連結，不再是單一按鈕打開同一份扉頁。扉頁本身（首次造訪自動彈出、含備份提醒）維持不變。</dd>
   <dt>v3.5</dt>
   <dd>CSV 匯出改為關聯式：有追蹤紀錄時匯出 injuries.csv 與 checkins.csv 兩張用「傷害ID」對應的表，方便 SQL／pandas／VBA 分析；新增 FTP 與近期總爬升兩個結構化欄位。新增「目標賽事倒數」，設定日期後賽前 30 天篩選鈕會自動顯示倒數天數，總覽新增純陳述性的賽前檢核清單。新增「依運動情境快速聚焦」，一鍵把圖版聚焦到游泳／自行車／越野各自最容易累積負荷的區域。</dd>
   <dt>v3.4</dt>
@@ -501,7 +506,7 @@ footer{border-top:1px solid var(--rule-d);margin-top:56px;padding-top:20px;
 <footer>
   底圖取自 EBI anatomogram，公眾領域（CC0）；標註採 UBERON 本體論。<br>
   此頁供學習與個人紀錄使用，不構成醫療建議。身體有狀況請找醫師。<br>
-  由 Aaron 製作 · <a href="./">回到圖譜</a> · <a href="#" target="_blank" rel="noopener">贊助這個專案</a>
+  © 2026 Aaron，保留所有權利 · <a href="./">回到圖譜</a> · <a href="#" target="_blank" rel="noopener">贊助這個專案</a>
 </footer>
 
 </main>
