@@ -52,6 +52,13 @@ p.lede{font-size:17.5px;color:var(--buff);line-height:1.8;margin-bottom:6px}
   font-family:var(--ff-mono);font-weight:700;font-size:14px;display:grid;place-items:center;
 }
 
+.demofig{margin:18px 0 8px;text-align:center}
+.demofig img{
+  max-width:100%;height:auto;border-radius:4px;border:1px solid var(--rule);
+  background:#EFE6D3;
+}
+.demofig figcaption{margin-top:8px;font-size:12.5px;color:var(--cream-3);line-height:1.6}
+
 .warn{
   margin:16px 0;padding:18px 20px;border-radius:3px;
   background:rgba(166,58,40,.10);border:1px solid rgba(166,58,40,.35);border-left:4px solid var(--madder);
@@ -103,6 +110,11 @@ footer a{border-bottom:1px solid var(--rule)}
     <li>填部位名稱跟大概日期，<b>按儲存</b>。日期只記得年份也沒關係。</li>
   </ol>
   <p>就這樣，可以開始用了。之後同個地方又痛，點原本那個點，按「新增此部位傷害」加一筆就好。</p>
+
+  <figure class="demofig">
+    <img src="demo-tap.gif" alt="動畫示範：在人體圖上點一下，跳出「在這裡新增紀錄嗎？」的確認框，按新增後出現一個標記點" loading="lazy" width="460" height="302">
+    <figcaption>實際畫面：點一下 → 先問你要不要確定 → 才真的落一個點。誤點也不會留下痕跡。</figcaption>
+  </figure>
 
   <h2>只有一件事你一定要記得</h2>
   <div class="warn">

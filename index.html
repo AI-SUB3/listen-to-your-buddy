@@ -507,6 +507,7 @@ body:not(.mode-log) #chart{display:none}
 }
 .sitehead .acts button:hover{border-color:var(--brass);color:var(--brass)}
 .sitehead .acts button.warn:hover{border-color:var(--madder-lit);color:var(--madder-lit)}
+.sitehead .acts button[aria-pressed="true"]{background:var(--madder);border-color:var(--madder);color:var(--buff)}
 .sitehead .acts button.go{background:var(--buff);color:var(--ink);border-color:var(--buff);font-weight:500}
 .sitehead .acts button.go:hover{background:var(--buff-2);color:var(--ink);border-color:var(--buff-2)}
 
@@ -670,6 +671,32 @@ body:not(.mode-log) #chart{display:none}
     margin-top:18px;padding-top:8px;border-top:1px solid #bbb;
     font-size:8pt;color:#555;line-height:1.6;
   }
+
+  #printout .partial{font-size:9pt;color:#555;margin-top:4px}
+
+  /* numbered body-map figure, the standard shape of a clinical intake form */
+  #printout .figures{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;margin:0 0 18px;break-inside:avoid}
+  #printout .platefig-wrap{text-align:center;flex:none}
+  #printout .fig-cap{font-family:var(--ff-serif);font-style:italic;font-size:9pt;color:#666;margin-bottom:4px}
+  #printout .platefig{width:200px;height:auto;display:block}
+  #printout .platefig .figbody,#printout .platefig .figbody *{fill:#ADA593!important;stroke:none!important}
+  #printout .platefig circle{stroke:#fff;stroke-width:.6}
+  #printout .platefig text{
+    fill:#fff;font-family:var(--ff-mono);font-size:7px;font-weight:700;
+    text-anchor:middle;dominant-baseline:central;
+  }
+  #printout h2 .num{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:15pt;height:15pt;border-radius:50%;background:#111;color:#fff;
+    font-family:var(--ff-mono);font-size:8.5pt;font-weight:400;margin-right:7pt;flex:none;
+  }
+  #printout .clinbox{break-inside:avoid;margin-bottom:16px}
+  #printout .notegrid{
+    height:130pt;margin-top:6px;border:1px solid #999;border-radius:2px;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 13.9pt, #E4E4E4 14pt),
+      repeating-linear-gradient(90deg, transparent, transparent 13.9pt, #EEEEEE 14pt);
+  }
 }
 
 /* filter chips */
@@ -728,33 +755,7 @@ body:not(.mode-log) #chart{display:none}
 .pickopts{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:14px}
 .pickopts label{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2);cursor:pointer}
 .pickopts input{accent-color:#A63A28;width:15px;height:15px}
-@media print{ #printout .partial{font-size:9pt;color:#555;margin-top:4px} }
 
-@media print{
-  /* numbered body-map figure, the standard shape of a clinical intake form */
-  #printout .figures{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;margin:0 0 18px;break-inside:avoid}
-  #printout .platefig-wrap{text-align:center;flex:none}
-  #printout .fig-cap{font-family:var(--ff-serif);font-style:italic;font-size:9pt;color:#666;margin-bottom:4px}
-  #printout .platefig{width:200px;height:auto;display:block}
-  #printout .platefig .figbody,#printout .platefig .figbody *{fill:#ADA593!important;stroke:none!important}
-  #printout .platefig circle{stroke:#fff;stroke-width:.6}
-  #printout .platefig text{
-    fill:#fff;font-family:var(--ff-mono);font-size:7px;font-weight:700;
-    text-anchor:middle;dominant-baseline:central;
-  }
-  #printout h2 .num{
-    display:inline-flex;align-items:center;justify-content:center;
-    width:15pt;height:15pt;border-radius:50%;background:#111;color:#fff;
-    font-family:var(--ff-mono);font-size:8.5pt;font-weight:400;margin-right:7pt;flex:none;
-  }
-  #printout .clinbox{break-inside:avoid;margin-bottom:16px}
-  #printout .notegrid{
-    height:130pt;margin-top:6px;border:1px solid #999;border-radius:2px;
-    background-image:
-      repeating-linear-gradient(0deg, transparent, transparent 13.9pt, #E4E4E4 14pt),
-      repeating-linear-gradient(90deg, transparent, transparent 13.9pt, #EEEEEE 14pt);
-  }
-}
 
 /* the selected site is pinned on a plate you are not currently looking at */
 .sitehead .meta .tagid.away{
@@ -1076,6 +1077,68 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
 .ckqbtn:hover{border-color:var(--brass);color:var(--brass)}
 .ckqbtn[aria-pressed="true"]{background:var(--brass);color:var(--umber);border-color:var(--brass)}
 
+/* confirm-before-creating and reposition mode */
+.pinconfirm{
+  position:absolute;left:50%;bottom:16px;transform:translateX(-50%);
+  z-index:20;background:var(--buff);color:var(--ink);border-radius:3px;
+  padding:12px 16px;box-shadow:0 6px 24px rgba(0,0,0,.35);
+  min-width:220px;max-width:88%;text-align:center;
+}
+.pinconfirm p{font-size:13.5px;line-height:1.6;margin-bottom:10px}
+.pc-acts{display:flex;gap:8px;justify-content:center}
+.pc-acts button{
+  border-radius:2px;padding:6px 16px;font-size:13px;
+}
+.pc-acts #pinConfirmGo{background:var(--madder);color:var(--buff);font-weight:500}
+.pc-acts #pinConfirmGo:hover{background:#8A2E1E}
+.pc-acts .ghost{border:1px solid var(--ink-3);color:var(--ink-2)}
+.pc-acts .ghost:hover{background:rgba(0,0,0,.06)}
+
+.reposbanner{
+  position:absolute;left:50%;top:14px;transform:translateX(-50%);
+  z-index:20;background:var(--madder);color:var(--buff);border-radius:20px;
+  padding:8px 16px;font-size:12.5px;box-shadow:0 4px 16px rgba(0,0,0,.3);
+  white-space:nowrap;
+}
+.reposbanner button{
+  color:var(--buff);border-bottom:1px solid rgba(239,230,211,.5);
+  padding-bottom:1px;margin-left:2px;font-size:12.5px;
+}
+.reposbanner button:hover{border-color:var(--buff)}
+.plate.repos-mode{cursor:crosshair}
+
+.pins .ghostpin{opacity:.85}
+.pins .ghostpin circle{fill:none;stroke:var(--madder);stroke-width:1.6;stroke-dasharray:3 3}
+
+/* the plate briefly draws the eye after the colophon's primary CTA */
+.plate.pulse-cue{animation:platepulse 1.7s ease-out}
+@keyframes platepulse{
+  0%{box-shadow:0 0 0 0 rgba(191,143,66,.55)}
+  70%{box-shadow:0 0 0 22px rgba(191,143,66,0)}
+  100%{box-shadow:0 0 0 0 rgba(191,143,66,0)}
+}
+@media (prefers-reduced-motion:reduce){.plate.pulse-cue{animation:none}}
+
+/* small contextual [?] links pointing at a specific guide.html section */
+.ctxhelp{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:15px;height:15px;border-radius:50%;border:1px solid var(--rule-d);
+  color:var(--cream-3);font-family:var(--ff-mono);font-size:10px;line-height:1;
+  margin-left:6px;vertical-align:middle;flex:none;transition:border-color .15s,color .15s;
+}
+.ctxhelp:hover{border-color:var(--brass);color:var(--brass)}
+
+/* demo data controls */
+.demorow{margin-top:11px;padding-top:11px;border-top:1px solid var(--rule-d)}
+.demorow button{
+  display:block;width:100%;border:1px solid var(--rule-d);border-radius:2px;
+  padding:6px 0;font-size:12px;color:var(--cream-2);margin-top:0;
+  transition:border-color .15s,color .15s;
+}
+.demorow button + button{margin-top:6px}
+.demorow button:hover{border-color:var(--brass);color:var(--brass)}
+.demorow button.warn:hover{border-color:var(--madder-lit);color:var(--madder-lit)}
+
 /* ── 扉頁 — shown once, reopenable from the masthead ────────── */
 .scrim2{
   position:fixed;inset:0;z-index:60;background:rgba(14,10,6,.62);
@@ -1303,10 +1366,10 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
       <p>按瀏覽器的分享鍵 → <b>加入主畫面</b>，從主畫面開啟的版本不受這條規則限制。這是目前唯一能讓紀錄長期留在 iPhone 上的方法。</p>
     </aside>
 
-    <p class="fineprint">底圖取自 EBI anatomogram，公眾領域（CC0）。此頁供學習與個人紀錄使用，不構成醫療建議；診斷欄位是用來抄寫你已經取得的診斷，不是用來自我判斷的。解剖與臨床說明文字由 AI 彙整，非逐字引用特定教科書或資料庫，<a href="guide.html#content-source" target="_blank" rel="noopener">說明見此</a>。<span class="stamp">v3.0</span></p>
+    <p class="fineprint">底圖取自 EBI anatomogram，公眾領域（CC0）。此頁供學習與個人紀錄使用，不構成醫療建議；診斷欄位是用來抄寫你已經取得的診斷，不是用來自我判斷的。解剖與臨床說明文字由 AI 彙整，非逐字引用特定教科書或資料庫，<a href="guide.html#content-source" target="_blank" rel="noopener">說明見此</a>。<span class="stamp">v3.3</span></p>
 
     <div class="intro-acts">
-      <button id="introGo">開始使用</button>
+      <button id="introGo">開始標註我的第一筆傷害</button>
       <a class="guide" href="start.html" target="_blank" rel="noopener">三分鐘懶人包</a>
       <a class="guide" href="guide.html" target="_blank" rel="noopener">完整說明與常見問題</a>
       <span class="hint">日後可從上方的「說明」再次開啟</span>
@@ -1394,6 +1457,7 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
     <button data-f="open" aria-pressed="false">未結案</button>
     <button data-f="repeat" aria-pressed="false">反覆</button>
     <button data-f="taper" aria-pressed="false" title="過去 30 天內曾經不舒服、或仍反覆發作／慢性未癒的部位">賽前 30 天</button>
+    <a class="ctxhelp" href="guide.html#filters" target="_blank" rel="noopener" aria-label="關於篩選功能的說明">?</a>
   </div>
   <div class="tagcloud" id="tagCloud" role="group" aria-label="常用標籤" hidden></div>
   <div class="heatlegend" id="heatLegend" title="圖版上的顏色代表該部位的累積負荷——次數、嚴重度、是否仍反覆發作、多久以前發生，綜合而成。與清單上的狀態小點是兩種不同的資訊。">
@@ -1403,7 +1467,7 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
   </div>
   <div class="sitelist" id="siteList" role="group" aria-label="受傷部位清單"></div>
   <section class="vaultdocs" id="docSection">
-    <h3>參考資料</h3>
+    <h3>參考資料<a class="ctxhelp" href="guide.html#attach" target="_blank" rel="noopener" aria-label="關於參考資料的說明">?</a></h3>
     <p class="dochint">體脂計報告、影像報告、檢查單。圖片或 PDF，每個檔案上限 12 MB。</p>
     <div id="docList"></div>
     <div class="docacts">
@@ -1417,7 +1481,7 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
   </section>
   <div class="vault">
     <p class="iosline ios-only" hidden>iOS 請按分享鍵 →「加入主畫面」，否則 Safari 會在七天不開啟後清除紀錄。</p>
-    <p class="where"><span class="lamp" id="vLamp" aria-hidden="true"></span><span id="vWhere" aria-live="polite">讀取中…</span></p>
+    <p class="where"><span class="lamp" id="vLamp" aria-hidden="true"></span><span id="vWhere" aria-live="polite">讀取中…</span><a class="ctxhelp" href="guide.html#backup" target="_blank" rel="noopener" aria-label="關於備份的說明">?</a></p>
     <div class="acts">
       <button id="expBtn">匯出 JSON</button>
       <button id="impBtn">匯入</button>
@@ -1433,6 +1497,10 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
       <label class="ab-dl"><input type="checkbox" id="abDl"> 每次儲存也下載一份</label>
     </div>
     <input type="file" id="impFile" accept="application/json,.json" hidden>
+    <div class="demorow" id="demoRow" hidden>
+      <button id="demoLoad" hidden>載入範例資料</button>
+      <button id="demoClear" class="warn" hidden>清空範例資料</button>
+    </div>
     <p class="support"><a href="#" target="_blank" rel="noopener">贊助這個專案</a></p>
   </div>
 </div>
@@ -1447,7 +1515,7 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
 
   <section class="stage">
     <div class="depthbar" id="depthBar" hidden>
-      <span class="db-label">顯示深度</span>
+      <span class="db-label">顯示深度<a class="ctxhelp" href="guide.html#depth-filter" target="_blank" rel="noopener" aria-label="關於依深度篩選的說明">?</a></span>
       <div class="db-seg" id="depthSeg" role="group" aria-label="依傷害深度篩選">
         <button data-d="all" aria-pressed="true">全部</button>
         <button data-d="表層" aria-pressed="false" title="挫傷、撕裂傷">表層</button>
@@ -1458,6 +1526,7 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
         <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 2.6v10.8l9-5.4z"/></svg>
         時間回放
       </button>
+      <a class="ctxhelp" href="guide.html#playback" target="_blank" rel="noopener" aria-label="關於時間回放的說明">?</a>
       <div class="playbar" id="playBar" hidden>
         <button id="playBtn" aria-label="播放" aria-pressed="false">
           <svg id="playIcon" viewBox="0 0 16 16" width="12" height="12" fill="currentColor" stroke="none"><path d="M4 2.6v10.8l9-5.4z"/></svg>
@@ -1477,6 +1546,16 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
       <svg class="leader" id="leader" aria-hidden="true"></svg>
       <svg class="pins" id="pins" aria-hidden="true"></svg>
       <div class="tip" id="tip" data-show="false" aria-hidden="true"></div>
+      <div class="pinconfirm" id="pinConfirm" hidden role="dialog" aria-label="確認落點">
+        <p id="pinConfirmText"></p>
+        <div class="pc-acts">
+          <button id="pinConfirmGo"></button>
+          <button class="ghost" id="pinConfirmNo">取消</button>
+        </div>
+      </div>
+      <div class="reposbanner" id="reposBanner" hidden>
+        點圖版上的新位置 · <button id="reposCancel">取消調整</button>
+      </div>
     </div>
     <div class="caption">
       <p class="tab" id="capText">Tabula <b>I</b> · Homo sapiens, <i>habitus et viscera</i></p>
@@ -1553,6 +1632,7 @@ body.show-regions .st.rg.on{--so:.55;--sso:1;--sf:var(--madder);--ss:#71230F}
       <div class="acts">
         <button class="go" id="addRec">新增此部位傷害</button>
         <button id="renameSite">改名</button>
+        <button id="moveSite" aria-pressed="false">調整位置</button>
         <button class="warn" id="delSite">刪除部位</button>
       </div>
     </div>
@@ -5997,10 +6077,11 @@ const COMMON = ['外踝','內踝','阿基里斯腱','足底筋膜','小腿後側
 
 const SCHEMA = 9;   // 1: original · 2: recovery date · 3: load/pain/follow-ups · 4: attachments · 5: gear & terrain · 6: hashtags · 7: attachments linked to a site · 8: brick workouts · 9: pain quality
 
-let data = { version: SCHEMA, birthYear:null, sites:[], injuries:[], docs:[] };
+let data = { version: SCHEMA, birthYear:null, sites:[], injuries:[], docs:[], isDemo:false };
 let filt = 'all';
 let depthFilt = 'all';   // 表層／軟組織／深層 — derived from each record's own 類型 field
 let playing = false, playTimer = null, playLo = 0, playHi = 0;   // time-lapse playback state
+let pendingPin = null, pendingMove = null, repositioning = null;   // click-to-place needs a confirm step first
 
 // which depth bucket a record's TYPE falls into — real, already-collected
 // data, not a fabricated anatomical layer. 表層 = skin/superficial tissue,
@@ -6105,6 +6186,13 @@ function vault(){
   $('#vLamp').dataset.s = where === 'memory' ? 'memory' : urgent ? 'urgent' : p ? 'stale' : 'ok';
   $('#expBtn').classList.toggle('due', p > 0);
   $('#expBtn').textContent = p ? `匯出 JSON（${p}）` : '匯出 JSON';
+  // demo data: offered only on a genuinely empty vault; the clear button
+  // only when the CURRENTLY loaded data is the demo set itself, never
+  // shown alongside anything that could be a real record.
+  const empty = !data.injuries.length && !data.sites.length && !data.docs.length;
+  $('#demoRow').hidden = !empty && !data.isDemo;
+  $('#demoLoad').hidden = !empty || data.isDemo;
+  $('#demoClear').hidden = !data.isDemo;
 }
 let noteTimer;
 function note(msg){
@@ -6822,24 +6910,99 @@ function plateMove(e){
 }
 
 function plateClick(e){
-  const id = nearest(e);
-  if (id){ Snd.play('knock'); select(id); return; }
-  // a fresh pin: capture the point in the plate's own coordinates
   const inv = activeSvg().getScreenCTM()?.inverse();
   if (!inv) return;
   const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(inv);
-  // dropping on a named zone fills in the part and the side for you
+
+  // reposition mode takes priority: the next tap anywhere moves the pin
+  if (repositioning){
+    pendingMove = { siteId: repositioning, x: +p.x.toFixed(2), y: +p.y.toFixed(2) };
+    $('#pinConfirmText').textContent = '要把這根針移到這裡嗎？';
+    $('#pinConfirmGo').textContent = '移動';
+    $('#pinConfirm').hidden = false;
+    Snd.play('detent'); drawPending();
+    return;
+  }
+
+  const id = nearest(e);
+  if (id){ Snd.play('knock'); select(id); return; }
+
+  // a fresh pin: show where it would land and ask first — a stray tap in
+  // blank space next to the figure used to become a permanent, hard-to-find
+  // record with no way back; now it's just a preview until confirmed.
   const hit = under(e)[0] || null;
   const meta = hit ? DB[hit.id] : null;
   const isRegion = !!(meta && meta.region);
-  const site = { id: uid(), view: st.view, x: +p.x.toFixed(2), y: +p.y.toFixed(2),
+  pendingPin = { view: st.view, x: +p.x.toFixed(2), y: +p.y.toFixed(2),
                  label: meta ? (isRegion ? meta.base : meta.zh) : '',
                  side: isRegion ? meta.side : '右',
                  uberon: meta && !isRegion ? hit.id : null,
                  region: isRegion ? hit.id : null };
-  data.sites.push(site); sel = site.id;
-  Snd.play('knock'); draw(); render();
-  openForm(null, true);
+  $('#pinConfirmText').textContent = pendingPin.label
+    ? `在這裡新增「${pendingPin.label}」的紀錄嗎？` : '在這裡新增一筆紀錄嗎？';
+  $('#pinConfirmGo').textContent = '新增';
+  $('#pinConfirm').hidden = false;
+  Snd.play('detent'); drawPending();
+}
+
+// the ghost marker shown while a new pin or a move is awaiting confirmation
+function drawPending(){
+  const layer = $('#pins');
+  if (!layer) return;
+  const p = pendingMove || pendingPin;
+  if (!p) return;
+  const ctm = activeSvg().getScreenCTM();
+  if (!ctm) return;
+  const host = plate.getBoundingClientRect();
+  const q = new DOMPoint(p.x, p.y).matrixTransform(ctm);
+  const x = q.x - host.left, y = q.y - host.top;
+  layer.insertAdjacentHTML('beforeend',
+    `<g class="ghostpin"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="9"/></g>`);
+}
+
+function clearPending(){
+  pendingPin = null; pendingMove = null;
+  $('#pinConfirm').hidden = true;
+}
+function confirmPending(){
+  if (pendingMove){
+    const site = data.sites.find(s => s.id === pendingMove.siteId);
+    if (site){ site.x = pendingMove.x; site.y = pendingMove.y; }
+    exitReposition();
+    clearPending();
+    Snd.play('knock'); save(); render();
+    return;
+  }
+  if (pendingPin){
+    const p = pendingPin;
+    const site = { id: uid(), view: p.view, x: p.x, y: p.y,
+                    label: p.label, side: p.side, uberon: p.uberon, region: p.region };
+    data.sites.push(site); sel = site.id;
+    clearPending();
+    Snd.play('knock'); draw(); render();
+    openForm(null, true);
+  }
+}
+function cancelPending(){
+  const wasMove = !!pendingMove;
+  clearPending();
+  Snd.play('latch'); draw();
+  if (wasMove) exitReposition();
+}
+function enterReposition(siteId){
+  repositioning = siteId;
+  $('#reposBanner').hidden = false;
+  $('#moveSite').setAttribute('aria-pressed', 'true');
+  $('#moveSite').textContent = '取消調整位置';
+  plate.classList.add('repos-mode');
+  Snd.play('leaf');
+}
+function exitReposition(){
+  repositioning = null;
+  $('#reposBanner').hidden = true;
+  $('#moveSite')?.setAttribute('aria-pressed', 'false');
+  if ($('#moveSite')) $('#moveSite').textContent = '調整位置';
+  plate.classList.remove('repos-mode');
 }
 
 /* ── register (left) ─────────────────────────────────────────── */
@@ -7186,6 +7349,7 @@ function openForm(recId, isNew){
         </svg>
         語音輸入
       </button>
+      <a class="ctxhelp" href="guide.html#voice-input" target="_blank" rel="noopener" aria-label="關於語音輸入的說明">?</a>
       <span class="vstate" id="vState" aria-live="polite"></span>
       <p class="vpreview" id="vPreview" hidden></p>
     </div>
@@ -7267,7 +7431,7 @@ function openForm(recId, isNew){
     <div class="fld"><label for="fDx">診斷與影像結果</label><textarea id="fDx" placeholder="例如 X 光無骨折；超音波顯示前距腓韌帶第一度撕裂">${esc(form.dx)}</textarea></div>
     <div class="fld"><label for="fTx">治療方式與復健內容</label><textarea id="fTx" placeholder="例如 冰敷加壓、物理治療、平衡與腓骨肌訓練">${esc(form.tx)}</textarea></div>
     <div class="fld"><label for="fNotes">備註</label><textarea id="fNotes">${esc(form.notes)}</textarea>
-      <p class="hint">打 <code>#標籤</code> 會自動變成可點擊的標籤，例如 #越野 #Hoka。</p></div>
+      <p class="hint">打 <code>#標籤</code> 會自動變成可點擊的標籤，例如 #越野 #Hoka。<a class="ctxhelp" href="guide.html#tags" target="_blank" rel="noopener" aria-label="關於標籤的說明">?</a></p></div>
     <div class="formacts">
       <button class="save" id="fSave">儲存</button>
       <button id="fCancel">取消</button>
@@ -7736,7 +7900,9 @@ function tallyPick(){
 
 /* ── selection & wiring ──────────────────────────────────────── */
 function select(id){
+  if (repositioning && repositioning !== id) exitReposition();   // switching sites cancels a stale reposition
   sel = (sel === id) ? null : id;
+  if (repositioning && repositioning !== sel) exitReposition();  // toggling the reposition target itself closed also cancels it
   editing = null; form = null;
   render();
 }
@@ -7756,6 +7922,71 @@ function setMode(on){
   else { pins = []; $('#pins').innerHTML = ''; drawLeader(); }
   $('#tip').dataset.show = 'false';
   Snd.play('plate');
+}
+
+/* ── demo data ────────────────────────────────────────────────────
+   For someone straight out of the cheat sheet who wants to see the
+   plate full and busy before committing to typing anything themselves.
+   Offered only on a genuinely empty vault, and the id is fixed and
+   checked before deleting, so "清空範例資料" can never touch real data
+   even if this code is somehow reached in an unexpected state. */
+function demoData(){
+  const S = (id, view, x, y, label, side, uberon, region) => ({ id, view, x, y, label, side, uberon, region });
+  const R = (id, siteId, date, type, sev, status, extra) => Object.assign({
+    id, siteId, date, until:'', type, severity:sev, cause:'訓練', activity:'', status, downtime:'',
+    loadKm:'', loadNote:'', pain:'', phase:'正常訓練', checkins:[], sport:'', shoeModel:'', shoeType:'',
+    terrain:'', elevProfile:'', bikeSetup:'', indoorOutdoor:'', waterEnv:'', brick:'', tags:[], painQ:[]
+  }, extra);
+
+  const sites = [
+    S('d1','body',40.6,182.5,'外踝','右',null,'RG_latmall_r'),
+    S('d2','body',36.6,118.0,'髂胫束','右',null,'RG_itb_r'),
+    S('d3','body',73.51,34.5,'肩','左',null,'RG_shoulder_l'),
+    S('d4','body',43.6,176.0,'阿基里斯腱','右',null,'RG_achil_r'),
+    S('d5','body',22.5,79.0,'手肘','右',null,'RG_elbow_r'),
+    S('d6','body',40.4,156.0,'脛骨前側','右',null,'RG_shin_r'),
+  ];
+  const injuries = [
+    R('i1','d1','2024-03','韌帶扭傷',2,'已痊癒',{ cause:'訓練', activity:'越野跑下坡', downtime:'10',
+      sport:'越野跑', terrain:'技術型山徑（多岩石／樹根）', elevProfile:'長下坡為主（陡降）', tags:['越野','下坡'], painQ:['刺痛'] }),
+    R('i2','d1','2025-06','韌帶扭傷',2,'已痊癒',{ cause:'訓練', activity:'越野跑下坡', downtime:'7',
+      sport:'越野跑', shoeModel:'Hoka Speedgoat 5', shoeType:'厚底極致緩震鞋', tags:['越野'], painQ:['刺痛','緊繃'] }),
+    R('i3','d1','2026-08-09','韌帶扭傷',2,'反覆發作',{ cause:'訓練', activity:'越野跑下坡', downtime:'21',
+      sport:'越野跑', shoeModel:'Hoka Speedgoat 5', shoeType:'厚底極致緩震鞋',
+      terrain:'技術型山徑（多岩石／樹根）', elevProfile:'長下坡為主（陡降）', loadKm:'78', pain:'6',
+      tags:['越野','馬崙山','Hoka'], painQ:['刺痛','緊繃'],
+      checkins:[{date:'2026-08-16',pain:'4',phase:'僅交叉訓練',painQ:['痠痛']},
+                {date:'2026-08-30',pain:'1',phase:'可輕鬆跑',painQ:['痠痛']}] }),
+    R('i4','d2','2025-02','過度使用症候群',1,'已痊癒',{ cause:'訓練', sport:'自行車', downtime:'5' }),
+    R('i5','d2','2026-07','過度使用症候群',2,'恢復中',{ cause:'訓練', sport:'自行車', brick:'自行車→跑步',
+      indoorOutdoor:'訓練台（室內）', tags:['訓練台'], pain:'4', painQ:['緊繃'] }),
+    R('i6','d3','2026-05','肌腱病變',2,'恢復中',{ cause:'逐漸發生', sport:'游泳', waterEnv:'開放水域',
+      tags:['開放水域'], pain:'5', painQ:['灼熱','痠痛'] }),
+    R('i7','d4','2023-11','肌腱病變',1,'已痊癒',{ cause:'逐漸發生', sport:'路跑' }),
+    R('i8','d4','2026-06','肌腱病變',2,'反覆發作',{ cause:'逐漸發生', sport:'路跑', brick:'游泳→自行車→跑步',
+      tags:['鐵人三項'], pain:'5', painQ:['抽痛'] }),
+    R('i9','d5','2025-09','挫傷',1,'已痊癒',{ cause:'跌倒', activity:'越野跑跌倒', downtime:'3' }),
+    R('i10','d6','2024-01','應力性骨折',3,'已痊癒',{ cause:'逐漸發生', sport:'路跑', downtime:'42', pain:'7', painQ:['痠痛'] }),
+  ];
+  return { sites, injuries };
+}
+
+async function loadDemo(){
+  const d = demoData();
+  data.sites = d.sites; data.injuries = d.injuries; data.docs = [];
+  data.isDemo = true; data.birthYear = data.birthYear || 1990;
+  sel = null; editing = null; form = null;
+  await save(); render();
+  note('已載入範例資料——這些不是你的真實紀錄，隨時可以按「清空範例資料」清掉。');
+  Snd.play('knock');
+}
+async function clearDemo(){
+  if (!data.isDemo) return;   // refuses to run against anything but the demo set it created
+  data.sites = []; data.injuries = []; data.docs = []; data.isDemo = false;
+  sel = null; editing = null; form = null;
+  await save(); render();
+  note('已清空範例資料。');
+  Snd.play('latch');
 }
 
 function exportJson(){
@@ -7936,6 +8167,20 @@ async function init(){
     const v = prompt('部位名稱', s.label); if (v === null) return;
     s.label = v.trim() || s.label; await save(); render();
   };
+  $('#moveSite').onclick = () => {
+    if (!sel) return;
+    if (repositioning === sel) exitReposition(); else enterReposition(sel);
+  };
+  $('#reposCancel').onclick = exitReposition;
+  $('#pinConfirmGo').onclick = confirmPending;
+  $('#pinConfirmNo').onclick = cancelPending;
+  // these sit visually on top of the plate but are DOM descendants of it —
+  // without this, a tap on them bubbles into the plate's own pointer
+  // handlers and immediately re-triggers a new pending pin underneath.
+  ['pointerdown', 'pointerup', 'pointermove'].forEach(evt => {
+    $('#pinConfirm').addEventListener(evt, e => e.stopPropagation());
+    $('#reposBanner').addEventListener(evt, e => e.stopPropagation());
+  });
   $('#docAdd').onclick = () => $('#docFile').click();
   $('#docFile').onchange = e => {
     const f = e.target.files[0]; e.target.value = '';
@@ -8093,6 +8338,11 @@ async function init(){
     e.stopPropagation();
     if (e.key === 'Escape'){ e.preventDefault(); closePrintDialog(); }
   }, true);
+  addEventListener('keydown', e => {
+    if ($('#pinConfirm').hidden && !repositioning) return;
+    e.stopPropagation();
+    if (e.key === 'Escape'){ e.preventDefault(); cancelPending(); exitReposition(); }
+  }, true);
   $('#nudgeGo').onclick = async () => { await hideNudge(); exportJson(); };
   $('#nudgeLink').onclick = async () => { await hideNudge(); linkBackupFile(); };
   $('#nudgeLater').onclick = async () => { await hideNudge(); Snd.play('latch'); note('左下角的「匯出 JSON」隨時可用'); };
@@ -8110,6 +8360,10 @@ async function init(){
   }, true);
   $('#impBtn').onclick = () => $('#impFile').click();
   $('#impFile').onchange = e => { if (e.target.files[0]) importJson(e.target.files[0]); e.target.value = ''; };
+  $('#demoLoad').onclick = loadDemo;
+  $('#demoClear').onclick = () => {
+    if (confirm('清空這份範例資料？（這不會動到任何你自己輸入的紀錄）')) clearDemo();
+  };
   $('#vAtlas').onclick = () => setMode(false);
   $('#vLog').onclick   = () => setMode(true);
   addEventListener('resize', () => { if (document.body.classList.contains('mode-log')) chart(); });
@@ -8182,8 +8436,20 @@ function close(){
   mark(); Snd.play('leaf');
   (lastFocus instanceof HTMLElement ? lastFocus : $('#helpBtn'))?.focus();
 }
+function startNow(){
+  close();
+  // "開始標註我的第一筆傷害" should actually take you there, not just
+  // close a dialog and leave you facing whatever was on screen before.
+  const logBtn = $('#vLog');
+  if (logBtn && logBtn.getAttribute('aria-pressed') !== 'true') logBtn.click();
+  const plateEl = $('#plate');
+  if (plateEl){
+    plateEl.classList.add('pulse-cue');
+    setTimeout(() => plateEl.classList.remove('pulse-cue'), 1700);
+  }
+}
 
-$('#introGo').onclick = close;
+$('#introGo').onclick = startNow;
 scrim.onclick = close;
 $('#helpBtn').onclick = () => { Snd.play('leaf'); open(); };
 addEventListener('keydown', e => {
